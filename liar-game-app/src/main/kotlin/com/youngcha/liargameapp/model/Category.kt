@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp
+package com.youngcha.liargameapp.model
 
 enum class Category(
     val description: String
