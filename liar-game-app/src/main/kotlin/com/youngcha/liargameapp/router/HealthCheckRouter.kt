@@ -7,7 +7,6 @@ import org.springframework.web.reactive.function.server.router
 
 @Configuration
 class HealthCheckRouter {
-
     @Bean
     fun route() = router {
         GET("/api/ping") { ServerResponse.ok().bodyValue("pong") }
