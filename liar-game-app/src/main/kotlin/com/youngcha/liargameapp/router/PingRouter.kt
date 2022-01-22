@@ -6,7 +6,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.router
 
 @Configuration
-class HealthCheckRouter {
+class PingRouter {
     @Bean
     fun route() = router {
         GET("/api/ping") { ServerResponse.ok().bodyValue("pong") }
