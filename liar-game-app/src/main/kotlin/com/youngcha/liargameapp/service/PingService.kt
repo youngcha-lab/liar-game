@@ -10,7 +10,7 @@ class PingService(
     private val log: Logger = LoggerFactory.getLogger(PingService::class.java)
 ) {
     fun ping(): Mono<String> {
-        log.info("ping pong")
+        log.debug("ping pong")
         return Mono.just("pong")
     }
 
