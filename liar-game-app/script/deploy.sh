@@ -8,12 +8,14 @@ git fetch --all
 git reset --hard origin/main
 
 # start build project
-./liar-game-app/gradlew build
+cd liar-game-app
+./gradlew build
 
 # find pid liar application
-APP_PID=`pgrep liar.jar`
+APP_PID=`ps -ef | grep liar-game-app-0.0.1-SNAPSHOT.jar | grep -v grep | awk '{print $2}'`
 
-if [ -z $APP_PID]
+# if application process is already runned, kill the process
+if [ -z $APP_PID ]
 then
         echo "Not process Running"
 else
@@ -24,4 +26,6 @@ fi
 
 echo "new liar application process start"
 
-nohup java -jar liar.jar &
+# application process start
+cd build/libs
+nohup java -jar liar-game-app-0.0.1-SNAPSHOT.jar &
