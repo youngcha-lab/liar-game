@@ -16,18 +16,15 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("io.r2dbc:r2dbc-h2:0.9.0.M1")
     implementation("org.slf4j:slf4j-api:1.7.33")
     implementation("ch.qos.logback:logback-core:1.2.10")
     testImplementation("ch.qos.logback:logback-classic:1.2.10")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.projectreactor:reactor-test")
     testImplementation("io.mockk:mockk:1.12.2")
 }
 
