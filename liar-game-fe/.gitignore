@@ -1,0 +1,56 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> fe2492954a72f3c78060e4a199e70d9d44aab6ee
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+<<<<<<< HEAD
+=======
+=======
+liar-game-app/.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+>>>>>>> b6c4b8aceff8953b8561eff0564a6fa04a061cc0
+>>>>>>> fe2492954a72f3c78060e4a199e70d9d44aab6ee
