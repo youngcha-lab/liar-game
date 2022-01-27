@@ -28,6 +28,7 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:1.2.10")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+    testImplementation("io.mockk:mockk:1.12.2")
 }
 
 tasks.withType<KotlinCompile> {
