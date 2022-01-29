@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -47,4 +46,3 @@ out/
 
 ### VS Code ###
 .vscode/
->>>>>>> b6c4b8aceff8953b8561eff0564a6fa04a061cc0
