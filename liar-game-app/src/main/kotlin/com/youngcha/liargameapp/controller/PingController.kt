@@ -8,6 +8,6 @@ class PingController {
 
     @GetMapping("/api/ping")
     fun ping(): String {
-        return "pong"
+        return "pong!"
     }
 }
