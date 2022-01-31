@@ -30,21 +30,26 @@ jobs:
         run: echo Hello, world!
         
       - name: ./gradlew 권한 설정
-        run: chmod +x ./gradlew
-
+        run: chmod +x gradlew
+        shell: bash
+        
       - name: 빌드
         run: ./gradlew build
+        shell: bash
 
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
 
       - name: aws 세팅
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          aws-access-key-id: $
+          aws-secret-access-key: $
+          aws-region: $
           
       - name: S3 업로드
-        run: aws deploy push --application-name study-app-codedeploy-server --description "study-app server" --s3-location s3://study-codedeploy/server/build.zip --source .
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liargamebucket/$PROJECT_NAME/$GITHUB_SHA.zip
 
       - name: code deploy
-        run: aws deploy create-deployment --application-name study-app-codedeploy-server --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name dev --s3-location bucket=study-codedeploy,bundleType=zip,key=server/build.zip
+        run: aws deploy create-deployment --application-name testapp --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name youngcha --s3-location bucket=liargamebucket,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
