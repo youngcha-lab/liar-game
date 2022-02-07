@@ -30,11 +30,11 @@ jobs:
         run: echo Hello, world!
         
       - name: ./gradlew 권한 설정
-        run: chmod +x gradlew
+        run: chmod +x liar-game/liar-game-app/gradlew
         shell: bash
         
       - name: 빌드
-        run: ./gradlew build
+        run: ./liar-game/liar-game-app/gradlew build
         shell: bash
 
       - name: Make zip file
