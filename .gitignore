@@ -46,3 +46,25 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Node ###
+liar-game-frontend/node_modules
+liar-game-frontend/.pnp
+liar-game-frontend/.pnp.js
+
+# testing
+liar-game-frontend/coverage
+
+# production
+liar-game-frontend/build
+
+# misc
+liar-game-frontend/.DS_Store
+liar-game-frontend/.env.local
+liar-game-frontend/.env.development.local
+liar-game-frontend/.env.test.local
+liar-game-frontend/.env.production.local
+
+liar-game-frontend/npm-debug.log*
+liar-game-frontend/yarn-debug.log*
+liar-game-frontend/yarn-error.log*
