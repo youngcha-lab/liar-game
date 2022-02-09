@@ -2,36 +2,31 @@
 !pragma layout smetana
 
 entity room {
-   {field} roomId: Int
-   {method} roomCode: String(32)
-   {method} createdAt: Datetime
-}
-entity userInRoom {
-   {field} userInRoomId: Int
-   {method} roomId: Int
-   {method} userId: Int
-   {method} createdAt: Datetime
+   {field} room_id: Int
+   {method} room_code: String(32)
+   {method} created_at: Datetime
 }
 entity user {
-   {field} userId: Int
-   {method} userCode: String(32)
+   {field} user_id: Int
+   {method} room_id: Int
+   {method} user_code: String(32)
    {method} nickname: String(32)
-   {method} createdAt: Datetime
+   {method} joined_at: Datetime
 }
 entity game {
-    {field} gameId: Int
-    {method} roomId: Int
-    {method} keywordId: Int
-    {method} createdAt: Datetime
+    {field} game_id: Int
+    {method} liar_user_id: Int
+    {method} room_id: Int
+    {method} keyword_id: Int
+    {method} start_at: Datetime
 }
 entity keyword {
-    {field} keywordId: Int
-    {method} keyword: String(10)
+    {field} keyword_id: Int
     {method} category: String(10)
+    {method} word: String(10)
 }
 
-room <-- userInRoom
-user <-- userInRoom
+room <-- user
 room <-- game
 keyword <-- game
 
