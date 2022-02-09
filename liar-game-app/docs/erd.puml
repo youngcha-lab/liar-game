@@ -1,0 +1,38 @@
+@startuml
+!pragma layout smetana
+
+entity room {
+   {field} roomId: Int
+   {method} roomCode: String(32)
+   {method} createdAt: Datetime
+}
+entity userInRoom {
+   {field} userInRoomId: Int
+   {method} roomId: Int
+   {method} userId: Int
+   {method} createdAt: Datetime
+}
+entity user {
+   {field} userId: Int
+   {method} userCode: String(32)
+   {method} nickname: String(32)
+   {method} createdAt: Datetime
+}
+entity game {
+    {field} gameId: Int
+    {method} roomId: Int
+    {method} keywordId: Int
+    {method} createdAt: Datetime
+}
+entity keyword {
+    {field} keywordId: Int
+    {method} keyword: String(10)
+    {method} category: String(10)
+}
+
+room <-- userInRoom
+user <-- userInRoom
+room <-- game
+keyword <-- game
+
+@enduml
