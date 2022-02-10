@@ -10,6 +10,7 @@ title 방장의 게임 시작
 autonumber
 user -> fe: 게임 시작 버튼 클릭
 fe --> server: 게임 생성 요청 (POST /api/game)
+server --> server: 방장이 맞는지 확인
 server --> server: 새로운 게임 생성
 server --> server: 키워드 및 카테고리 결정
 server --> server: 라이어 결정

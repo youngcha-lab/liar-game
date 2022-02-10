@@ -11,7 +11,7 @@ autonumber
 user -> user: 방 링크 주소창에 입력
 user -> fe: 방 입장
 fe -> fe: 유저 코드 쿠키 있음
-fe -> server: 유저 코드로 해당 방의 유저가 맞는지 확인 (GET /api/room/exist/{user_cdoe})
+fe -> server: 유저 정보 조회 (GET /api/user)
 alt 방의 유저가 맞음
     server -> fe: 방의 유저가 맞음
     fe -> user: 방 입장 완료
