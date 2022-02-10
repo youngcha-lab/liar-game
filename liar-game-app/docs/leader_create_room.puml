@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+
+actor 유저 as user
+participant 프론트 as fe
+participant 서버 as server
+
+title 방 생성
+
+autonumber
+user -> fe: 방 생성 버튼 클릭
+fe --> server: 방 생성 요청 (POST /api/room)
+server --> server: 새로운 방 코드 생성
+server --> fe: 새로운 방 코드 전달
+fe --> user: 새로운 방으로 이동
+user --> fe: 새로운 방에 접근
+fe --> fe: 유저 코드 쿠키 없음
+fe --> user: 닉네임 생성 화면으로 이동
+user --> fe: 닉네임 생성 후 참가 버튼 클릭
+fe --> server: 유저 생성 요청 (POST /api/user)
+server --> server: 새로운 유저 생성
+server --> fe: 유저 토큰 쿠키 저장
+fe --> user: 새로운 방 입장
+
+@enduml
