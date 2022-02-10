@@ -1,0 +1,18 @@
+@startuml
+!pragma layout smetana
+
+actor 유저 as user
+participant 프론트 as fe
+participant 서버 as server
+
+title 유저 쿠키 있는 참가자가 방에 입장
+
+autonumber
+server -> server: 새로운 참가자가 방에 입장
+server -> fe: (웹훅) 새로운 참가자 입장 알림
+fe -> server: 방의 유저 리스트 조회 (GET /api/room/{room_code})
+server -> server: 방에 있는 유저 리스트 조회
+server -> fe: 유저 리스트 전달
+fe -> user: 유저 리스트 화면에 출력
+
+@enduml
