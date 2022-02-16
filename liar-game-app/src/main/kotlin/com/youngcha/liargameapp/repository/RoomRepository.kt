@@ -6,14 +6,14 @@ import org.springframework.stereotype.Repository
 @Repository
 class RoomRepository {
 
-    private val repository = mutableMapOf<String, Room>()
+    private val repositoryByRoomCode = mutableMapOf<String, Room>()
 
     fun save(room: Room): Room {
-        repository[room.roomCode] = room
+        repositoryByRoomCode[room.roomCode] = room
         return room
     }
 
-    fun findByRoomCode(roomCode: String): Room? {
-        return repository[roomCode]
+    fun findByCode(roomCode: String): Room {
+        return repositoryByRoomCode[roomCode]!!
     }
 }

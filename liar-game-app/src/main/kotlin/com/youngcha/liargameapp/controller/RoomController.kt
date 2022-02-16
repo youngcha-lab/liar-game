@@ -10,7 +10,7 @@ class RoomController(
 ) {
 
     @PostMapping("/api/room")
-    fun makeRoom(): Map<String, String> {
-        return mapOf("room_code" to roomService.makeRoom().roomCode)
+    fun createRoom(): Map<String, String> {
+        return mapOf("room_code" to roomService.createRoom().roomCode)
     }
 }

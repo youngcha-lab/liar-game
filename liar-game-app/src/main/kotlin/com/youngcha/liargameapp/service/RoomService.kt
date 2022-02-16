@@ -11,7 +11,7 @@ class RoomService(
     val roomRepository: RoomRepository
 ) {
 
-    fun makeRoom(): Room {
+    fun createRoom(): Room {
         val newRoom = Room(
             roomId = 0,
             roomCode = UuidGenerator.generate(),
