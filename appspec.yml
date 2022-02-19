@@ -5,10 +5,6 @@ files:
     destination: /home/ec2-user/apps
 hooks:
   ApplicationStart:
-    - location: liar-game/liar-game-app/script/deploy.sh
-      timeout: 300
-      runas: root
-  ApplicationStop:
-    - location: scripts/stop_server.sh
+    - location: /home/ec2-user/apps/liar-game/liar-game-app/script/deploy.sh
       timeout: 300
       runas: root
