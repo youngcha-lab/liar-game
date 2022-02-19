@@ -41,7 +41,7 @@ jobs:
         shell: bash
         
       - name: 빌드
-        run: ./gradlew --debug build
+        run:  ./gradlew clean build -x test
         working-directory: ${{ env.working-directory }}
         shell: bash
 
