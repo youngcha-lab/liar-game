@@ -52,9 +52,9 @@ jobs:
       - name: aws 세팅
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: $
-          aws-secret-access-key: $
-          aws-region: $
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
+          aws-region: ${{ secrets.ACCESS_REGION }}
           
       - name: S3 업로드
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liargamebucket/$PROJECT_NAME/$GITHUB_SHA.zip
