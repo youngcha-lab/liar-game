@@ -60,4 +60,4 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://liargamebucket/$PROJECT_NAME/$GITHUB_SHA.zip
 
       - name: code deploy
-        run: aws deploy create-deployment --application-name testapp --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name youngcha --s3-location bucket=liargamebucket/$PROJECT_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name testapp --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name youngcha --s3-location bucket=liargamebucket/$PROJECT_NAME,bundleType=zip,key=$GITHUB_SHA.zip
