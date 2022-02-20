@@ -19,5 +19,5 @@ echo "new liar application process start"
 echo "프로세스 시작전" >> debug.txt
 # application process start
 cd /home/ec2-user/apps/liar-game/liar-game-app/build/libs
-nohup java -jar liar-game-app-0.0.1-SNAPSHOT.jar &
+nohup java -jar liar-game-app-0.0.1-SNAPSHOT.jar 
 echo "프로세스 시작" >> debug.txt
