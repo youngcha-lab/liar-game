@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/apps
+    destination: /home/ec2-user/apps/liar-game
 hooks:
   AfterInstall:
     - location: /home/ec2-user/apps/liar-game/liar-game-app/script/deploy.sh
