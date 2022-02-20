@@ -4,6 +4,10 @@ files:
   - source: /
     destination: /home/ec2-user/apps/liar-game
 hooks:
+  BeforeInstall:
+    - location: /home/ec2-user/apps/liar-game/liar-game-app/scripts/before-install.sh
+      timeout: 60
+      runas: root
   AfterInstall:
     - location: /home/ec2-user/apps/liar-game/liar-game-app/script/deploy.sh
       timeout: 60
