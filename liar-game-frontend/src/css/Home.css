@@ -1,0 +1,36 @@
+.Home {
+  text-align: center;
+  padding: 100px;
+}
+
+.Home-body {
+  background-color: rgba(196, 196, 196, 1);
+  min-height: calc(-200px + 100vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Home-body h1 {
+  font-size: 72px;
+  margin-bottom: 160px;
+}
+
+.Home-content {
+  width: fit-content;
+}
+
+.Home-content input {
+  padding: 12px;
+  width: calc(100% - 24px);
+  border: 0px;
+  font-size: x-large;
+  margin-bottom: 24px;
+}
+
+.Home-content button {
+  width: 100%;
+  font-size: x-large;
+  padding: 8px;
+}
