@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class RoomController(
+class RoomRestController(
     val roomService: RoomService
 ) {
 
