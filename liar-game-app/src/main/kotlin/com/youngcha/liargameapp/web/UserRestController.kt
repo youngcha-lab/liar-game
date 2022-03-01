@@ -16,3 +16,8 @@ class UserRestController(
         return mapOf("user_code" to newUser.userCode)
     }
 }
+
+data class CreateUserRequest(
+    val nickname: String,
+    val roomCode: String
+)
