@@ -1,9 +1,9 @@
-.Home {
+.Enter {
   text-align: center;
   padding: 100px;
 }
 
-.Home-body {
+.Enter-body {
   background-color: rgba(196, 196, 196, 1);
   min-height: calc(-200px + 100vh);
   display: flex;
@@ -12,16 +12,17 @@
   justify-content: center;
 }
 
-.Home-body h1 {
+.Enter-body h1 {
   font-size: 72px;
-  margin-bottom: 160px;
+  margin-top: 0;
+  margin-bottom: 270px;
 }
 
-.Home-content {
+.Enter-content {
   width: fit-content;
 }
 
-.Home-content input {
+.Enter-content input {
   padding: 12px;
   width: calc(100% - 24px);
   border: 0px;
@@ -29,7 +30,7 @@
   margin-bottom: 24px;
 }
 
-.Home-content button {
+.Enter-content button {
   width: 100%;
   font-size: x-large;
   padding: 8px;
