@@ -15,14 +15,22 @@ function Enter() {
   const [name, setName] = useState("");
   const onChange = (event) => setName(event.target.value);
   const creatRoom = (event) => {
-    console.log(isValidName(name));
+    if (isValidName(name)) {
+      console.log("is Valid Name");
+    } else {
+      alert("Please enter user name");
+    }
   };
   return (
     <div className="Enter">
       <div className="Enter-body">
         <div className="Enter-content">
           <h1>LIER GAME</h1>
-          <input onChange={onChange} value={name} />
+          <input
+            onChange={onChange}
+            value={name}
+            placeholder="닉네임을 입력하세요"
+          />
           <br />
           <button onClick={creatRoom}>방생성</button>
         </div>
