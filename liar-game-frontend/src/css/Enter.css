@@ -1,0 +1,37 @@
+.Enter {
+  text-align: center;
+  padding: 100px;
+}
+
+.Enter-body {
+  background-color: rgba(196, 196, 196, 1);
+  min-height: calc(-200px + 100vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Enter-body h1 {
+  font-size: 72px;
+  margin-top: 0;
+  margin-bottom: 270px;
+}
+
+.Enter-content {
+  width: fit-content;
+}
+
+.Enter-content input {
+  padding: 12px;
+  width: calc(100% - 24px);
+  border: 0px;
+  font-size: x-large;
+  margin-bottom: 24px;
+}
+
+.Enter-content button {
+  width: 100%;
+  font-size: x-large;
+  padding: 8px;
+}
