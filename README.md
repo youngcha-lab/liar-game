@@ -1,7 +1,4 @@
 <<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> fe2492954a72f3c78060e4a199e70d9d44aab6ee
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -72,10 +69,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-<<<<<<< HEAD
-=======
 =======
 # Liar game
 Simple web-based game
 >>>>>>> b6c4b8aceff8953b8561eff0564a6fa04a061cc0
->>>>>>> fe2492954a72f3c78060e4a199e70d9d44aab6ee
