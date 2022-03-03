@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -47,4 +46,25 @@ out/
 
 ### VS Code ###
 .vscode/
->>>>>>> b6c4b8aceff8953b8561eff0564a6fa04a061cc0
+
+### Node ###
+liar-game-frontend/node_modules
+liar-game-frontend/.pnp
+liar-game-frontend/.pnp.js
+
+# testing
+liar-game-frontend/coverage
+
+# production
+liar-game-frontend/build
+
+# misc
+liar-game-frontend/.DS_Store
+liar-game-frontend/.env.local
+liar-game-frontend/.env.development.local
+liar-game-frontend/.env.test.local
+liar-game-frontend/.env.production.local
+
+liar-game-frontend/npm-debug.log*
+liar-game-frontend/yarn-debug.log*
+liar-game-frontend/yarn-error.log*

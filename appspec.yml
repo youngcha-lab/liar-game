@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/apps/liar-game
+hooks:
+  BeforeInstall:
+    - location: liar-game-app/script/before-install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: liar-game-app/script/deploy.sh
+      timeout: 300
+      runas: root
