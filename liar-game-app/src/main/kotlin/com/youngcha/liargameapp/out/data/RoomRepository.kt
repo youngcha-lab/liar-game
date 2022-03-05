@@ -13,4 +13,8 @@ class RoomRepository {
         return room
     }
 
+    fun find(roomCode: String): RoomEntity? {
+        return repositoryByRoomCode[roomCode]
+    }
+
 }
