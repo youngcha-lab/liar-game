@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.utils
+package com.youngcha.liargameapp.service.utils
 
 import java.util.*
 
