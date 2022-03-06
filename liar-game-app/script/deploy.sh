@@ -1,3 +1,5 @@
+echo "app deploy 실행 시작" >> app_debug.txt
+
 cd /home/ec2-user/apps/liar-game/liar-game-app/build/libs
 
 # find pid liar application
