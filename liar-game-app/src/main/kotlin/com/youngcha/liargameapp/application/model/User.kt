@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.service.application.model
+package com.youngcha.liargameapp.application.model
 
 import com.youngcha.liargameapp.out.domain.UserEntity
 

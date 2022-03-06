@@ -1,7 +1,7 @@
 package com.youngcha.liargameapp.`in`.web
 
-import com.youngcha.liargameapp.service.application.processor.CreateUser
-import com.youngcha.liargameapp.service.application.processor.UserCreateProcessor
+import com.youngcha.liargameapp.application.processor.CreateUser
+import com.youngcha.liargameapp.application.processor.UserCreateProcessor
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

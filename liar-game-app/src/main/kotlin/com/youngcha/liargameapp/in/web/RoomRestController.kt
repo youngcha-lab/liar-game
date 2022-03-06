@@ -1,8 +1,8 @@
 package com.youngcha.liargameapp.`in`.web
 
-import com.youngcha.liargameapp.service.application.processor.RoomCreateProcessor
-import com.youngcha.liargameapp.service.application.processor.RoomFindCommand
-import com.youngcha.liargameapp.service.application.processor.RoomFindProcessor
+import com.youngcha.liargameapp.application.processor.RoomCreateProcessor
+import com.youngcha.liargameapp.application.processor.RoomFindCommand
+import com.youngcha.liargameapp.application.processor.RoomFindProcessor
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping

@@ -1,6 +1,6 @@
-package com.youngcha.liargameapp.service.application.processor
+package com.youngcha.liargameapp.application.processor
 
-import com.youngcha.liargameapp.service.application.model.Room
+import com.youngcha.liargameapp.application.model.Room
 
 interface RoomFindProcessor {
 
