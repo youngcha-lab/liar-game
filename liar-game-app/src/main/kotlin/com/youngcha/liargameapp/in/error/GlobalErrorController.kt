@@ -114,4 +114,4 @@ class GlobalErrorController(
 }
 
 fun String.isNumber() = this.all { it.isDigit() }
-fun Char.isDigit() = this in '0' .. '9'
+fun Char.isDigit() = this in '0'..'9'

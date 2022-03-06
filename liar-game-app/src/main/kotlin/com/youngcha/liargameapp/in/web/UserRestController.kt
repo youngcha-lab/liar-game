@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.function.ServerResponse
-import java.net.http.HttpResponse
 import javax.servlet.http.Cookie
 
 @RestController

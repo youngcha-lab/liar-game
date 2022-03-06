@@ -16,5 +16,4 @@ class RoomRepository {
     fun find(roomCode: String): RoomEntity? {
         return repositoryByRoomCode[roomCode]
     }
-
 }
