@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/apps/liar-game
+    destination: /home/ec2-user/apps/liar-game/script
 hooks:
   AfterInstall:
-    - location: script/deploy.sh
+    - location: deploy.sh
       timeout: 300
       runas: root
