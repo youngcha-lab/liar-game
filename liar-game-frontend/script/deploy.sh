@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
 echo " frontend deploy 시작" >> front_debug.txt 
