@@ -1,3 +1,4 @@
+mkdir /home/ec2-user/apps/liar-game/liar-game-app/script/debug
 cd /home/ec2-user/apps/liar-game/liar-game-app/script
 ./before-install.sh
 echo "before 실행완료" >> debug.txt
