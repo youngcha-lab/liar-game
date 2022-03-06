@@ -2,6 +2,10 @@
 
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
+echo "$PATH" >>front_debug.txt
+export PATH=$PATH
+
+
 echo " frontend deploy 시작" >> front_debug.txt 
 # module install
 nohup /root/.nvm/versions/node/v17.4.0/bin/npm install > new.out 2> new.err < /dev/null & 
