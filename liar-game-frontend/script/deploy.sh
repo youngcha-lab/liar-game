@@ -25,7 +25,7 @@ fi
 echo "new application process start" >> front_debug.txt
 
 # application process start
-npx serve -s -n build &
+npx serve -s -n build & >> front_debug.txt
 NODE_PID=`ps -ef | grep '/bin/serve -s -n build' | grep -v grep | awk '{print $2}'`
 echo "NodePID: $NODE_PID" >> front_debug.txt
 echo "new application process start 실행완료" >> front_debug.txt 
