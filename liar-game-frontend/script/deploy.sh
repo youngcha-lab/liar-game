@@ -23,5 +23,5 @@ fi
 echo "new application process start" >> front_debug.txt
 
 # application process start
-nohup npx serve -s -n build > /dev/null 2> /dev/null < /dev/null &
+npx serve -s -n build &
 echo "new application process start 실행완료" >> front_debug.txt 
