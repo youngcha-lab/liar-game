@@ -1,18 +1,28 @@
 #!/bin/bash
+export PATH=$PATH
 
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
-echo "$PATH" >>front_debug.txt
-export PATH=$PATH
-
-
-echo " frontend deploy 시작" >> front_debug.txt 
 # module install
-nohup /root/.nvm/versions/node/v17.4.0/bin/npm install > new.out 2> new.err < /dev/null & 
-echo " npm install 완료" >> front_debug.txt
+nohup /root/.nvm/versions/node/v17.4.0/bin/npm install & 
+
 # build
-nohup /root/.nvm/versions/node/v17.4.0/bin/npm run build > new.out 2> new.err < /dev/null & 
-echo " npm build 완료" >> front_debug.txt
+nohup /root/.nvm/versions/node/v17.4.0/bin/npm run build & 
 
+# find pid application
+NODE_PID=`ps -ef | grep '/bin/serve -s -n build' | grep -v grep | awk '{print $2}'`
 
-nohup /root/.nvm/versions/node/v17.4.0/bin/npx serve -s -n build > new.out 2> new.err < /dev/null & 
+# if application process is already runned, kill the process
+if [ -z $NODE_PID ]
+then
+        echo "Not process Running" 
+else
+        echo "kill current process"
+        kill -9 $NODE_PID
+        sleep 5
+fi
+
+echo "new application process start" 
+
+# react 배포
+nohup /root/.nvm/versions/node/v17.4.0/bin/npx serve -s -n build & 
