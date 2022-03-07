@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function isValidName(name) {
   if (name === "") {
@@ -11,6 +14,7 @@ function isValidName(name) {
 }
 
 function Enter() {
+  const [data, setData] = useState("");
   const [name, setName] = useState("");
   const onChange = (event) => setName(event.target.value);
   const creatRoom = (event) => {
@@ -19,6 +23,14 @@ function Enter() {
     } else {
       alert("Please enter user name");
     }
+  };
+  const callApi = () => {
+    const response = axios
+      .get("http://localhost:8080/api/ping")
+      .then((response) => {
+        setData(response.data);
+      });
+    console.log(data);
   };
   return (
     <div className="Enter">
@@ -31,7 +43,7 @@ function Enter() {
             placeholder="닉네임을 입력하세요"
           />
           <br />
-          <button onClick={creatRoom}>방생성</button>
+          <button onClick={callApi}>방생성</button>
         </div>
       </div>
     </div>
