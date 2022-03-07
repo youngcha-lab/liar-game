@@ -1,6 +1,6 @@
-package com.youngcha.liargameapp.utils
+package com.youngcha.liargameapp.application.utils
 
-import java.util.*
+import java.util.UUID
 
 object UuidGenerator {
     fun generate() = UUID.randomUUID().toString().replace("-", "")

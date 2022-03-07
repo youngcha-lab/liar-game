@@ -1,6 +1,6 @@
-package com.youngcha.liargameapp.domain
+package com.youngcha.liargameapp.out.domain
 
-data class Keyword(
+data class KeywordEntity(
     val keywordCode: String,
     val word: String,
     val category: String,
