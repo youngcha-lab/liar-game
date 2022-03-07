@@ -1,12 +1,15 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Enter from "./pages/Enter";
+import Room from "./pages/Enter";
+import "./css/Enter.css";
 
-import Enter from "./Enter";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/enter" element={<Enter />} />
+        <Route path="/" element={<Enter />} />
+        <Route path="/enter/*" element={<Enter />} />
       </Routes>
     </BrowserRouter>
   );
