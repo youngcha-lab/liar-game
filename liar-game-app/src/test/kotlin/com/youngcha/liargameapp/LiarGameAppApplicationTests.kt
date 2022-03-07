@@ -9,5 +9,4 @@ class LiarGameAppApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }
