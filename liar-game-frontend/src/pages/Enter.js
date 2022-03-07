@@ -20,9 +20,7 @@ function Enter() {
     try {
       if (isValidName(name)) {
         console.log("is Valid Name");
-        const response = await axios.get(
-          "http://liargame.duckdns.org:8080/api/ping"
-        );
+        const response = await axios.post("http://localhost:8080/api/v1/room");
         setData(response.data);
         console.log(response.data);
       } else {
