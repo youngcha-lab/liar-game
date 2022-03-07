@@ -9,6 +9,6 @@ hooks:
       timeout: 300
       runas: root
   AfterInstall:
-    - location: liar-game-app/script/deploy.sh
+    - location: script/deploy.sh
       timeout: 300
       runas: root

@@ -1,8 +1,8 @@
-package com.youngcha.liargameapp.domain
+package com.youngcha.liargameapp.out.domain
 
 import java.time.LocalDateTime
 
-data class Game(
+data class GameEntity(
     val gameCode: String,
     val roomCode: String,
     val keywordCode: String,
