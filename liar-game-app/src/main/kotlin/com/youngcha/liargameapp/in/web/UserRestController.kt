@@ -9,7 +9,7 @@ import org.springframework.web.servlet.function.ServerResponse
 import javax.servlet.http.Cookie
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 class UserRestController(
     val userCreateProcessor: UserCreateProcessor
 ) {
