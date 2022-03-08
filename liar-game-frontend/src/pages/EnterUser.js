@@ -11,7 +11,7 @@ function isValidName(name) {
   }
 }
 
-function Enter() {
+function EnterUser() {
   const [name, setName] = useState("");
   const [data, setData] = useState(null);
 
@@ -42,7 +42,7 @@ function Enter() {
           <h1>LIER GAME</h1>
           <input onChange={onChange} value={name} id="nickName" />
           <br />
-          <button onClick={creatRoom}>방생성</button>
+          <button onClick={creatRoom}>방입장</button>
         </div>
       </div>
       <div className="Enter-body"></div>
@@ -50,4 +50,4 @@ function Enter() {
   );
 }
 
-export default Enter;
+export default EnterUser;
