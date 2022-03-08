@@ -1,46 +1,59 @@
-.container {
-  text-align: center;
+.Container {
   padding: 100px;
+}
+
+.Enter_main {
+  background-color: rgba(196, 196, 196, 1);
+  min-height: calc(-200px + 100vh);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.Enter-body {
-  background-color: rgba(196, 196, 196, 1);
-  min-height: calc(-200px + 100vh);
+.Enter_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.Enter_header h1 {
+  font-size: 88px;
+}
+
+.Enter_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.Enter_input {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 24px;
   align-items: center;
 }
 
-.Enter-body h1 {
-  font-size: 72px;
-  margin-top: 0;
-  margin-bottom: 270px;
-}
-
-.Enter-content {
-  width: fit-content;
-}
-
-.Enter-content input {
+.Enter_input input {
+  font-size: x-large;
   padding: 12px;
-  width: calc(100% - 24px);
-  border: 0px;
-  font-size: x-large;
-  margin-bottom: 24px;
+  border: 0;
 }
 
-.Enter-content button {
-  width: 100%;
-  font-size: x-large;
-  padding: 8px;
-}
-
-.Enter-content label {
+.Enter_input label {
   font-size: 2em;
   padding-right: 15px;
 }
 
-.Enter-margin {
-  margin-bottom: 280px;
+.Enter_button {
+  padding-left: 6.9em;
+}
+
+.Enter_button button {
+  font-size: x-large;
+  padding: 8px;
+  border: 0;
+  width: -webkit-fill-available;
 }

@@ -7,18 +7,18 @@ import axios from "axios";
 function EnterLeader() {
   const [room_code, setRoomCode] = useState(null);
 
-  const getRoomCode = async() => {
+  const getRoomCode = async () => {
     try {
       const response = await axios.post("http://localhost:8080/api/v1/room");
       setRoomCode(response.data.room_code);
       console.log(response.data.room_code);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
-  useEffect(()=> {
+  useEffect(() => {
     getRoomCode();
-  },[]);
+  }, []);
 
   const isValidName = (name) => {
     if (name === "") {
@@ -26,30 +26,35 @@ function EnterLeader() {
     } else {
       return true;
     }
-  }
+  };
 
   const creatRoom = () => {
-    const nickname = document.getElementById('nickname').value;
-      
+    const nickname = document.getElementById("nickname").value;
+
     if (isValidName(nickname)) {
-      console.log("nickname: " + nickname);      
+      console.log("nickname: " + nickname);
     } else {
       alert("Please enter user name");
       return false;
-    }    
+    }
   };
 
   return (
-    <div className="Enter">
-      <div className="Enter-body">
-        <div className="Enter-content">
+    <div className="Container">
+      <div className="Enter_main">
+        <div className="Enter_header">
           <h1>LIER GAME</h1>
-          <input
-            id='nickname'
-            placeholder="닉네임을 입력하세요"
-          />
-          <br />
-          <Link to={`/room/${room_code}`}><button onClick={creatRoom}>방생성</button></Link>          
+        </div>
+        <div className="Enter_body">
+          <div className="Enter_input">
+            <label for="nickName">닉네임</label>
+            <input id="nickName" />
+          </div>
+          <div className="Enter_button">
+            <Link to={`/room/${room_code}`}>
+              <button onClick={creatRoom}>방생성</button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
