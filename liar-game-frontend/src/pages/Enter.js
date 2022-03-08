@@ -31,19 +31,21 @@ function Enter() {
     }
   };
   return (
-    <div className="Enter">
+    <div className="container">
+      <div className="Enter-body"></div>
       <div className="Enter-body">
         <div className="Enter-content">
+          <div className="Enter-margin"></div>
+          <label for="nickName">닉네임</label>
+        </div>
+        <div className="Enter-content">
           <h1>LIER GAME</h1>
-          <input
-            onChange={onChange}
-            value={name}
-            placeholder="닉네임을 입력하세요"
-          />
+          <input onChange={onChange} value={name} id="nickName" />
           <br />
           <button onClick={creatRoom}>방생성</button>
         </div>
       </div>
+      <div className="Enter-body"></div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Enter />} />
-        <Route path="/enter/*" element={<Enter />} />
+        <Route path="/enter/:id" element={<Enter />} />
       </Routes>
     </BrowserRouter>
   );
