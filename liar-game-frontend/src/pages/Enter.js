@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 function isValidName(name) {
   if (name === "") {
@@ -13,24 +13,22 @@ function isValidName(name) {
 
 function Enter() {
   const [name, setName] = useState("");
-  const [data,setData] = useState(null);
+  const [data, setData] = useState(null);
 
   const onChange = (event) => setName(event.target.value);
   const creatRoom = async () => {
     try {
       if (isValidName(name)) {
         console.log("is Valid Name");
-        const response = await axios.get(
-          'http://liargame.duckdns.org:8080/api/pong',
-        )
+        const response = await axios.post("http://localhost:8080/api/v1/room");
         setData(response.data);
         console.log(response.data);
       } else {
         alert("Please enter user name");
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e);
-    }    
+    }
   };
   return (
     <div className="Enter">
