@@ -11,7 +11,7 @@ function isValidName(name) {
   }
 }
 
-function Enter() {
+function EnterUser() {
   const [name, setName] = useState("");
   const [data, setData] = useState(null);
 
@@ -41,11 +41,11 @@ function Enter() {
             placeholder="닉네임을 입력하세요"
           />
           <br />
-          <button onClick={creatRoom}>방생성</button>
+          <button onClick={creatRoom}>방입장</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default Enter;
+export default EnterUser;

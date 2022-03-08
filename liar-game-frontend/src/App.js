@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Enter from "./pages/Enter";
-import Room from "./pages/Enter";
+import EnterLeader from "./pages/EnterLeader";
+import EnterUser from "./pages/EnterUser";
+import Room from "./pages/Room";
 import "./css/Enter.css";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Enter />} />
-        <Route path="/enter/*" element={<Enter />} />
+        <Route path="/" element={<EnterLeader />} />
+        <Route path="/enter/*" element={<EnterLeader />} />
+        <Route path="/enterUser/*" element={<EnterUser />} />
+        <Route path="/room/:room_code" element={<Room />} />
       </Routes>
     </BrowserRouter>
   );
