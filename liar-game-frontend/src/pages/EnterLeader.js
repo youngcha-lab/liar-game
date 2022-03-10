@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/Enter.css";
@@ -81,10 +80,5 @@ function EnterLeader() {
     </div>
   );
 }
-
-// EnterLeader.propTypes = {
-//   room_code: PropTypes.string.isRequired,
-//   nickname: PropTypes.string.isRequired,
-// };
 
 export default EnterLeader;
