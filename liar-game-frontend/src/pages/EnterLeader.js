@@ -1,24 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../css/Enter.css";
 
 function EnterLeader() {
-  const [room_code, setRoomCode] = useState(null);
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
-  const getRoomCode = async () => {
+  const submit = async () => {
+    if (isValidName(userName)) {
+      const roomCode = await createNewRoom();
+      console.log("var roomCode = " + roomCode);
+      const userCode = await createUserCode(roomCode);
+      navigate("/room/" + roomCode);
+    } else {
+      alert("please enter user name");
+    }
+  };
+
+  const createNewRoom = async () => {
     try {
       const response = await axios.post("http://localhost:8080/api/v1/room");
-      setRoomCode(response.data.room_code);
-      console.log(response.data.room_code);
+      console.log("roomCode from server is " + response.data.room_code);
+      return response.data.room_code;
     } catch (e) {
       console.log(e);
     }
+    return null;
   };
-  useEffect(() => {
-    getRoomCode();
-  }, []);
+
+  const createUserCode = async (roomCode) => {
+    try {
+      console.log(roomCode);
+      console.log(userName);
+
+      const response = await axios.post("http://localhost:8080/api/v1/user", {
+        room_code: roomCode,
+        nickname: userName,
+      });
+      console.log(response);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+    return null;
+  };
 
   const isValidName = (name) => {
     if (name === "") {
@@ -28,16 +55,7 @@ function EnterLeader() {
     }
   };
 
-  const creatRoom = () => {
-    const nickname = document.getElementById("nickname").value;
-
-    if (isValidName(nickname)) {
-      console.log("nickname: " + nickname);
-    } else {
-      alert("Please enter user name");
-      return false;
-    }
-  };
+  const onChange = (event) => setUserName(event.target.value);
 
   return (
     <div className="Container">
@@ -47,13 +65,16 @@ function EnterLeader() {
         </div>
         <div className="Enter_body">
           <div className="Enter_input">
-            <label for="nickName">닉네임</label>
-            <input id="nickName" />
+            <label htmlFor="userName">닉네임</label>
+            <input
+              id="userName"
+              type="text"
+              value={userName}
+              onChange={onChange}
+            />
           </div>
           <div className="Enter_button">
-            <Link to={`/room/${room_code}`}>
-              <button onClick={creatRoom}>방생성</button>
-            </Link>
+            <button onClick={submit}>방생성</button>
           </div>
         </div>
       </div>
