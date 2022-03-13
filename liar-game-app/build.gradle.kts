@@ -22,8 +22,6 @@ dependencies {
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.3")
-    implementation("com.h2database:h2:2.1.210")
     implementation("org.slf4j:slf4j-api:1.7.35")
     implementation("ch.qos.logback:logback-core:1.2.10")
     testImplementation("ch.qos.logback:logback-classic:1.2.10")
