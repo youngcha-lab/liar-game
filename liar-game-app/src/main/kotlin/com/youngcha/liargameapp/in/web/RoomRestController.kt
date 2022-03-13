@@ -4,6 +4,7 @@ import com.youngcha.liargameapp.application.processor.RoomCreateProcessor
 import com.youngcha.liargameapp.application.processor.RoomFindCommand
 import com.youngcha.liargameapp.application.processor.RoomFindProcessor
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -21,21 +22,14 @@ class RoomRestController(
         return mapOf("room_code" to roomCode)
     }
 
-    @GetMapping
-    fun findRoom(roomFindForm: RoomFindForm): Map<String, Any> {
-        val room = roomFindProcessor.process(roomFindForm.buildCommand())
+    @GetMapping("/{room_code}")
+    fun findRoom(@PathVariable room_code: String): Map<String, Any> {
+        val room = roomFindProcessor.process(
+            RoomFindCommand(roomCode = room_code)
+        )
         return mapOf(
             "room_code" to room.roomCode,
             "users" to room.users.map { it.nickname }
-        )
-    }
-
-    @JvmInline
-    value class RoomFindForm(
-        private val room_code: String
-    ) {
-        fun buildCommand() = RoomFindCommand(
-            roomCode = room_code
         )
     }
 }
