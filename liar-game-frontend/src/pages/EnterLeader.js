@@ -60,7 +60,7 @@ function EnterLeader() {
     <div className="Container">
       <div className="Enter_main">
         <div className="Enter_header">
-          <h1>LIER GAME</h1>
+          <h1>LIAR GAME</h1>
         </div>
         <div className="Enter_body">
           <div className="Enter_input">
