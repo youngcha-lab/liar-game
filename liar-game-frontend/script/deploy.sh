@@ -25,4 +25,4 @@ fi
 echo "new application process start" 
 
 # react 배포
-nohup /root/.nvm/versions/node/v17.4.0/bin/npx serve -s -n build & 
+nohup npm start & 
