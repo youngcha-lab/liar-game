@@ -10,7 +10,7 @@ nohup /root/.nvm/versions/node/v17.4.0/bin/npm install &
 nohup /root/.nvm/versions/node/v17.4.0/bin/npm run build & 
 
 # find pid application
-NODE_PID=`ps -ef | grep '/bin/serve -s -n build' | grep -v grep | awk '{print $2}'`
+NODE_PID=`ps -ef | grep start.js | grep -v grep | awk '{print $2}'`
 
 # if application process is already runned, kill the process
 if [ -z $NODE_PID ]
