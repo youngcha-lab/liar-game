@@ -39,7 +39,7 @@ function EnterUser() {
           <label for="nickName">닉네임</label>
         </div>
         <div className="Enter-content">
-          <h1>LIER GAME</h1>
+          <h1>LIAR GAME</h1>
           <input onChange={onChange} value={name} id="nickName" />
           <br />
           <button onClick={creatRoom}>방입장</button>
