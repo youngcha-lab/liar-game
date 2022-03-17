@@ -41,7 +41,7 @@ function Room() {
  
   
  return (
-    <div className="Container">
+    <div className="room">
       <div className="nav">
     		<h1>플레이어 5 / 10</h1>
         <Card sx={{ maxWidth: 345 , bgcolor: teal[500], color: 'white'}}>
