@@ -10,7 +10,6 @@ function EnterLeader() {
   const submit = async () => {
     if (isValidName(userName)) {
       const roomCode = await createNewRoom();
-      console.log("var roomCode = " + roomCode);
       const userCode = await createUserCode(roomCode);
       navigate("/room/" + roomCode);
     } else {
@@ -21,7 +20,6 @@ function EnterLeader() {
   const createNewRoom = async () => {
     try {
       const response = await axios.post("http://localhost:8080/api/v1/room");
-      console.log("roomCode from server is " + response.data.room_code);
       return response.data.room_code;
     } catch (e) {
       console.log(e);
@@ -31,9 +29,6 @@ function EnterLeader() {
 
   const createUserCode = async (roomCode) => {
     try {
-      console.log(roomCode);
-      console.log(userName);
-
       const response = await axios.post("http://localhost:8080/api/v1/user", {
         room_code: roomCode,
         nickname: userName,
