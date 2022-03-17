@@ -1,0 +1,119 @@
+.Container {
+    padding: 1px;
+    height: 100vh;
+  }
+
+.side {
+    background-color: darkgray;
+}
+
+.players {
+    font-size: 25px;
+}
+
+.exit_button {
+    padding-left: 20px;
+    line-height: 900px;
+    width: 100px;
+}
+  
+.exit_button button {
+    font-size: x-large;
+    padding: 8px;
+    border: 0;
+    width: -webkit-fill-available;
+    cursor: pointer;
+}
+
+.link_button {
+    padding-left:70%;
+    padding-top:3%;
+}
+
+.link_button button {
+    font-size: x-large;
+    padding: 8px;
+    border: 0;
+    width: -webkit-fill-available;
+    cursor: pointer;
+    width: 150px;    
+}
+
+.nav {
+    background-color:#009688;
+    color:white;
+    font-size: 15px;
+    width:20%;
+    height:100%;
+    float:left;
+}
+
+.section {
+    width:80%;
+    height: 100%;
+    text-align:left;
+    float:left;
+}
+
+.header, .nav, .section, .footer { text-align:center; }
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* .tooltip .tooltiptext::after {
+    content: "";
+    position: relative;
+    top: 50%;
+    left: 20%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+} */
+  
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.circle {
+    background-color:black;
+    /* background-image: url(../img/youliar.jpg); */
+    width:400px;
+    height:400px;
+    border-radius:200px;
+    margin:0 auto;
+    margin-top: 10%;
+    color: white;
+    vertical-align:middle;
+    text-align:center;
+    line-height:375px;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.category {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 5%;
+}
