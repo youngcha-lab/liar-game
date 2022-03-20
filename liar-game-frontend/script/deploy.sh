@@ -24,5 +24,5 @@ fi
 
 echo "new application process start" 
 
-# react 배포
+# react 배포 
 nohup npm start & 
