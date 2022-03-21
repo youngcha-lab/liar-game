@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<EnterLeader />} />
         <Route path={`${process.env.PUBLIC_URL}/`} element={<EnterLeader />} />
         <Route path="/enter" element={<EnterLeader />} />
-        <Route path="/enterUser/*" element={<EnterUser />} />
+        <Route path="/enter/*" element={<EnterUser />} />
         <Route path="/room/*" element={<Room />} />
       </Routes>
     </BrowserRouter>

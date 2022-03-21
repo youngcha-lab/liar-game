@@ -11,7 +11,7 @@ function EnterLeader() {
     if (isValidName(userName)) {
       const roomCode = await createNewRoom();
       const userCode = await createUserCode(roomCode);
-      console.log(userCode);
+      console.log("userCode : " + userCode);
       navigate("/room/" + roomCode);
     } else {
       alert("please enter user name");
@@ -20,7 +20,9 @@ function EnterLeader() {
 
   const createNewRoom = async () => {
     try {
-      const response = await axios.post("http://youngcha-liargame.ml:8080/api/v1/room");
+      const response = await axios.post(
+        "http://youngcha-liargame.ml:8080/api/v1/room"
+      );
       return response.data.room_code;
     } catch (e) {
       console.log(e);
@@ -30,10 +32,13 @@ function EnterLeader() {
 
   const createUserCode = async (roomCode) => {
     try {
-      const response = await axios.post("http://youngcha-liargame.ml:8080/api/v1/user", {
-        room_code: roomCode,
-        nickname: userName,
-      });
+      const response = await axios.post(
+        "http://youngcha-liargame.ml:8080/api/v1/user",
+        {
+          room_code: roomCode,
+          nickname: userName,
+        }
+      );
       return response.data.user_code;
     } catch (e) {
       console.log(e);
