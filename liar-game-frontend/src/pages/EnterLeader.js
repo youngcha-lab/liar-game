@@ -11,6 +11,7 @@ function EnterLeader() {
     if (isValidName(userName)) {
       const roomCode = await createNewRoom();
       const userCode = await createUserCode(roomCode);
+      console.log(userCode);
       navigate("/room/" + roomCode);
     } else {
       alert("please enter user name");
@@ -33,8 +34,7 @@ function EnterLeader() {
         room_code: roomCode,
         nickname: userName,
       });
-      console.log(response);
-      return response;
+      return response.data.user_code;
     } catch (e) {
       console.log(e);
     }
