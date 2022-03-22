@@ -7,6 +7,7 @@ function EnterUser() {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const host = "http://" + window.location.hostname + ":8080";
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
@@ -22,13 +23,12 @@ function EnterUser() {
 
   const createUserCode = async (roomCode) => {
     try {
-      const response = await axios.post(
-        "http://youngcha-liargame.ml:8080/api/v1/user",
-        {
-          room_code: roomCode,
-          nickname: userName,
-        }
-      );
+      const response = await axios.post(host + "/api/v1/user", {
+        room_code: roomCode,
+        nickname: userName,
+      });
+      document.cookie = "lguc=" + response.data.user_code;
+
       return response.data.user_code;
     } catch (e) {
       console.log(e);

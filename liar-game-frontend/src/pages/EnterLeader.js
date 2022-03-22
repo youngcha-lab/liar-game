@@ -6,6 +6,7 @@ import "../css/Enter.css";
 function EnterLeader() {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const host = "http://" + window.location.hostname + ":8080";
 
   const submit = async () => {
     if (isValidName(userName)) {
@@ -20,9 +21,7 @@ function EnterLeader() {
 
   const createNewRoom = async () => {
     try {
-      const response = await axios.post(
-        "http://youngcha-liargame.ml:8080/api/v1/room"
-      );
+      const response = await axios.post(host + "/api/v1/room");
       return response.data.room_code;
     } catch (e) {
       console.log(e);
@@ -32,13 +31,16 @@ function EnterLeader() {
 
   const createUserCode = async (roomCode) => {
     try {
-      const response = await axios.post(
-        "http://youngcha-liargame.ml:8080/api/v1/user",
-        {
-          room_code: roomCode,
-          nickname: userName,
-        }
-      );
+      const response = await axios.post(host + "/api/v1/user", {
+        room_code: roomCode,
+        nickname: userName,
+      });
+      let cookie = document.cookie;
+
+      if (cookie === null || cookie === "") {
+        document.cookie = "lguc=" + response.data.user_code;
+      }
+
       return response.data.user_code;
     } catch (e) {
       console.log(e);
