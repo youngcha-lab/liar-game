@@ -10,7 +10,10 @@ function Room() {
   const [category, setCategory] = useState('');
   const location = useLocation();
   let categoryTempl = '과일';
-
+  const host = "http://" + window.location.hostname + ":3000";
+  
+  const cookie = document.cookie.split(";");
+  
   useEffect(() => {
     //getCategory();
   }, [ location ])
@@ -21,7 +24,7 @@ function Room() {
   }
 
   const onLinkClick = () => {
-      const copyText = 'http://localhost:3000' + location.pathname;
+      const copyText = host + location.pathname;
       
       navigator.clipboard.writeText(copyText);
      
@@ -43,22 +46,10 @@ function Room() {
  return (
     <div className="room">
       <div className="nav">
-    		<h1>플레이어 5 / 10</h1>
+    		<h1>플레이어 1 / 10</h1>
         <Card sx={{ maxWidth: 345 , bgcolor: teal[500], color: 'white'}}>
-          <CardHeader avatar={<Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe"></Avatar>} title="김승욱"/>
-        </Card>
-        <Card sx={{ maxWidth: 345 , bgcolor: teal[500], color: 'white'}}>
-          <CardHeader avatar={<Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe"></Avatar>} title="김광민"/>
-        </Card>
-        <Card sx={{ maxWidth: 345 , bgcolor: teal[500], color: 'white'}}>
-          <CardHeader avatar={<Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe"></Avatar>} title="박범석"/>
-        </Card>
-        <Card sx={{ maxWidth: 345 , bgcolor: teal[500], color: 'white'}}>
-          <CardHeader avatar={<Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe"></Avatar>} title="김주형"/>
-        </Card>
-        <Card sx={{ maxWidth: 345 , bgcolor: teal[500], color: 'white'}}>
-          <CardHeader avatar={<Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe"></Avatar>} title="이한규"/>
-        </Card>                      
+          <CardHeader avatar={<Avatar aria-label="recipe"></Avatar>} title="김승욱"/>
+        </Card>                 
         
         <div className="exit_button">
           <Link to={'/'}><button>나가기</button></Link>
