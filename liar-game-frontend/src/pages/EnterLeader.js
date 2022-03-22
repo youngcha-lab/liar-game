@@ -7,6 +7,8 @@ function EnterLeader() {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
+  let host = window.location.hostname + ":8080";
+  
   const submit = async () => {
     if (isValidName(userName)) {
       const roomCode = await createNewRoom();
@@ -18,10 +20,8 @@ function EnterLeader() {
   };
 
   const createNewRoom = async () => {
-    try {
-      var hostname = window.location.hostname;
-      console.log("@@hostname: " + hostname);
-      const response = await axios.post("http://youngcha-liargame.ml:8080/api/v1/room");
+    try {      
+      const response = await axios.post("http://"+ host + "/api/v1/room");
       return response.data.room_code;
     } catch (e) {
       console.log(e);
@@ -31,7 +31,7 @@ function EnterLeader() {
 
   const createUserCode = async (roomCode) => {
     try {
-      const response = await axios.post("http://youngcha-liargame.ml:8080/api/v1/user", {
+      const response = await axios.post("http://" + host + "/api/v1/user", {
         room_code: roomCode,
         nickname: userName,
       });
