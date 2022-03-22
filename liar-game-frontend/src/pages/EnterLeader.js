@@ -19,6 +19,8 @@ function EnterLeader() {
 
   const createNewRoom = async () => {
     try {
+      var hostname = window.location.hostname;
+      console.log("@@hostname: " + hostname);
       const response = await axios.post("http://youngcha-liargame.ml:8080/api/v1/room");
       return response.data.room_code;
     } catch (e) {
