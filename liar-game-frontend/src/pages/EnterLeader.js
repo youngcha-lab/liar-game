@@ -7,11 +7,12 @@ function EnterLeader() {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
   const host = "http://" + window.location.hostname + ":8080";
-  
+
   const submit = async () => {
     if (isValidName(userName)) {
       const roomCode = await createNewRoom();
       const userCode = await createUserCode(roomCode);
+      console.log("userCode : " + userCode);
       navigate("/room/" + roomCode);
     } else {
       alert("please enter user name");
@@ -19,7 +20,7 @@ function EnterLeader() {
   };
 
   const createNewRoom = async () => {
-    try {      
+    try {
       const response = await axios.post(host + "/api/v1/room");
       return response.data.room_code;
     } catch (e) {
@@ -34,15 +35,13 @@ function EnterLeader() {
         room_code: roomCode,
         nickname: userName,
       });
-      console.log(response);
-      
       let cookie = document.cookie;
-      
-      if(cookie === null || cookie === "") {
-        document.cookie = "lguc" + "=" + response.data.user_code;        
+
+      if (cookie === null || cookie === "") {
+        document.cookie = "lguc=" + response.data.user_code;
       }
-       
-      return response;
+
+      return response.data.user_code;
     } catch (e) {
       console.log(e);
     }

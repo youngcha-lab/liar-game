@@ -1,51 +1,72 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-
-function isValidName(name) {
-  if (name === "") {
-    return false;
-  } else {
-    return true;
-  }
-}
+import "../css/Enter.css";
 
 function EnterUser() {
-  const [name, setName] = useState("");
-  const [data, setData] = useState(null);
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const host = "http://" + window.location.hostname + ":8080";
+  const url = location.pathname.split("/");
+  const roomCode = url[url.length - 1];
 
-  const onChange = (event) => setName(event.target.value);
-  const creatRoom = async () => {
+  const submit = async () => {
+    if (isValidName(userName)) {
+      const userCode = await createUserCode(roomCode);
+      console.log("userCode : " + userCode);
+      navigate("/room/" + roomCode);
+    } else {
+      alert("please enter user name");
+    }
+  };
+
+  const createUserCode = async (roomCode) => {
     try {
-      if (isValidName(name)) {
-        console.log("is Valid Name");
-        const response = await axios.post("http://localhost:8080/api/v1/room");
-        setData(response.data);
-        console.log(response.data);
-      } else {
-        alert("Please enter user name");
-      }
+      const response = await axios.post(host + "/api/v1/user", {
+        room_code: roomCode,
+        nickname: userName,
+      });
+      document.cookie = "lguc=" + response.data.user_code;
+
+      return response.data.user_code;
     } catch (e) {
       console.log(e);
     }
+    return null;
   };
+
+  const isValidName = (name) => {
+    if (name === "") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const onChange = (event) => setUserName(event.target.value);
+
   return (
-    <div className="container">
-      <div className="Enter-body"></div>
-      <div className="Enter-body">
-        <div className="Enter-content">
-          <div className="Enter-margin"></div>
-          <label for="nickName">닉네임</label>
-        </div>
-        <div className="Enter-content">
+    <div className="Container">
+      <div className="Enter_main">
+        <div className="Enter_header">
           <h1>LIAR GAME</h1>
-          <input onChange={onChange} value={name} id="nickName" />
-          <br />
-          <button onClick={creatRoom}>방입장</button>
+        </div>
+        <div className="Enter_body">
+          <div className="Enter_input">
+            <label htmlFor="userName">닉네임</label>
+            <input
+              id="userName"
+              type="text"
+              value={userName}
+              onChange={onChange}
+            />
+          </div>
+          <div className="Enter_button">
+            <button onClick={submit}>방입장</button>
+          </div>
         </div>
       </div>
-      <div className="Enter-body"></div>
     </div>
   );
 }
