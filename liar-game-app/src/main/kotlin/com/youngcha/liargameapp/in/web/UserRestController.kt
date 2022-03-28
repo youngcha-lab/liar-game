@@ -2,6 +2,7 @@ package com.youngcha.liargameapp.`in`.web
 
 import com.youngcha.liargameapp.application.processor.CreateUser
 import com.youngcha.liargameapp.application.processor.UserCreateProcessor
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,7 +13,8 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 @RequestMapping("/api/v1/user")
 class UserRestController(
-    val userCreateProcessor: UserCreateProcessor
+    val userCreateProcessor: UserCreateProcessor,
+    @Value("\${cookie.name.domain}") val cookieDomain: String
 ) {
 
     @PostMapping
@@ -23,6 +25,7 @@ class UserRestController(
         val userCode = userCreateProcessor.process(createUserForm.buildCommand())
         httpServletResponse.addCookie(
             Cookie("lguc", userCode).apply {
+                domain = cookieDomain
                 maxAge = 1 * 24 * 60 * 60 // 1일
             }
         )

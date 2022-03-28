@@ -16,4 +16,4 @@ fi
 echo "new liar application process start" 
 
 # application process start 
-nohup java -jar liar-game-app-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
+nohup java -jar -Dspring.profiles.active=prod liar-game-app-0.0.1-SNAPSHOT.jar > /dev/null 2> /dev/null < /dev/null &
