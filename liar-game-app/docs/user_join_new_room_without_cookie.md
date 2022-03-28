@@ -5,7 +5,9 @@ participant fe as Frontend
 participant server as Server
 
 user ->> fe: /room/{room_code} 
-fe ->> fe: Exist user code? no 
+fe ->> server: GET /api/v1/user?room_code={room_code}
+server ->> fe: 404 Not found user
+
 fe ->> user: Route to '/enter/{room_code}'
 user ->> fe: Input nickname and click 'enter'
 
