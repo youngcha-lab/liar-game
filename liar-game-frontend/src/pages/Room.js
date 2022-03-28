@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { Card, CardHeader } from "@mui/material";
 import { teal } from "@mui/material/colors";
+import { Cookies } from "react-cookie";
 import "../css/Room.css";
 
 function Room() {
   const [word, setWord] = useState("시작!");
   const [category, setCategory] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
   let categoryTempl = "과일";
   const host = "http://" + window.location.hostname + ":3000";
+  const url = location.pathname.split("/");
+  const roomCode = url[url.length - 1];
 
   const cookie = document.cookie.split(";");
 
+  const checkCookie = () => {
+    const cookie = new Cookies();
+    console.log("cookie = " + cookie.get("lguc"));
+    if (!cookie.get("lguc")) {
+      console.log("cookie is empty");
+      navigate("/enter/" + roomCode);
+    }
+  };
+
   useEffect(() => {
+    checkCookie();
     //getCategory();
   }, [location]);
 

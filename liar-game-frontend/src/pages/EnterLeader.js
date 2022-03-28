@@ -49,7 +49,7 @@ function EnterLeader() {
   };
 
   const isValidName = (name) => {
-    if (name === "") {
+    if (!name) {
       return false;
     } else {
       return true;
