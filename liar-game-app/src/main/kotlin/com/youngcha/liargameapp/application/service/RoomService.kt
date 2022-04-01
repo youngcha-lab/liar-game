@@ -30,6 +30,16 @@ class RoomService(
         val room = roomRepository.find(findRoomCommand.roomCode)
             ?: throw IllegalArgumentException("no room found. roomCode: " + findRoomCommand.roomCode)
         val users = userRepository.findByRoomCode(findRoomCommand.roomCode)
-        return Room(roomCode = room.roomCode, users = users.map { User.of(it) })
+        return Room(
+            roomCode = room.roomCode,
+            users = users.map {
+                User(
+                    userCode = it.userCode,
+                    roomCode = room.roomCode,
+                    nickname = it.nickname,
+                    isLeader = it.isLeader
+                )
+            }
+        )
     }
 }

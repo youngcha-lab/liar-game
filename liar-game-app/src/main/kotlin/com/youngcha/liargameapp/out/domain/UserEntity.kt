@@ -6,5 +6,6 @@ data class UserEntity(
     val userCode: String,
     val roomCode: String,
     val nickname: String,
+    val isLeader: Boolean,
     val joinedAt: LocalDateTime
 )

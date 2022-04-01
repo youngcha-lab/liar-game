@@ -6,10 +6,10 @@ interface UserCreateProcessor {
      * @param command 유저 생성 명령
      * @return 생성된 유저의 코드
      */
-    fun process(command: CreateUser): String
+    fun process(command: CreateUserCommand): String
 }
 
-data class CreateUser(
+data class CreateUserCommand(
     val nickname: String,
     val roomCode: String
 )

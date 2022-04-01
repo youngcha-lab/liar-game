@@ -22,4 +22,8 @@ class UserRepository {
     fun findByRoomCode(roomCode: String): List<UserEntity> {
         return repositoryByRoomCode[roomCode] ?: emptyList()
     }
+
+    fun findByUserCode(userCode: String): UserEntity? {
+        return repositoryByUserCode[userCode]
+    }
 }
