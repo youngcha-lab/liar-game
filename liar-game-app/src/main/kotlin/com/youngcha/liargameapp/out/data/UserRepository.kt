@@ -19,11 +19,14 @@ class UserRepository {
         }
     }
 
-    fun findByRoomCode(roomCode: String): List<UserEntity> {
-        return repositoryByRoomCode[roomCode] ?: emptyList()
-    }
+    fun findByRoomCode(roomCode: String): List<UserEntity> = repositoryByRoomCode[roomCode] ?: emptyList()
 
-    fun findByUserCode(userCode: String): UserEntity? {
-        return repositoryByUserCode[userCode]
+    fun findByUserCode(userCode: String): UserEntity? = repositoryByUserCode[userCode]
+
+    fun delete(userCode: String): UserEntity {
+        val user = repositoryByUserCode.remove(userCode)!!
+        repositoryByRoomCode[user.roomCode] =
+            repositoryByRoomCode[user.roomCode]!!.filter { it.userCode != userCode }.toMutableList()
+        return user
     }
 }
