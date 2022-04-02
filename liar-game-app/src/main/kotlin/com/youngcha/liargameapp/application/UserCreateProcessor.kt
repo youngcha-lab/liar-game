@@ -1,15 +1,11 @@
 package com.youngcha.liargameapp.application
 
 interface UserCreateProcessor {
-
-    /**
-     * @param command 유저 생성 명령
-     * @return 생성된 유저의 코드
-     */
-    fun process(command: CreateUserCommand): String
+    fun process(command: UserCreateCommand): String
 }
 
-data class CreateUserCommand(
-    val nickname: String,
-    val roomCode: String
+data class UserCreateCommand(
+    val roomCode: String,
+    val nickname: String
 )
+

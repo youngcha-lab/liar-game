@@ -1,8 +1,10 @@
 package com.youngcha.liargameapp.application
 
-import com.youngcha.liargameapp.application.domain.User
-
 interface UserDeleteProcessor {
-
-    fun process(userCode: String): User
+    fun process(command: UserDeleteCommand)
 }
+
+data class UserDeleteCommand(
+    val roomCode: String,
+    val userCode: String
+)

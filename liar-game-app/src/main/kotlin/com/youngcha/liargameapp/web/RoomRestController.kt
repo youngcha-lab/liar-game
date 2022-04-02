@@ -1,8 +1,8 @@
 package com.youngcha.liargameapp.web
 
 import com.youngcha.liargameapp.application.RoomCreateProcessor
-import com.youngcha.liargameapp.application.RoomFindCommand
-import com.youngcha.liargameapp.application.RoomFindProcessor
+import com.youngcha.liargameapp.application.RoomFinderProcessor
+import com.youngcha.liargameapp.application.domain.Room
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(path = ["/api/v1/room"])
 class RoomRestController(
     val roomCreateProcessor: RoomCreateProcessor,
-    val roomFindProcessor: RoomFindProcessor
+    val roomFindProcessor: RoomFinderProcessor
 ) {
 
     @PostMapping
@@ -23,13 +23,10 @@ class RoomRestController(
     }
 
     @GetMapping("/{room_code}")
-    fun findRoom(@PathVariable room_code: String): Map<String, Any> {
-        val room = roomFindProcessor.process(
-            RoomFindCommand(roomCode = room_code)
-        )
-        return mapOf(
-            "room_code" to room.roomCode,
-            "users" to room.users.map { it.nickname }
-        )
+    fun findRoom(
+        @PathVariable("room_code") roomCode: String
+    ): Map<String, Room> {
+        val room = roomFindProcessor.process(roomCode)
+        return mapOf("room" to room)
     }
 }

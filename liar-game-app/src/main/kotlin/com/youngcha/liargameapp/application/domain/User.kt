@@ -1,11 +1,9 @@
 package com.youngcha.liargameapp.application.domain
 
-import java.time.LocalDateTime
+import com.youngcha.liargameapp.application.UuidGenerator
 
 data class User(
-    val userCode: String,
-    val roomCode: String,
-    val nickname: String,
-    val isLeader: Boolean,
-    val joinedAt: LocalDateTime
+    val userCode: String = UuidGenerator.generate(),
+    val nickname: String
 )
+

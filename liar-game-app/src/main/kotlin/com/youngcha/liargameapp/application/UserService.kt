@@ -1,45 +1,34 @@
 package com.youngcha.liargameapp.application
 
 import com.youngcha.liargameapp.application.domain.User
-import com.youngcha.liargameapp.data.UserRepository
+import com.youngcha.liargameapp.data.RoomRepository
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class UserService(
-    val userRepository: UserRepository
-) : UserCreateProcessor, UserDeleteProcessor, UserFinder {
+    val repository: RoomRepository
+) : UserCreateProcessor, UserDeleteProcessor {
 
-    override fun process(command: CreateUserCommand): String {
-        val isFirstUser = userRepository.findByRoomCode(command.roomCode).isEmpty()
+    override fun process(command: UserCreateCommand): String {
+        val room = repository.find(command.roomCode)!!
         val newUser = User(
-            roomCode = command.roomCode,
-            userCode = UuidGenerator.generate(),
-            nickname = command.nickname,
-            isLeader = isFirstUser,
-            joinedAt = LocalDateTime.now()
+            nickname = command.nickname
         )
-        userRepository.save(newUser)
+        val newRoom = room.users.plus(newUser)
+            .let {
+                room.copy(
+                    users = it,
+                    leader = room.leader ?: newUser
+                )
+            }
+        repository.save(newRoom)
         return newUser.userCode
     }
 
-    override fun findUser(userCode: String): User {
-        val userEntity = userRepository.findByUserCode(userCode)!!
-        return User(
-            userCode = userEntity.userCode,
-            roomCode = userEntity.roomCode,
-            nickname = userEntity.nickname,
-            isLeader = true
-        )
+    override fun process(command: UserDeleteCommand) {
+        val room = repository.find(command.roomCode)!!
+        val newRoom = room.users.filter { it.userCode != command.userCode }
+            .let { room.copy(users = it) }
+        repository.save(newRoom)
     }
-
-    override fun process(userCode: String): User = userRepository.delete(userCode)
-        .let {
-            User(
-                userCode = it.userCode,
-                roomCode = it.roomCode,
-                nickname = it.nickname,
-                isLeader = it.isLeader
-            )
-        }
 }
