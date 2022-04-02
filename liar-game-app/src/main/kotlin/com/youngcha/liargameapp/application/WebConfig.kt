@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.config
+package com.youngcha.liargameapp.application
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry

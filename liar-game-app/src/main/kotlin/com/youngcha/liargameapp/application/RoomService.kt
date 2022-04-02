@@ -1,14 +1,9 @@
-package com.youngcha.liargameapp.application.service
+package com.youngcha.liargameapp.application
 
-import com.youngcha.liargameapp.application.model.Room
-import com.youngcha.liargameapp.application.model.User
-import com.youngcha.liargameapp.application.processor.RoomCreateProcessor
-import com.youngcha.liargameapp.application.processor.RoomFindCommand
-import com.youngcha.liargameapp.application.processor.RoomFindProcessor
-import com.youngcha.liargameapp.application.utils.UuidGenerator
-import com.youngcha.liargameapp.out.data.RoomRepository
-import com.youngcha.liargameapp.out.data.UserRepository
-import com.youngcha.liargameapp.out.domain.RoomEntity
+import com.youngcha.liargameapp.application.domain.Room
+import com.youngcha.liargameapp.application.domain.User
+import com.youngcha.liargameapp.data.RoomRepository
+import com.youngcha.liargameapp.data.UserRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -19,7 +14,7 @@ class RoomService(
 ) : RoomCreateProcessor, RoomFindProcessor {
 
     override fun process(): String {
-        val newRoom = RoomEntity(
+        val newRoom = Room(
             roomCode = UuidGenerator.generate(), createdAt = LocalDateTime.now()
         )
         roomRepository.save(newRoom)

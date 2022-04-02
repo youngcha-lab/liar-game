@@ -1,14 +1,7 @@
-package com.youngcha.liargameapp.application.service
+package com.youngcha.liargameapp.application
 
-import com.youngcha.liargameapp.application.model.User
-import com.youngcha.liargameapp.application.processor.CreateUserCommand
-import com.youngcha.liargameapp.application.processor.UserCreateProcessor
-import com.youngcha.liargameapp.application.processor.UserDeleteProcessor
-import com.youngcha.liargameapp.application.processor.UserFinder
-import com.youngcha.liargameapp.application.utils.UuidGenerator
-import com.youngcha.liargameapp.out.data.RoomRepository
-import com.youngcha.liargameapp.out.data.UserRepository
-import com.youngcha.liargameapp.out.domain.UserEntity
+import com.youngcha.liargameapp.application.domain.User
+import com.youngcha.liargameapp.data.UserRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -19,7 +12,7 @@ class UserService(
 
     override fun process(command: CreateUserCommand): String {
         val isFirstUser = userRepository.findByRoomCode(command.roomCode).isEmpty()
-        val newUser = UserEntity(
+        val newUser = User(
             roomCode = command.roomCode,
             userCode = UuidGenerator.generate(),
             nickname = command.nickname,

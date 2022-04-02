@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.`in`.error
+package com.youngcha.liargameapp.web
 
 import org.springframework.boot.autoconfigure.web.ErrorProperties
 import org.springframework.boot.autoconfigure.web.ServerProperties

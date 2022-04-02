@@ -1,9 +1,9 @@
-package com.youngcha.liargameapp.`in`.web
+package com.youngcha.liargameapp.web
 
-import com.youngcha.liargameapp.application.processor.CreateUserCommand
-import com.youngcha.liargameapp.application.processor.UserCreateProcessor
-import com.youngcha.liargameapp.application.processor.UserDeleteProcessor
-import com.youngcha.liargameapp.application.processor.UserFinder
+import com.youngcha.liargameapp.application.CreateUserCommand
+import com.youngcha.liargameapp.application.UserCreateProcessor
+import com.youngcha.liargameapp.application.UserDeleteProcessor
+import com.youngcha.liargameapp.application.UserFinder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.DeleteMapping

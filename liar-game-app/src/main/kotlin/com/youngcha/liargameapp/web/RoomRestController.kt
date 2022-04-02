@@ -1,8 +1,8 @@
-package com.youngcha.liargameapp.`in`.web
+package com.youngcha.liargameapp.web
 
-import com.youngcha.liargameapp.application.processor.RoomCreateProcessor
-import com.youngcha.liargameapp.application.processor.RoomFindCommand
-import com.youngcha.liargameapp.application.processor.RoomFindProcessor
+import com.youngcha.liargameapp.application.RoomCreateProcessor
+import com.youngcha.liargameapp.application.RoomFindCommand
+import com.youngcha.liargameapp.application.RoomFindProcessor
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.application.processor
+package com.youngcha.liargameapp.application
 
 interface RoomCreateProcessor {
 
