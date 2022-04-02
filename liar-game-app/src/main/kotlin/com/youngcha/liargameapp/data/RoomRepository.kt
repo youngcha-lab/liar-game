@@ -17,5 +17,4 @@ class RoomRepository {
     fun find(roomCode: String): Room? {
         return repository[roomCode]
     }
-
 }

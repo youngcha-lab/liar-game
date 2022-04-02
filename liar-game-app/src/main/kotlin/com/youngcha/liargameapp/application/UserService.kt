@@ -9,26 +9,24 @@ class UserService(
     val repository: RoomRepository
 ) : UserCreateProcessor, UserDeleteProcessor {
 
-    override fun process(command: UserCreateCommand): String {
-        val room = repository.find(command.roomCode)!!
+    override fun createUser(roomCode: String, nickname: String): String {
+        val room = repository.find(roomCode)!!
         val newUser = User(
-            nickname = command.nickname
+            nickname = nickname
         )
-        val newRoom = room.users.plus(newUser)
-            .let {
-                room.copy(
-                    users = it,
-                    leader = room.leader ?: newUser
-                )
-            }
+        val newRoom = room.copy(
+            users = room.users.plus(newUser),
+            leader = room.leader ?: newUser
+        )
         repository.save(newRoom)
         return newUser.userCode
     }
 
-    override fun process(command: UserDeleteCommand) {
-        val room = repository.find(command.roomCode)!!
-        val newRoom = room.users.filter { it.userCode != command.userCode }
-            .let { room.copy(users = it) }
+    override fun deleteUser(roomCode: String, userCode: String) {
+        val room = repository.find(roomCode)!!
+        val newRoom = room.copy(
+            users = room.users.filter { it.userCode != userCode }
+        )
         repository.save(newRoom)
     }
 }

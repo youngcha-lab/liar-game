@@ -1,11 +1,5 @@
 package com.youngcha.liargameapp.application
 
 interface UserCreateProcessor {
-    fun process(command: UserCreateCommand): String
+    fun createUser(roomCode: String, nickname: String): String
 }
-
-data class UserCreateCommand(
-    val roomCode: String,
-    val nickname: String
-)
-

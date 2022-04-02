@@ -9,12 +9,12 @@ class RoomService(
     val roomRepository: RoomRepository
 ) : RoomCreateProcessor, RoomFinderProcessor {
 
-    override fun process(): String {
+    override fun createRoom(): String {
         return roomRepository.save(Room())
             .roomCode
     }
 
-    override fun process(roomCode: String): Room {
+    override fun findRoom(roomCode: String): Room {
         return roomRepository.find(roomCode)!!
     }
 }

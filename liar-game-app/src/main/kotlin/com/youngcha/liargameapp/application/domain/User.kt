@@ -6,4 +6,3 @@ data class User(
     val userCode: String = UuidGenerator.generate(),
     val nickname: String
 )
-
