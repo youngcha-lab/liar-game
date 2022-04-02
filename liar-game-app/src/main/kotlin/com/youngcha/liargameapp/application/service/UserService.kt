@@ -14,12 +14,11 @@ import java.time.LocalDateTime
 
 @Service
 class UserService(
-    val userRepository: UserRepository,
-    val roomRepository: RoomRepository
+    val userRepository: UserRepository
 ) : UserCreateProcessor, UserDeleteProcessor, UserFinder {
 
     override fun process(command: CreateUserCommand): String {
-        val isFirstUser = roomRepository.find(command.roomCode) == null
+        val isFirstUser = userRepository.findByRoomCode(command.roomCode).isEmpty()
         val newUser = UserEntity(
             roomCode = command.roomCode,
             userCode = UuidGenerator.generate(),
