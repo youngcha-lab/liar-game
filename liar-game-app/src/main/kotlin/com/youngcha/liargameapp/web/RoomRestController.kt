@@ -19,7 +19,7 @@ class RoomRestController(
     @PostMapping
     fun createRoom(): Map<String, String> {
         val roomCode = roomCreateProcessor.createRoom()
-        return mapOf("room_code" to roomCode)
+        return mapOf("roomCode" to roomCode)
     }
 
     @GetMapping("/{room_code}")
