@@ -4,10 +4,10 @@ export PATH=$PATH
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
 # module install
-nohup /root/.nvm/versions/node/v17.4.0/bin/npm install 
+nohup /root/.nvm/versions/node/v17.9.0/bin/npm install 
 
 # build
-nohup /root/.nvm/versions/node/v17.4.0/bin/npm run build 
+nohup /root/.nvm/versions/node/v17.9.0/bin/npm run build 
 
 # find pid application
 NODE_PID=`ps -ef | grep start.js | grep -v grep | awk '{print $2}'`
@@ -25,4 +25,4 @@ fi
 echo "new application process start" 
 
 # react 배포 
-nohup /root/.nvm/versions/node/v17.4.0/bin/npm start > /dev/null 2> /dev/null < /dev/null &
+nohup /root/.nvm/versions/node/v17.9.0/bin/npm start > /dev/null 2> /dev/null < /dev/null &
