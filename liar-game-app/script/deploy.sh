@@ -1,6 +1,6 @@
 cd /home/ec2-user/apps/liar-game/liar-game-app/build/libs
 
-# find pid liar application 
+# find pid liar application
 APP_PID=`ps -ef | grep liar-game-app-0.0.1-SNAPSHOT.jar | grep -v grep | awk '{print $2}'`
 
 # if application process is already runned, kill the process
