@@ -30,5 +30,5 @@ fi
 echo "new application process start"   >>  /work/docker/debug.txt
 
 # react 배포 
-nohup /root/.nvm/versions/node/v17.9.0/bin/npm start > /dev/null 2> /dev/null < /dev/null &
+nohup /root/.nvm/versions/node/v17.9.0/bin/npm start >>  /work/docker/debug.txt &
 echo "react배포완료테스트" >>  /work/docker/debug.txt
