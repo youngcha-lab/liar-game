@@ -20,14 +20,14 @@ echo "배포테스트" >>  /work/docker/debug.txt
 # if application process is already runned, kill the process
 if [ -z $NODE_PID ]
 then
-        echo "Not process Running" 
+        echo "Not process Running"  >>  /work/docker/debug.txt
 else
-        echo "kill current process"
+        echo "kill current process"  >>  /work/docker/debug.txt
         kill -9 $NODE_PID
         sleep 5
 fi
 
-echo "new application process start" 
+echo "new application process start"   >>  /work/docker/debug.txt
 
 # react 배포 
 nohup /root/.nvm/versions/node/v17.9.0/bin/npm start > /dev/null 2> /dev/null < /dev/null &
