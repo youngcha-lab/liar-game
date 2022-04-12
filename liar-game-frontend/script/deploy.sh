@@ -6,8 +6,12 @@ cd /home/ec2-user/apps/liar-game/liar-game-frontend
 # module install
 nohup /root/.nvm/versions/node/v17.9.0/bin/npm install 
 
+sleep 200
+
 # build
 nohup /root/.nvm/versions/node/v17.9.0/bin/npm run build 
+
+sleep 200
 
 # find pid application
 NODE_PID=`ps -ef | grep start.js | grep -v grep | awk '{print $2}'`
