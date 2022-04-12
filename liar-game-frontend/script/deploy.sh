@@ -4,12 +4,12 @@ echo "react배포전테스트" >>  /work/docker/debug.txt
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
 # module install
-nohup /root/.nvm/versions/node/v17.9.0/bin/npm install 
+/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm install 
 
 sleep 10
 
 # build
-nohup /root/.nvm/versions/node/v17.9.0/bin/npm run build 
+/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm run build 
 
 sleep 10
 
@@ -30,5 +30,5 @@ fi
 echo "new application process start"   >>  /work/docker/debug.txt
 
 # react 배포 
-nohup /root/.nvm/versions/node/v17.9.0/bin/npm start > /dev/null 2> /dev/null < /dev/null &
+/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm start > /dev/null 2> /dev/null < /dev/null &
 echo "react배포완료테스트" >>  /work/docker/debug.txt
