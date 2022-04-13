@@ -4,15 +4,16 @@ import axios from "axios";
 import "../css/Enter.css";
 
 function EnterLeader() {
-  const [userName, setUserName] = useState("");
+  const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const host = "http://" + window.location.hostname + ":8080";
 
   const submit = async () => {
-    if (isValidName(userName)) {
+    if (isValidName(nickName)) {
       const roomCode = await createNewRoom();
-      const userCode = await createUserCode(roomCode);
-      console.log("userCode : " + userCode);
+      const createUserResponse = await createUserCode(roomCode);
+      console.log("create userCode result = " + createUserResponse);
+      // if creatUserResponse != 204(success) navigate to error page
       navigate("/room/" + roomCode);
     } else {
       alert("please enter user name");
@@ -22,7 +23,7 @@ function EnterLeader() {
   const createNewRoom = async () => {
     try {
       const response = await axios.post(host + "/api/v1/room");
-      return response.data.room_code;
+      return response.data.roomCode;
     } catch (e) {
       console.log(e);
     }
@@ -31,21 +32,17 @@ function EnterLeader() {
 
   const createUserCode = async (roomCode) => {
     try {
-      const response = await axios.post(host + "/api/v1/user", {
-        room_code: roomCode,
-        nickname: userName,
-      });
-      let cookie = document.cookie;
-
-      if (cookie === null || cookie === "") {
-        document.cookie = "lguc=" + response.data.user_code;
-      }
-
-      return response.data.user_code;
+      const response = await axios.post(
+        host + `/api/v1/room/${roomCode}/user`,
+        {
+          nickname: nickName,
+        }
+      );
+      return response.status;
     } catch (e) {
       console.log(e);
     }
-    return null;
+    return -1;
   };
 
   const isValidName = (name) => {
@@ -56,7 +53,7 @@ function EnterLeader() {
     }
   };
 
-  const onChange = (event) => setUserName(event.target.value);
+  const onChange = (event) => setNickName(event.target.value);
 
   return (
     <div className="Container">
@@ -70,7 +67,7 @@ function EnterLeader() {
             <input
               id="userName"
               type="text"
-              value={userName}
+              value={nickName}
               onChange={onChange}
             />
           </div>

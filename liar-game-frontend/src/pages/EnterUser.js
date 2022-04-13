@@ -4,7 +4,7 @@ import axios from "axios";
 import "../css/Enter.css";
 
 function EnterUser() {
-  const [userName, setUserName] = useState("");
+  const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const host = "http://" + window.location.hostname + ":8080";
@@ -12,9 +12,10 @@ function EnterUser() {
   const roomCode = url[url.length - 1];
 
   const submit = async () => {
-    if (isValidName(userName)) {
-      const userCode = await createUserCode(roomCode);
-      console.log("userCode : " + userCode);
+    if (isValidName(nickName)) {
+      const createUserResponse = await createUserCode(roomCode);
+      console.log("create userCode result = " + createUserResponse);
+      // if creatUserResponse != 204(success) navigate to error page
       navigate("/room/" + roomCode);
     } else {
       alert("please enter user name");
@@ -23,17 +24,17 @@ function EnterUser() {
 
   const createUserCode = async (roomCode) => {
     try {
-      const response = await axios.post(host + "/api/v1/user", {
-        room_code: roomCode,
-        nickname: userName,
-      });
-      document.cookie = "lguc=" + response.data.user_code;
-
-      return response.data.user_code;
+      const response = await axios.post(
+        host + `/api/v1/room/${roomCode}/user`,
+        {
+          nickname: nickName,
+        }
+      );
+      return response.status;
     } catch (e) {
       console.log(e);
     }
-    return null;
+    return -1;
   };
 
   const isValidName = (name) => {
@@ -44,7 +45,7 @@ function EnterUser() {
     }
   };
 
-  const onChange = (event) => setUserName(event.target.value);
+  const onChange = (event) => setNickName(event.target.value);
 
   return (
     <div className="Container">
@@ -58,7 +59,7 @@ function EnterUser() {
             <input
               id="userName"
               type="text"
-              value={userName}
+              value={nickName}
               onChange={onChange}
             />
           </div>

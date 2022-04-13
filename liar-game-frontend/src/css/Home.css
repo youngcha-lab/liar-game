@@ -1,0 +1,38 @@
+.Container {
+    padding: 100px;
+}
+
+.Home_main {
+    background-color: rgba(196, 196, 196, 1);
+    min-height: calc(-200px + 100vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Home_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.Home_header h1 {
+    font-size: 88px;
+}
+
+.Home_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.Home_button button {
+    font-size: x-large;
+    padding: 8px;
+    border: 0;
+    width: 15em;
+}
+  

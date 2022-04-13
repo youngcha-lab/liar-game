@@ -16,8 +16,6 @@ function Room() {
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
-  const cookie = document.cookie.split(";");
-
   const checkCookie = () => {
     const cookie = new Cookies();
     console.log("cookie = " + cookie.get("lguc"));
@@ -28,7 +26,7 @@ function Room() {
   };
 
   useEffect(() => {
-    checkCookie();
+    // checkCookie();
     //getCategory();
   }, [location]);
 
@@ -68,7 +66,7 @@ function Room() {
         </Card>
 
         <div className="exit_button">
-          <Link to={"/"}>
+          <Link to={"/Home"}>
             <button>나가기</button>
           </Link>
         </div>
