@@ -8,3 +8,14 @@ data class Room(
     val leader: User? = null,
     val game: Game? = null
 )
+
+data class User(
+    val userCode: String = UuidGenerator.generate(),
+    val nickname: String
+)
+
+data class Game(
+    val keyword: String,
+    val category: String,
+    val liar: User
+)
