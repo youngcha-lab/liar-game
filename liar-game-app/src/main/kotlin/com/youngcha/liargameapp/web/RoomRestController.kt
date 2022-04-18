@@ -1,7 +1,7 @@
 package com.youngcha.liargameapp.web
 
 import com.youngcha.liargameapp.application.RoomCreateProcessor
-import com.youngcha.liargameapp.application.RoomFinderProcessor
+import com.youngcha.liargameapp.application.RoomFinder
 import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(path = ["/api/v1/room"])
 class RoomRestController(
     val roomCreateProcessor: RoomCreateProcessor,
-    val roomFindProcessor: RoomFinderProcessor
+    val roomFindProcessor: RoomFinder
 ) {
 
     @PostMapping

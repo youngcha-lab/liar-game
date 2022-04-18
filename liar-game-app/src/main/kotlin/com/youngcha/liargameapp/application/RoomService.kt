@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class RoomService(
     val roomRepository: RoomRepository
-) : RoomCreateProcessor, RoomFinderProcessor {
+) : RoomCreateProcessor, RoomFinder {
 
     override fun createRoom(): String {
         return roomRepository.save(Room())
