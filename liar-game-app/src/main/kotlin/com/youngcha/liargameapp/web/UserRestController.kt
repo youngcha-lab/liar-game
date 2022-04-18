@@ -25,12 +25,12 @@ class UserRestController(
     @PostMapping
     fun createUser(
         @PathVariable("room_code") roomCode: String,
-        @RequestBody nickname: String,
+        @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse
     ): ResponseEntity<*> {
         val userCode = userCreateProcessor.createUser(
             roomCode = roomCode,
-            nickname = nickname
+            nickname = form.nickname
         )
         httpServletResponse.addCookie(
             Cookie("lguc", userCode)
@@ -54,3 +54,7 @@ class UserRestController(
         return ResponseEntity.noContent().build<Unit>()
     }
 }
+
+data class CreateUserForm(
+    val nickname: String
+)

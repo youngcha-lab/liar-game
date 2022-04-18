@@ -25,27 +25,29 @@ class RoomRestController(
     @GetMapping("/{room_code}")
     fun findRoom(
         @PathVariable("room_code") roomCode: String,
-        @CookieValue("lguc") userCode: String
+        @CookieValue("lguc") userCode: String?
     ): RoomResponse {
         val room = roomFindProcessor.findRoom(roomCode)
-        return RoomResponse(
+        val response = RoomResponse(
             room = RoomPresentation(
                 roomCode = room.roomCode,
-                users = room.users.map { it.nickname }.toList(),
-                currentUser = CurrentUserPresentation(
-                    nickname = room.users.first { it.userCode == userCode }.nickname,
-                    isLeader = room.leader?.userCode == userCode,
-                    isMember = room.users.any { it.userCode == userCode }
-                ),
-                game = when {
-                    room.game != null -> GamePresentation(
+                users = room.users.map { it.nickname },
+                currentUser = if (userCode != null) {
+                    CurrentUserPresentation(
+                        nickname = room.users.firstOrNull { it.userCode == userCode }?.nickname,
+                        isLeader = room.leader?.userCode == userCode,
+                        isMember = room.users.any { it.userCode == userCode }
+                    )
+                } else null,
+                game = if (room.game != null) {
+                    GamePresentation(
                         category = room.game.category,
                         keyword = room.game.keyword,
                     )
-                    else -> null
-                }
+                } else null
             )
         )
+        return response
     }
 }
 
@@ -54,12 +56,12 @@ data class RoomResponse(val room: RoomPresentation)
 data class RoomPresentation(
     val roomCode: String,
     val users: List<String>,
-    val currentUser: CurrentUserPresentation,
+    val currentUser: CurrentUserPresentation?,
     val game: GamePresentation?,
 )
 
 data class CurrentUserPresentation(
-    val nickname: String,
+    val nickname: String?,
     val isLeader: Boolean,
     val isMember: Boolean,
 )
