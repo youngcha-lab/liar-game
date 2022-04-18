@@ -5,6 +5,7 @@ import { Card, CardHeader } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import { Cookies } from "react-cookie";
 import "../css/Room.css";
+import axios from "axios";
 
 function Room() {
   const [word, setWord] = useState("시작!");
@@ -12,10 +13,14 @@ function Room() {
   const location = useLocation();
   const navigate = useNavigate();
   let categoryTempl = "과일";
-  const host = "http://" + window.location.hostname + ":3000";
+  const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
+  const checkUser = async () => {
+    const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    console.log(response);
+  };
   const checkCookie = () => {
     const cookie = new Cookies();
     console.log("cookie = " + cookie.get("lguc"));
@@ -26,7 +31,7 @@ function Room() {
   };
 
   useEffect(() => {
-    // checkCookie();
+    checkUser();
     //getCategory();
   }, [location]);
 
@@ -36,7 +41,7 @@ function Room() {
   };
 
   const onLinkClick = () => {
-    const copyText = host + location.pathname;
+    const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
 

@@ -13,8 +13,8 @@ function EnterUser() {
 
   const submit = async () => {
     if (isValidName(nickName)) {
-      const createUserResponse = await createUserCode(roomCode);
-      console.log("create userCode result = " + createUserResponse);
+      const createUserStatus = await createUserCode(roomCode);
+      console.log("create userCode result = " + createUserStatus);
       // if creatUserResponse != 204(success) navigate to error page
       navigate("/room/" + roomCode);
     } else {
