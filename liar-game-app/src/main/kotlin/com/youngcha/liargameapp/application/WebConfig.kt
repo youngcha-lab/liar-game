@@ -13,7 +13,7 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOriginIfLocal(environment, "http://localhost:3000")
+            .allowedOriginIfDev(environment, "http://localhost:3000")
             .allowedOrigins("http://youngcha-liargame.ml:3000")
             .allowedMethods(
                 HttpMethod.OPTIONS.name,
@@ -27,7 +27,8 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
     }
 }
 
-fun CorsRegistration.allowedOriginIfLocal(environment: Environment, origin: String): CorsRegistration =
-    if (environment.acceptsProfiles(Profiles.of("local"))) {
-        this.allowedOrigins(origin)
-    } else this
+fun CorsRegistration.allowedOriginIfDev(environment: Environment, origin: String): CorsRegistration =
+    if (environment.isProduction()) this
+    else this.allowedOrigins(origin)
+
+fun Environment.isProduction() = this.acceptsProfiles(Profiles.of("prod"))
