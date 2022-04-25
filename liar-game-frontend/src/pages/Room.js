@@ -1,36 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-import { Card, CardHeader } from "@mui/material";
+import { Card, CardHeader, createChainedFunction, getListSubheaderUtilityClass } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import { Cookies } from "react-cookie";
 import "../css/Room.css";
+import axios from "axios";
 
 function Room() {
   const [word, setWord] = useState("시작!");
   const [category, setCategory] = useState("");
+  const [users, setUsers] = useState([]);
   const location = useLocation();
-  const navigate = useNavigate();
-  let categoryTempl = "과일";
-  const host = "http://" + window.location.hostname + ":3000";
+  const host = "http://" + window.location.hostname;
+  const cookie = document.cookie.split(";");
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
-
-  const cookie = document.cookie.split(";");
-
-  const checkCookie = () => {
-    const cookie = new Cookies();
-    console.log("cookie = " + cookie.get("lguc"));
-    if (!cookie.get("lguc")) {
-      console.log("cookie is empty");
-      navigate("/enter/" + roomCode);
-    }
-  };
-
+  let categoryTempl = "과일";
+    
   useEffect(() => {
-    checkCookie();
     //getCategory();
+    const interval = setInterval(() => {
+      getUsers();
+    },1000);    
   }, [location]);
+
+  const getUsers = async () => {
+    try {
+      const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+      console.log(response.data.users);
+      setUsers(response.data.users);
+
+      return response;    
+    } catch(e) {
+      console.log(e);
+    }
+    
+    return null;
+  };
 
   const randomColor = () => {
     let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
@@ -59,13 +65,15 @@ function Room() {
   return (
     <div className="room">
       <div className="nav">
-        <h1>플레이어 1 / 10</h1>
-        <Card sx={{ maxWidth: 345, bgcolor: teal[500], color: "white" }}>
-          <CardHeader
-            avatar={<Avatar aria-label="recipe"></Avatar>}
-            title="김승욱"
-          />
-        </Card>
+        <h1>플레이어 {users.length} / 10</h1>
+        {users.map((user) => (
+            <Card sx={{ maxWidth: 345, bgcolor: teal[500], color: "white" }} key={user}>
+            <CardHeader
+              avatar={<Avatar aria-label="recipe"></Avatar>}
+              title={user}
+            />
+          </Card>
+        ))}
 
         <div className="exit_button">
           <Link to={"/"}>
