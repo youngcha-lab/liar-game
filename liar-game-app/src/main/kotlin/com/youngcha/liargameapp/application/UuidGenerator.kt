@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.application.utils
+package com.youngcha.liargameapp.application
 
 import java.util.UUID
 
