@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Home.css";
+import imgAresene from "../img/Arsene.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -10,9 +11,10 @@ function Home() {
   };
 
   return (
-    <div className="Container">
+    <div className="Home_container">
       <div className="Home_main">
         <div className="Home_header">
+          <img src={imgAresene} alt="Arsene" />
           <h1>LIAR GAME</h1>
         </div>
         <div className="Home_body">
