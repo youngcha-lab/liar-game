@@ -20,31 +20,36 @@ class LiarGameManageService(
 
     override fun createRoom(nickname: String): Room {
         val leader = User(nickname = nickname)
-        return save(Room(leader = leader, users = listOf(leader)))
+        val created = Room(leader = leader, users = listOf(leader))
+        return save(created)
     }
 
     override fun join(roomCode: RoomCode, nickname: String): User {
         val room = find(roomCode)
-        return save(room.join(nickname))
-            .getUser(nickname = nickname)
+        val joined = room.join(nickname)
+        return save(joined)
+            .userRequired(nickname = nickname)
     }
 
     override fun leave(roomCode: RoomCode, userCode: UserCode): User {
         val room = find(roomCode)
-        return save(room.leave(userCode))
-            .getUser(userCode = userCode)
+        val left = room.leave(userCode)
+        return save(left)
+            .userRequired(userCode = userCode)
     }
 
     override fun startGame(roomCode: RoomCode): Game {
         val room = find(roomCode)
-        return save(room.startGame())
-            .getCurrentGameRequired()
+        val started = room.startGame()
+        return save(started)
+            .currentGameRequired()
     }
 
     override fun endGame(roomCode: RoomCode): Game {
         val room = find(roomCode)
-        return save(room.endGame())
-            .getLastGameRequired()
+        val ended = room.endGame()
+        return save(ended)
+            .lastGameRequired()
     }
 
     private fun find(roomCode: RoomCode): Room =

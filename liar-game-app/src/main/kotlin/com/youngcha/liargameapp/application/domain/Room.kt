@@ -29,11 +29,19 @@ data class Room(
 
     private fun isInGame(): Boolean = currentGame != null
 
-    fun getUser(nickname: String): User =
-        this.users.single { it.nickname == nickname }
+    fun userRequired(nickname: String): User {
+        if (this.users.none { it.nickname == nickname }) {
+            throw IllegalArgumentException("no user found. nickname: $nickname")
+        }
+        return this.users.single { it.nickname == nickname }
+    }
 
-    fun getUser(userCode: UserCode): User =
-        this.users.single { it.userCode == userCode }
+    fun userRequired(userCode: UserCode): User {
+        if (this.users.none { it.userCode == userCode }) {
+            throw IllegalArgumentException("no user found. userCode: $userCode")
+        }
+        return this.users.single { it.userCode == userCode }
+    }
 
     fun leave(userCode: UserCode): Room =
         this.copy(
@@ -51,20 +59,20 @@ data class Room(
 
     fun endGame(): Room =
         this.copy(
-            lastGame = this.currentGame,
+            lastGame = this.currentGame?.copy(),
             currentGame = emptyGame(),
         )
 
     private fun emptyGame() = null
 
-    fun getCurrentGameRequired(): Game =
+    fun currentGameRequired(): Game =
         if (this.currentGame == null)
-            throw IllegalArgumentException("empty current game")
+            throw IllegalArgumentException("not game started yet")
         else currentGame
 
-    fun getLastGameRequired(): Game =
+    fun lastGameRequired(): Game =
         if (this.lastGame == null)
-            throw IllegalArgumentException("empty last game")
+            throw IllegalArgumentException("no last game found")
         else lastGame
 }
 
