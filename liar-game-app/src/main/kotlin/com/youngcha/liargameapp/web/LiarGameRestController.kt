@@ -66,7 +66,7 @@ class RoomRestController(
         )
     }
 
-    @PostMapping("/api/v1/room/join/{room_code}")
+    @PostMapping("/join/{room_code}")
     fun joinRoom(
         @PathVariable("room_code") roomCode: String,
         @RequestBody form: CreateUserForm,
@@ -83,7 +83,7 @@ class RoomRestController(
         return ResponseEntity.noContent().build<Unit>()
     }
 
-    @DeleteMapping("/api/v1/room/leave/{room_code}")
+    @DeleteMapping("/leave/{room_code}")
     fun leaveRoom(
         @PathVariable("room_code") roomCode: String,
         @CookieValue("lguc") userCode: String
