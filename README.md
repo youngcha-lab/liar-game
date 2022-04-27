@@ -8,6 +8,17 @@ Web based liar game.
 └── script                  # Deploy shell script
 ```
 
+## Run server
+```
+cd liar-game-app
+./gradlew clean bootJar
+```
+
+## Run front
+```
+npm clean install start
+```
+
 ## Environment
 - Kotlin 1.5 (with Java 11)
 - Gradle 7.2
