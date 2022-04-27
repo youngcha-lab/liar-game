@@ -16,7 +16,8 @@ cd liar-game-app
 
 ## Run front
 ```
-npm clean install start
+npm install
+npm start
 ```
 
 ## Environment
