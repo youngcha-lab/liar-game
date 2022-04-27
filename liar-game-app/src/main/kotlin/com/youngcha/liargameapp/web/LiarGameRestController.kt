@@ -39,13 +39,13 @@ class RoomRestController(
     fun createRoom(
         form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
-    ): Map<String, String> {
+    ): RoomCodeResponse {
         val room = roomCreateProcessor.createRoom(form.nickname)
         httpServletResponse.addUserCodeCookie(
             userCode = room.leader.userCode,
             domain = cookieDomain
         )
-        return mapOf("roomCode" to room.roomCode.roomCode)
+        return RoomCodeResponse(roomCode = room.roomCode)
     }
 
     @GetMapping("/{room_code}")
@@ -73,7 +73,7 @@ class RoomRestController(
     }
 
     @PostMapping("/{room_code}/user/join")
-    fun joinRoom(
+    fun join(
         @PathVariable("room_code") roomCode: String,
         @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
@@ -90,7 +90,7 @@ class RoomRestController(
     }
 
     @DeleteMapping("/{room_code}/user/leave")
-    fun leaveRoom(
+    fun leave(
         @PathVariable("room_code") roomCode: String,
         @CookieValue(USER_CODE_COOKIE_NAME) userCode: String
     ): ResponseEntity<*> {
@@ -143,6 +143,8 @@ data class CreateUserForm(
 /**
  * Response
  */
+data class RoomCodeResponse(val roomCode: RoomCode)
+
 data class RoomResponse(val room: RoomPresentation)
 
 data class RoomPresentation(

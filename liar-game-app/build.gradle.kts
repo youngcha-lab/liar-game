@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.6.2"
+    id("org.springframework.boot") version "2.6.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
 }
@@ -18,17 +18,17 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.slf4j:slf4j-api:1.7.35")
-    implementation("ch.qos.logback:logback-core:1.2.10")
-    implementation("io.klogging:klogging-jvm:0.4.3")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:5.2.3")
-    testImplementation("ch.qos.logback:logback-classic:1.2.10")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.mockk:mockk:1.12.2")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    testImplementation("org.springframework:spring-test")
+    testImplementation("io.kotest:kotest-runner-junit5:4.6.4")
+    testImplementation("io.kotest:kotest-assertions-core:4.6.4")
+    testImplementation("io.kotest:kotest-property:4.6.4")
+    testImplementation("io.mockk:mockk:1.12.3")
 }
 
 tasks.withType<KotlinCompile> {
