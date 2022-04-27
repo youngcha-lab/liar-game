@@ -8,7 +8,7 @@ import io.kotest.matchers.string.shouldNotBeEmpty
 
 class RoomSpec : FunSpec({
 
-    test("방 생성") {
+    test("방을 생성할 수 있다.") {
         val leader = User(nickname = "leader")
 
         val created = Room(
@@ -22,7 +22,7 @@ class RoomSpec : FunSpec({
         created.users.size shouldBe 1
     }
 
-    test("방 참여") {
+    test("방에 참여할 수 있다.") {
         val leader = User(nickname = "leader")
         val room = Room(
             leader = leader,
@@ -35,7 +35,15 @@ class RoomSpec : FunSpec({
         joined.userRequired("participant").shouldNotBeNull()
     }
 
-    test("방 나가기") {
+    test("이미 참여한 방에는 또 참여할 수 없다.") {
+        // TODO: not implemented yet
+    }
+
+    test("이미 있는 닉네임으로 방에 참여할 수 없다.") {
+        // TODO: not implemented yet
+    }
+
+    test("방장은 방에서 나갈 수 있다.") {
         val leader = User(nickname = "leader")
         val participant = User(nickname = "participant")
         val room = Room(
@@ -53,8 +61,24 @@ class RoomSpec : FunSpec({
             left.userRequired(participant.userCode)
         }
     }
+    
+    test("참여자는 방에서 나갈 수 있다.") {
+        // TODO: not implemented yet 
+    }
 
-    test("게임 시작") {
+    test("방장이 방에서 나가면 방과 게임이 종료된다.") {
+        // TODO: not implemented yet 
+    }
+
+    test("참여자가 방에서 나가도 방과 게임이 유지된다.") {
+        // TODO: not implemented yet 
+    }
+
+    test("라이어 참여자가 방에서 나가면 라이어가 바뀐다.") {
+        // TODO: not implemented yet 
+    }
+
+    test("방장은 게임을 시작할 수 있다.") {
         val leader = User(nickname = "leader")
         val participant = User(nickname = "participant")
         val room = Room(
@@ -71,7 +95,11 @@ class RoomSpec : FunSpec({
         shouldThrow<IllegalArgumentException> { started.lastGameRequired() }
     }
 
-    test("게임 종료") {
+    test("참여자는 게임을 시작할 수 없다.") {
+        // TODO: not implemented yet 
+    }
+
+    test("방장은 게임을 종료할 수 있다.") {
         val leader = User(nickname = "leader")
         val participant = User(nickname = "participant")
         val room = Room(
@@ -89,7 +117,11 @@ class RoomSpec : FunSpec({
         shouldThrow<IllegalArgumentException> { ended.currentGameRequired() }
     }
 
-    test("게임 재시작") {
+    test("참여자는 게임을 종료할 수 없다.") {
+        // TODO: not implemented yet 
+    }
+
+    test("방장은 게임을 재시작 할 수 있다.") {
         val leader = User(nickname = "leader")
         val participant = User(nickname = "participant")
         val room = Room(
@@ -107,4 +139,5 @@ class RoomSpec : FunSpec({
         restarted.userRequired(userCode = restarted.currentGameRequired().liar.userCode)
         restarted.lastGameRequired() shouldBe ended.lastGameRequired()
     }
+
 })
