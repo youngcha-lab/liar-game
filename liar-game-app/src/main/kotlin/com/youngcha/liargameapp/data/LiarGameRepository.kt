@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 import java.util.concurrent.ConcurrentHashMap
 
 @Repository
-class RoomRepository {
+class LiarGameRepository {
 
     private val repository = ConcurrentHashMap<String, Room>()
 
