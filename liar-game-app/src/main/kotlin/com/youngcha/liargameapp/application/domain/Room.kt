@@ -3,7 +3,7 @@ package com.youngcha.liargameapp.application.domain
 import com.youngcha.liargameapp.application.UuidGenerator
 
 data class Room(
-    val roomCode: String = UuidGenerator.generate(),
+    val roomCode: RoomCode = RoomCode(UuidGenerator.generate()),
     val users: List<User> = emptyList(),
     val leader: User,
     val currentGame: Game? = null,
@@ -29,19 +29,64 @@ data class Room(
 
     private fun isInGame(): Boolean = currentGame != null
 
-    fun getUserCode(nickname: String): String =
-        this.users.single { it.nickname == nickname }.userCode
+    fun getUser(nickname: String): User =
+        this.users.single { it.nickname == nickname }
 
-    fun leave(userCode: String): Room =
+    fun getUser(userCode: UserCode): User =
+        this.users.single { it.userCode == userCode }
+
+    fun leave(userCode: UserCode): Room =
         this.copy(
             users = this.users.filter { it.userCode != userCode }
         )
+
+    fun startGame(): Room =
+        this.copy(
+            currentGame = Game(
+                keyword = "Food",
+                category = "Banana",
+                liar = this.users.random()
+            )
+        )
+
+    fun endGame(): Room =
+        this.copy(
+            lastGame = this.currentGame,
+            currentGame = emptyGame(),
+        )
+
+    private fun emptyGame() = null
+
+    fun getCurrentGameRequired(): Game =
+        if (this.currentGame == null)
+            throw IllegalArgumentException("empty current game")
+        else currentGame
+
+    fun getLastGameRequired(): Game =
+        if (this.lastGame == null)
+            throw IllegalArgumentException("empty last game")
+        else lastGame
 }
 
+@JvmInline
+value class RoomCode(
+    val roomCode: String,
+)
+
 data class User(
-    val userCode: String = UuidGenerator.generate(),
+    val userCode: UserCode = UserCode(UuidGenerator.generate()),
     val nickname: String
 )
+
+@JvmInline
+value class UserCode(
+    val userCode: String,
+) {
+    companion object {
+        fun ofNullable(userCode: String?): UserCode? =
+            userCode?.let { UserCode(userCode) }
+    }
+}
 
 data class Game(
     val keyword: String,

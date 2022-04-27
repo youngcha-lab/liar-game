@@ -1,11 +1,15 @@
 package com.youngcha.liargameapp.web
 
+import com.youngcha.liargameapp.application.GameStartProcessor
 import com.youngcha.liargameapp.application.RoomCreateProcessor
 import com.youngcha.liargameapp.application.RoomFinder
-import com.youngcha.liargameapp.application.RoomJoinProcessor
-import com.youngcha.liargameapp.application.RoomLeaveProcessor
+import com.youngcha.liargameapp.application.UserJoinProcessor
+import com.youngcha.liargameapp.application.UserLeaveProcessor
 import com.youngcha.liargameapp.application.domain.Game
+import com.youngcha.liargameapp.application.domain.GameEndProcessor
 import com.youngcha.liargameapp.application.domain.Room
+import com.youngcha.liargameapp.application.domain.RoomCode
+import com.youngcha.liargameapp.application.domain.UserCode
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CookieValue
@@ -24,8 +28,10 @@ import javax.servlet.http.HttpServletResponse
 class RoomRestController(
     val roomCreateProcessor: RoomCreateProcessor,
     val roomFindProcessor: RoomFinder,
-    val roomJoinProcessor: RoomJoinProcessor,
-    val roomLeaveProcessor: RoomLeaveProcessor,
+    val userJoinProcessor: UserJoinProcessor,
+    val userLeaveProcessor: UserLeaveProcessor,
+    val gameStartProcessor: GameStartProcessor,
+    val gameEndProcessor: GameEndProcessor,
     @Value("\${cookie.name.domain}") val cookieDomain: String,
 ) {
 
@@ -39,22 +45,22 @@ class RoomRestController(
             userCode = room.leader.userCode,
             domain = cookieDomain
         )
-        return mapOf("roomCode" to room.roomCode)
+        return mapOf("roomCode" to room.roomCode.roomCode)
     }
 
     @GetMapping("/{room_code}")
     fun findRoom(
         @PathVariable("room_code") roomCode: String,
-        @CookieValue("lguc") userCode: String?
+        @CookieValue(USER_CODE_COOKIE_NAME) userCode: String?
     ): RoomResponse {
-        val room = roomFindProcessor.findRoom(roomCode)
+        val room = roomFindProcessor.findRoom(RoomCode(roomCode))
         return RoomResponse(
             room = RoomPresentation(
                 roomCode = room.roomCode,
                 users = room.users.map { it.nickname },
                 currentUser = CurrentUserPresentation.of(
                     room = room,
-                    userCode = userCode
+                    userCode = UserCode.ofNullable(userCode)
                 ),
                 currentGame = CurrentGamePresentation.of(
                     currentGame = room.currentGame
@@ -66,33 +72,64 @@ class RoomRestController(
         )
     }
 
-    @PostMapping("/join/{room_code}")
+    @PostMapping("/{room_code}/user/join")
     fun joinRoom(
         @PathVariable("room_code") roomCode: String,
         @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
     ): ResponseEntity<*> {
-        val userCode = roomJoinProcessor.joinRoom(
-            roomCode = roomCode,
+        val user = userJoinProcessor.join(
+            roomCode = RoomCode(roomCode),
             nickname = form.nickname
         )
         httpServletResponse.addUserCodeCookie(
-            userCode = userCode,
+            userCode = user.userCode,
             domain = cookieDomain
         )
         return ResponseEntity.noContent().build<Unit>()
     }
 
-    @DeleteMapping("/leave/{room_code}")
+    @DeleteMapping("/{room_code}/user/leave")
     fun leaveRoom(
         @PathVariable("room_code") roomCode: String,
-        @CookieValue("lguc") userCode: String
+        @CookieValue(USER_CODE_COOKIE_NAME) userCode: String
     ): ResponseEntity<*> {
-        roomLeaveProcessor.leaveRoom(
-            roomCode = roomCode,
-            userCode = userCode
+        userLeaveProcessor.leave(
+            roomCode = RoomCode(roomCode),
+            userCode = UserCode(userCode)
         )
         return ResponseEntity.noContent().build<Unit>()
+    }
+
+    @PostMapping("/{room_code}/game/start")
+    fun startGame(
+        @PathVariable("room_code") roomCode: String,
+    ): CurrentGamePresentation {
+        val game = gameStartProcessor.startGame(
+            roomCode = RoomCode(roomCode)
+        )
+        return CurrentGamePresentation(
+            keyword = game.keyword,
+            category = game.category
+        )
+    }
+
+    @DeleteMapping("/{room_code}/game/end")
+    fun endGame(
+        @PathVariable("room_code") roomCode: String,
+    ): LastGamePresentation {
+        val game = gameEndProcessor.endGame(
+            roomCode = RoomCode(roomCode)
+        )
+        return LastGamePresentation(
+            keyword = game.keyword,
+            category = game.category,
+            liar = game.liar.nickname,
+        )
+    }
+
+    companion object {
+        const val USER_CODE_COOKIE_NAME = "lguc"
     }
 }
 
@@ -109,7 +146,7 @@ data class CreateUserForm(
 data class RoomResponse(val room: RoomPresentation)
 
 data class RoomPresentation(
-    val roomCode: String,
+    val roomCode: RoomCode,
     val users: List<String>,
     val currentUser: CurrentUserPresentation?,
     val currentGame: CurrentGamePresentation?,
@@ -122,7 +159,7 @@ data class CurrentUserPresentation(
     val isMember: Boolean,
 ) {
     companion object {
-        fun of(room: Room, userCode: String?): CurrentUserPresentation? =
+        fun of(room: Room, userCode: UserCode?): CurrentUserPresentation? =
             if (userCode != null) {
                 CurrentUserPresentation(
                     nickname = room.users
@@ -167,9 +204,9 @@ data class LastGamePresentation(
     }
 }
 
-fun HttpServletResponse.addUserCodeCookie(userCode: String, domain: String): Unit =
+fun HttpServletResponse.addUserCodeCookie(userCode: UserCode, domain: String): Unit =
     this.addCookie(
-        Cookie("lguc", userCode)
+        Cookie("lguc", userCode.userCode)
             .apply {
                 this.domain = domain
                 this.maxAge = 1 * 24 * 60 * 60 // 1일
