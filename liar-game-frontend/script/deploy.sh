@@ -5,6 +5,7 @@ cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
 # module install
 #/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm install   >>  /work/docker/error.txt
+mkdir /work/docker/mytest.txt
 nohup npm install  
 sleep 10
 
