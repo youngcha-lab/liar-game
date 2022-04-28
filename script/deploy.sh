@@ -7,4 +7,4 @@ sleep 10
 # frontend 배포
 cd /home/ec2-user/apps/liar-game/liar-game-frontend/script
 chmod 755 deploy.sh
-./deploy.sh >>/work/docker/alldebug.txt &
+sh -x deploy.sh >>/work/docker/alldebug.txt &
