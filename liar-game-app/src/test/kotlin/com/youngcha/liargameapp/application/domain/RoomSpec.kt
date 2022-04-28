@@ -61,7 +61,7 @@ class RoomSpec : FunSpec({
             left.userRequired(participant.userCode)
         }
     }
-    
+
     test("참여자는 방에서 나갈 수 있다.") {
         // TODO: not implemented yet 
     }
@@ -143,5 +143,4 @@ class RoomSpec : FunSpec({
         restarted.userRequired(userCode = restarted.currentGameRequired().liar.userCode)
         restarted.lastGameRequired() shouldBe ended.lastGameRequired()
     }
-
 })
