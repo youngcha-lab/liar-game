@@ -37,7 +37,7 @@ class RoomRestController(
 
     @PostMapping
     fun createRoom(
-        form: CreateUserForm,
+        @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
     ): RoomCodeResponse {
         val room = roomCreateProcessor.createRoom(form.nickname)

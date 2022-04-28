@@ -99,6 +99,10 @@ class RoomSpec : FunSpec({
         // TODO: not implemented yet 
     }
 
+    test("라이어는 라이어 전용 키워드를 본다.") {
+        // TODO: not implemented yet
+    }
+
     test("방장은 게임을 종료할 수 있다.") {
         val leader = User(nickname = "leader")
         val participant = User(nickname = "participant")
