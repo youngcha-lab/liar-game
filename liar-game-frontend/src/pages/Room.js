@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { Card, CardHeader } from "@mui/material";
-import { teal } from "@mui/material/colors";
-import { Cookies } from "react-cookie";
 import "../css/Room.css";
+import axios from "axios";
 
 function Room() {
   const [word, setWord] = useState("시작!");
@@ -12,33 +11,27 @@ function Room() {
   const location = useLocation();
   const navigate = useNavigate();
   let categoryTempl = "과일";
-  const host = "http://" + window.location.hostname + ":3000";
+  const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
-  const cookie = document.cookie.split(";");
-
-  const checkCookie = () => {
-    const cookie = new Cookies();
-    console.log("cookie = " + cookie.get("lguc"));
-    if (!cookie.get("lguc")) {
-      console.log("cookie is empty");
-      navigate("/enter/" + roomCode);
-    }
+  const checkUser = async () => {
+    const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    console.log(response);
   };
-
+  
   useEffect(() => {
-    checkCookie();
+    checkUser();
     //getCategory();
   }, [location]);
 
-  const randomColor = () => {
-    let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
-    return color;
-  };
+  // const randomColor = () => {
+  //   let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
+  //   return color;
+  // };
 
   const onLinkClick = () => {
-    const copyText = host + location.pathname;
+    const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
 
@@ -59,8 +52,15 @@ function Room() {
   return (
     <div className="room">
       <div className="nav">
-        <h1>플레이어 1 / 10</h1>
-        <Card sx={{ maxWidth: 345, bgcolor: teal[500], color: "white" }}>
+      <div className="tooltip">
+        <br></br>
+        <div className="tooltiptext" id="myTooltip">
+          Copy to clipboard
+        </div>        
+        <div><button className="invitation" onClick={onLinkClick}>초대하기</button></div>    
+      </div>        
+        <h4>플레이어 1 / 10</h4>
+        <Card sx={{ maxWidth: 345, bgcolor: "#C4C4C4", color: "black" }}>
           <CardHeader
             avatar={<Avatar aria-label="recipe"></Avatar>}
             title="김승욱"
@@ -68,22 +68,12 @@ function Room() {
         </Card>
 
         <div className="exit_button">
-          <Link to={"/"}>
+          <Link to={"/Home"}>
             <button>나가기</button>
           </Link>
         </div>
       </div>
       <div className="section">
-        <div className="link_button">
-          <div className="tooltip">
-            <div className="tooltiptext" id="myTooltip">
-              Copy to clipboard
-            </div>
-            <br></br>
-            <button onClick={onLinkClick}>링크복사</button>
-          </div>
-        </div>
-
         <div
           className="circle"
           onClick={onCircleClick}
