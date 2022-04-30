@@ -10,8 +10,7 @@ function Room() {
   const [category, setCategory] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  let categoryTempl = "인물";
-  const host = "http://" + window.location.hostname;
+   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
@@ -39,15 +38,25 @@ function Room() {
     tooltip.innerHTML = "Copied!";
   };
 
-  const onCircleClick = () => {
-    setWord("시작!");
-    setCategory("");
+  const onCircleClick = async () => {
+    try {
+      const response = await axios.post(
+        host + `:8080/api/v1/room/${roomCode}/game/start`        
+      );
+      console.log(response);
+      setWord(response.data.keyword);
+      setCategory(response.data.category);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+    return null;
   };
 
-  const onMouseDown = () => {
-    setWord("사과");
-    setCategory("카테고리: " + categoryTempl);
-  };
+  // const onMouseDown = () => {
+  //   setWord("사과");
+  //   setCategory("카테고리: " + categoryTempl);
+  // };
 
   return (
     <div className="main">
@@ -78,11 +87,7 @@ function Room() {
         </div>
       </div>
       <div className="contents">
-        <div
-          className="circleContainer"
-          onClick={onCircleClick}
-          onMouseDown={onMouseDown}
-        >
+        <div className="circleContainer" onClick={onCircleClick}>
           {word}          
         </div>
         <div className="category">{category}</div>
