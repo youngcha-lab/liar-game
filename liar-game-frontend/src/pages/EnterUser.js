@@ -14,7 +14,7 @@ function EnterUser() {
 
   const submit = async () => {
     if (isValidName(nickName)) {
-      const etnerStatus = await enterRoom(roomCode);
+      const etnerStatus = await enterRoom();
       console.log("enterRoom result = " + etnerStatus);
       navigate("/room/" + roomCode);
     } else {
@@ -22,10 +22,10 @@ function EnterUser() {
     }
   };
 
-  const enterRoom = async (roomCode) => {
+  const enterRoom = async () => {
     try {
       const response = await axios.post(
-        host + `/api/v1/room/join/${roomCode}`,
+        host + `/api/v1/room/${roomCode}/user/join`,
         {
           nickname: nickName,
         }
