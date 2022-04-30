@@ -4,12 +4,12 @@ cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
 # module install
 #/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm install   >>  /work/docker/error.txt
-/root/.nvm/versions/node/v17.9.0/bin/npm install & 
+/root/.nvm/versions/node/v17.9.0/bin/npm install 
 sleep 10
 
 # build
 #/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm run build
-/root/.nvm/versions/node/v17.9.0/bin/npm run build &
+/root/.nvm/versions/node/v17.9.0/bin/npm run build
 sleep 10
 
 # find pid application
@@ -30,5 +30,5 @@ echo "new application process start"   >>  /work/docker/debug.txt
 
 # react 배포 
 #/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm start &
-/root/.nvm/versions/node/v17.9.0/bin/npm start &
+/root/.nvm/versions/node/v17.9.0/bin/npm start
 echo "react배포완료테스트" >>  /work/docker/debug.txt
