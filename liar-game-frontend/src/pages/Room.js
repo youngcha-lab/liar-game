@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { Card, CardHeader } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import { Cookies } from "react-cookie";
 import "../css/Room.css";
 import axios from "axios";
 
@@ -18,16 +17,11 @@ function Room() {
   const roomCode = url[url.length - 1];
 
   const checkUser = async () => {
-    const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
     console.log(response);
-  };
-  const checkCookie = () => {
-    const cookie = new Cookies();
-    console.log("cookie = " + cookie.get("lguc"));
-    if (!cookie.get("lguc")) {
-      console.log("cookie is empty");
-      navigate("/enter/" + roomCode);
-    }
+    // if (!response.data.room.currentUser.isLeader) {
+    //   navigate("/enter/" + roomCode);
+    // }
   };
 
   useEffect(() => {
