@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { Card, CardHeader } from "@mui/material";
-import { teal } from "@mui/material/colors";
-import { Cookies } from "react-cookie";
 import "../css/Room.css";
 import axios from "axios";
 
@@ -18,30 +16,19 @@ function Room() {
   const roomCode = url[url.length - 1];
 
   const checkUser = async () => {
-    console.log("@@roomcode: " + roomCode);
     const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
-    //const response = await axios.get("http://localhost:8080/api/v1/room/8e9bd0e2aa");
-    //http://localhost:8080/api/v1/room/8e9bd0e2aa
     console.log(response);
   };
-  const checkCookie = () => {
-    const cookie = new Cookies();
-    console.log("cookie = " + cookie.get("lguc"));
-    if (!cookie.get("lguc")) {
-      console.log("cookie is empty");
-      navigate("/enter/" + roomCode);
-    }
-  };
-
+  
   useEffect(() => {
     checkUser();
     //getCategory();
   }, [location]);
 
-  const randomColor = () => {
-    let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
-    return color;
-  };
+  // const randomColor = () => {
+  //   let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
+  //   return color;
+  // };
 
   const onLinkClick = () => {
     const copyText = host + ":3000" + location.pathname;

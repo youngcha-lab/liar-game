@@ -4,6 +4,9 @@ import EnterLeader from "./pages/EnterLeader";
 import EnterUser from "./pages/EnterUser";
 import Room from "./pages/Room";
 import Home from "./pages/Home";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
