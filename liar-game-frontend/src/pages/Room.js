@@ -19,8 +19,8 @@ function Room() {
 
   const checkUser = async () => {
     console.log("@@roomcode: " + roomCode);
-    //const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
-    const response = await axios.get("http://localhost:8080/api/v1/room/8e9bd0e2aa");
+    const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    //const response = await axios.get("http://localhost:8080/api/v1/room/8e9bd0e2aa");
     //http://localhost:8080/api/v1/room/8e9bd0e2aa
     console.log(response);
   };
