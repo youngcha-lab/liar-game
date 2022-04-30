@@ -17,10 +17,11 @@ function Room() {
 
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-    console.log(response);
-    // if (!response.data.room.currentUser.isLeader) {
-    //   navigate("/enter/" + roomCode);
-    // }
+    const currentUser = response.data.room.currentUser;
+    if (!currentUser || !currentUser.isMember) {
+      console.log("current user is not valid");
+      navigate("/enter/" + roomCode);
+    }
   };
 
   useEffect(() => {
