@@ -13,79 +13,38 @@
 }
 
 .contents {
-    /* Contents */
-    position: static;
-    /* width: 1094px; */
     height: 100%;
-    left: 350px;
-    top: 0px;
-
     /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 0px 0px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebar {
    /* SideBar */
-    position: static;
-    width: 350px;
-    height: 100%;
-    left: 0px;
-    top: 0px;
-
-    background: rgba(0, 0, 0, 0.2);
-    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.25);
+    width: 300px;
+    height: calc(100% - 85px);;
+    display: flex;
+    flex-direction: column;
+    padding: 53px 25px 22px 25px;
+    
 
     /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 0px 0px;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.25);
 }
 
 .circleContainer {
-    /* Component 2 */
-    /* position: absolute; */
-    /* left: 50%; */
-    /* right: 35.37%; */
-    /* top: 34.38%; */
-    /* bottom: 34.38%; */
-
     filter: drop-shadow(8px 7px 6px rgba(0, 0, 0, 0.25));    
-    /* transform: translateX(-50%); */
     background: #000000;
-    display: inline-block;
-    margin: 0 auto;
-
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 56px;
-    border-radius:25px;
-
-    color: #FFFFFF;
-}
-
-.circleImage{
-    /* Ellipse 2 */
-    position: absolute;
     width: 320px;
-    height: 320.62px;
-    left: calc(50% - 320px/2);
-    top: calc(50% - 320.62px/2 + 0.31px);
-
-    background: #000000;
-
-    /* Start! */
-    position: absolute;
-    width: 128px;
-    height: 56px;
-    left: calc(50% - 128px/2);
-    top: calc(50% - 56px/2);
-
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 50%;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 700;
@@ -95,14 +54,66 @@
     color: #FFFFFF;
 }
 
-.players {
-    font-size: 25px;
+.playerNumber {
+    margin-top: 35px;
+    height: 28px;
+
+    /* font desc */
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 24px;
+    color: #666666;
+}
+
+.playerContainer {
+    margin-top: 16px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    flex-grow: 1;
+    overflow-y: scroll;
+    scrollbar-color: none;
+    background: none;
+    scrollbar-color: #7BF98F;
+
+    /* font desc */
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+}
+
+.playerItem {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.playerThumbnail {
+    height: 64px;
+    width: 64px;
+    border: 4px solid #FFFFFF;
+    border-radius: 50%;
+    background: #7BF98F;
 }
 
 .exit_button {
-    padding-left: 20px;
-    line-height: 900px;
-    width: 100px;
+    flex: none;
+    height: 58px;
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    color: #FFFFFF;
+    /* identical to box height */
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #676767;
+    border-radius: 4px;
 }
   
 .exit_button button {
@@ -190,53 +201,19 @@
     margin-top: 5%;
 }
 
-.invitation {
+.inviteButton {
     /* 방 생성하기 */
-
-
-    position: static;
-    width: 282px;
-    height: 38px;
-    left: 0px;
-    top: 10px;
-
+    flex: none;
+    height: 58px;
     font-family: 'Roboto';
-    font-style: normal;
     font-weight: 700;
     font-size: 32px;
     line-height: 38px;
-    /* identical to box height */
-
-    text-align: center;
-
     color: #FFFFFF;
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 0px 10px;
-    
-    /* Auto layout */
+    /* identical to box height */
+    align-items: center;
+    justify-content: center;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 10px 0px;
-
-    position: static;
-    width: 300px;
-    height: 58px;
-    right: 0px;
-    top: 0px;
-
-    background: #00A3FF;
+    background-color: #00A3FF;
     border-radius: 4px;
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 32px 0px;
 }

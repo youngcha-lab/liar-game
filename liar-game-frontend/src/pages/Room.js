@@ -6,29 +6,40 @@ import "../css/Room.css";
 import axios from "axios";
 
 function Room() {
-  const [word, setWord] = useState("Start!");
+  const [word, setWord] = useState("");
   const [category, setCategory] = useState("");
+  const [users, setUsers] = useState("");
+  const [userCnt, setUserCnt] = useState(1);
+
   const location = useLocation();
   const navigate = useNavigate();
-   const host = "http://" + window.location.hostname;
+  
+  const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
-
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-    console.log(response);    
+    console.log(response);
+
+    setUsers(response.data.room.users);
+    setUserCnt(response.data.room.users.length);    
+    const currentUser = response.data.room.currentUser;
+    if (!currentUser || !currentUser.isMember) {
+       console.log("current user is not valid");
+       navigate("/enter/" + roomCode);
+    }
   };
+
+  // useEffect(() => {
+  //   checkUser();    
+  // }, [location]);
 
   useEffect(() => {
     const loop = setInterval(()=> {
       checkUser();      
     }, 10000);         
   }, []);
-
-  // useEffect(() => {
-  //   checkUser();    
-  // }, [location]);
 
   // const randomColor = () => {
   //   let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
@@ -39,16 +50,17 @@ function Room() {
     const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
-
-    const tooltip = document.getElementById("myTooltip");
-    tooltip.innerHTML = "Copied!";
+    alert("Copied");
+    //const tooltip = document.getElementById("myTooltip");
+    // tooltip.innerHTML = "Copied!";
   };
 
   const onCircleClick = async () => {
     try {
       const response = await axios.post(
-        host + `:8080/api/v1/room/${roomCode}/game/start`        
-      );      
+        host + `:8080/api/v1/room/${roomCode}/game/start`
+      );
+      console.log(response);
       setWord(response.data.keyword);
       setCategory(response.data.category);
       return response;
@@ -61,34 +73,48 @@ function Room() {
     <div className="main">
       <div className="sidebar">
         <div className="tooltip">
-          <br></br>
+          {/* <br></br>
           <div className="tooltiptext" id="myTooltip">
             Copy to clipboard
-          </div>
+          </div> */}
           <div>
-            <button className="invitation" onClick={onLinkClick}>
+            <div className="inviteButton" onClick={onLinkClick}>
               초대하기
-            </button>
+            </div>
           </div>
         </div>
-        <h4>플레이어 1 / 10</h4>
-        <Card sx={{ maxWidth: 345, bgcolor: "#C4C4C4", color: "black" }}>
-          <CardHeader
-            avatar={<Avatar aria-label="recipe"></Avatar>}
-            title="김승욱"
-          />
-        </Card>
+        <div className="playerNumber">플레이어 {userCnt} / 10</div>
+        <div className="playerContainer">
+          <div className="playerItem">
+            <div className="playerThumbnail"></div>
+            김승욱
+          </div>
+        </div>
+        {/* <Card sx={{ maxWidth: 345, bgcolor: "#C4C4C4", color: "black" }}>
+            <CardHeader
+              avatar={<Avatar aria-label="recipe"></Avatar>}
+              title="김승욱"
+            />
+        </Card> */}
+        {/* {users.map((user) => (
+          <Card sx={{ maxWidth: 345, bgcolor: "#C4C4C4", color: "black" }}>
+            <CardHeader
+              avatar={<Avatar aria-label="recipe"></Avatar>}
+              key={user}
+              title={user}
+            />
+          </Card>
+        ))}   */}
         <div className="exit_button">
           <Link to={"/Home"}>
-            <button>나가기</button>
+            나가기
           </Link>
         </div>
       </div>
       <div className="contents">
         <div className="circleContainer" onClick={onCircleClick}>
-          {word}          
-        </div>
-        <div className="category">{category}</div>
+          Start!
+        </div>        
       </div>
     </div>
   );
