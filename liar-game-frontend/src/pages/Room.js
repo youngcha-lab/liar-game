@@ -10,17 +10,14 @@ function Room() {
   const [category, setCategory] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  let categoryTempl = "과일";
+  let categoryTempl = "인물";
   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-    console.log(response);
-    // if (!response.data.room.currentUser.isLeader) {
-    //   navigate("/enter/" + roomCode);
-    // }
+    console.log(response);    
   };
 
   useEffect(() => {
