@@ -18,7 +18,10 @@ function Room() {
   const roomCode = url[url.length - 1];
 
   const checkUser = async () => {
-    const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    console.log("@@roomcode: " + roomCode);
+    //const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    const response = await axios.get("http://localhost:8080/api/v1/room/8e9bd0e2aa");
+    //http://localhost:8080/api/v1/room/8e9bd0e2aa
     console.log(response);
   };
   const checkCookie = () => {
@@ -62,8 +65,15 @@ function Room() {
   return (
     <div className="room">
       <div className="nav">
-        <h1>플레이어 1 / 10</h1>
-        <Card sx={{ maxWidth: 345, bgcolor: teal[500], color: "white" }}>
+      <div className="tooltip">
+        <br></br>
+        <div className="tooltiptext" id="myTooltip">
+          Copy to clipboard
+        </div>        
+        <div><button className="invitation" onClick={onLinkClick}>초대하기</button></div>    
+      </div>        
+        <h4>플레이어 1 / 10</h4>
+        <Card sx={{ maxWidth: 345, bgcolor: "#C4C4C4", color: "black" }}>
           <CardHeader
             avatar={<Avatar aria-label="recipe"></Avatar>}
             title="김승욱"
@@ -77,16 +87,6 @@ function Room() {
         </div>
       </div>
       <div className="section">
-        <div className="link_button">
-          <div className="tooltip">
-            <div className="tooltiptext" id="myTooltip">
-              Copy to clipboard
-            </div>
-            <br></br>
-            <button onClick={onLinkClick}>링크복사</button>
-          </div>
-        </div>
-
         <div
           className="circle"
           onClick={onCircleClick}
