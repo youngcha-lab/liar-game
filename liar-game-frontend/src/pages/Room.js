@@ -6,7 +6,7 @@ import "../css/Room.css";
 import axios from "axios";
 
 function Room() {
-  const [word, setWord] = useState("시작!");
+  const [word, setWord] = useState("Start!");
   const [category, setCategory] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -50,8 +50,8 @@ function Room() {
   };
 
   return (
-    <div className="room">
-      <div className="nav">
+    <div className="main">
+      <div className="sidebar">
         <div className="tooltip">
           <br></br>
           <div className="tooltiptext" id="myTooltip">
@@ -77,13 +77,13 @@ function Room() {
           </Link>
         </div>
       </div>
-      <div className="section">
+      <div className="contents">
         <div
-          className="circle"
+          className="circleContainer"
           onClick={onCircleClick}
           onMouseDown={onMouseDown}
         >
-          {word}
+          {word}          
         </div>
         <div className="category">{category}</div>
       </div>
