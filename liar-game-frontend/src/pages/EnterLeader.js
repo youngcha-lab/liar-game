@@ -20,7 +20,7 @@ function EnterLeader() {
 
   const createNewRoom = async () => {
     try {
-      const response = await axios.post(host + `/api/v1/room`, {
+      const response = await axios.post(host + "/api/v1/room", {
         nickname: nickName,
       });
       return response.data.roomCode;
