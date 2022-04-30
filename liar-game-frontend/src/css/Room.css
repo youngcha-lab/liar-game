@@ -1,10 +1,98 @@
-.room {
-    padding: 1px;
-    height: 100vh;
-  }
+.main {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
 
-.side {
-    background-color: darkgray;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: -1px;
+    top: 0px;
+}
+
+.contents {
+    /* Contents */
+    position: static;
+    /* width: 1094px; */
+    height: 100%;
+    left: 350px;
+    top: 0px;
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    margin: 0px 0px;
+}
+
+.sidebar {
+   /* SideBar */
+    position: static;
+    width: 350px;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.25);
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 0px;
+}
+
+.circleContainer {
+    /* Component 2 */
+    /* position: absolute; */
+    /* left: 50%; */
+    /* right: 35.37%; */
+    /* top: 34.38%; */
+    /* bottom: 34.38%; */
+
+    filter: drop-shadow(8px 7px 6px rgba(0, 0, 0, 0.25));    
+    /* transform: translateX(-50%); */
+    background: #000000;
+    display: inline-block;
+    margin: 0 auto;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 56px;
+    border-radius:25px;
+
+    color: #FFFFFF;
+}
+
+.circleImage{
+    /* Ellipse 2 */
+    position: absolute;
+    width: 320px;
+    height: 320.62px;
+    left: calc(50% - 320px/2);
+    top: calc(50% - 320.62px/2 + 0.31px);
+
+    background: #000000;
+
+    /* Start! */
+    position: absolute;
+    width: 128px;
+    height: 56px;
+    left: calc(50% - 128px/2);
+    top: calc(50% - 56px/2);
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 56px;
+
+    color: #FFFFFF;
 }
 
 .players {
@@ -94,17 +182,6 @@
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-}
-
-.circle {
-    /* Ellipse 2 */
-    position: absolute;
-    width: 320px;
-    height: 320.62px;
-    left: calc(50% - 320px/2);
-    top: calc(50% - 320.62px/2 + 0.31px);
-    
-    background: #000000;
 }
 
 .category {

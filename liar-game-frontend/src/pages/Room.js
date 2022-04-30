@@ -6,11 +6,10 @@ import "../css/Room.css";
 import axios from "axios";
 
 function Room() {
-  const [word, setWord] = useState("시작!");
+  const [word, setWord] = useState("Start!");
   const [category, setCategory] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  let categoryTempl = "과일";
   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
@@ -43,19 +42,29 @@ function Room() {
     tooltip.innerHTML = "Copied!";
   };
 
-  const onCircleClick = () => {
-    setWord("시작!");
-    setCategory("");
+  const onCircleClick = async () => {
+    try {
+      const response = await axios.post(
+        host + `:8080/api/v1/room/${roomCode}/game/start`
+      );
+      console.log(response);
+      setWord(response.data.keyword);
+      setCategory(response.data.category);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+    return null;
   };
 
-  const onMouseDown = () => {
-    setWord("사과");
-    setCategory("카테고리: " + categoryTempl);
-  };
+  // const onMouseDown = () => {
+  //   setWord("사과");
+  //   setCategory("카테고리: " + categoryTempl);
+  // };
 
   return (
-    <div className="room">
-      <div className="nav">
+    <div className="main">
+      <div className="sidebar">
         <div className="tooltip">
           <br></br>
           <div className="tooltiptext" id="myTooltip">
@@ -81,12 +90,8 @@ function Room() {
           </Link>
         </div>
       </div>
-      <div className="section">
-        <div
-          className="circle"
-          onClick={onCircleClick}
-          onMouseDown={onMouseDown}
-        >
+      <div className="contents">
+        <div className="circleContainer" onClick={onCircleClick}>
           {word}
         </div>
         <div className="category">{category}</div>
