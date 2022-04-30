@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/Enter.css";
+import imgAresene from "../img/Arsene.png";
 
 function EnterLeader() {
   const [nickName, setNickName] = useState("");
@@ -19,33 +20,15 @@ function EnterLeader() {
 
   const createNewRoom = async () => {
     try {
-      const response = await axios.post(
-        host + "/api/v1/room",
-        {
-          "nickname": nickName,
-        }
-      );
+      const response = await axios.post(host + "/api/v1/room", {
+        nickname: nickName,
+      });
       return response.data.roomCode;
     } catch (e) {
       console.log(e);
     }
     return null;
   };
-
-  // const createUserCode = async (roomCode) => {
-  //   try {
-  //     const response = await axios.post(
-  //       host + `/api/v1/room/${roomCode}/user`,
-  //       {
-  //         nickname: nickName,
-  //       }
-  //     );
-  //     return response.status;
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  //   return -1;
-  // };
 
   const isValidName = (name) => {
     if (!name) {
@@ -58,14 +41,15 @@ function EnterLeader() {
   const onChange = (event) => setNickName(event.target.value);
 
   return (
-    <div className="Container">
+    <div className="Enter_container">
       <div className="Enter_main">
         <div className="Enter_header">
+          <img src={imgAresene} alt="Arsene" />
           <h1>LIAR GAME</h1>
         </div>
         <div className="Enter_body">
+          <label htmlFor="userName">닉네임</label>
           <div className="Enter_input">
-            <label htmlFor="userName">닉네임</label>
             <input
               id="userName"
               type="text"

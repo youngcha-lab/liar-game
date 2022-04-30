@@ -16,10 +16,13 @@ function Room() {
   const roomCode = url[url.length - 1];
 
   const checkUser = async () => {
-    const response = await axios.get(host + ":8080/api/v1/room/" + roomCode);
+    const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
     console.log(response);
+    // if (!response.data.room.currentUser.isLeader) {
+    //   navigate("/enter/" + roomCode);
+    // }
   };
-  
+
   useEffect(() => {
     checkUser();
     //getCategory();
@@ -52,13 +55,17 @@ function Room() {
   return (
     <div className="room">
       <div className="nav">
-      <div className="tooltip">
-        <br></br>
-        <div className="tooltiptext" id="myTooltip">
-          Copy to clipboard
-        </div>        
-        <div><button className="invitation" onClick={onLinkClick}>초대하기</button></div>    
-      </div>        
+        <div className="tooltip">
+          <br></br>
+          <div className="tooltiptext" id="myTooltip">
+            Copy to clipboard
+          </div>
+          <div>
+            <button className="invitation" onClick={onLinkClick}>
+              초대하기
+            </button>
+          </div>
+        </div>
         <h4>플레이어 1 / 10</h4>
         <Card sx={{ maxWidth: 345, bgcolor: "#C4C4C4", color: "black" }}>
           <CardHeader
