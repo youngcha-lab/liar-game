@@ -6,27 +6,29 @@ import "../css/Room.css";
 import axios from "axios";
 
 function Room() {
-  const [word, setWord] = useState("시작!");
+  const [word, setWord] = useState("Start!");
   const [category, setCategory] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  let categoryTempl = "과일";
-  const host = "http://" + window.location.hostname;
+   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
+
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-    console.log(response);
-    // if (!response.data.room.currentUser.isLeader) {
-    //   navigate("/enter/" + roomCode);
-    // }
+    console.log(response);    
   };
 
   useEffect(() => {
-    checkUser();
-    //getCategory();
-  }, [location]);
+    const loop = setInterval(()=> {
+      checkUser();      
+    }, 10000);         
+  }, []);
+
+  // useEffect(() => {
+  //   checkUser();    
+  // }, [location]);
 
   // const randomColor = () => {
   //   let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
@@ -42,19 +44,22 @@ function Room() {
     tooltip.innerHTML = "Copied!";
   };
 
-  const onCircleClick = () => {
-    setWord("시작!");
-    setCategory("");
+  const onCircleClick = async () => {
+    try {
+      const response = await axios.post(
+        host + `:8080/api/v1/room/${roomCode}/game/start`        
+      );      
+      setWord(response.data.keyword);
+      setCategory(response.data.category);
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+    return null;
   };
-
-  const onMouseDown = () => {
-    setWord("사과");
-    setCategory("카테고리: " + categoryTempl);
-  };
-
   return (
-    <div className="room">
-      <div className="nav">
+    <div className="main">
+      <div className="sidebar">
         <div className="tooltip">
           <br></br>
           <div className="tooltiptext" id="myTooltip">
@@ -73,20 +78,15 @@ function Room() {
             title="김승욱"
           />
         </Card>
-
         <div className="exit_button">
           <Link to={"/Home"}>
             <button>나가기</button>
           </Link>
         </div>
       </div>
-      <div className="section">
-        <div
-          className="circle"
-          onClick={onCircleClick}
-          onMouseDown={onMouseDown}
-        >
-          {word}
+      <div className="contents">
+        <div className="circleContainer" onClick={onCircleClick}>
+          {word}          
         </div>
         <div className="category">{category}</div>
       </div>
