@@ -25,5 +25,6 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
                 HttpMethod.GET.name,
                 HttpMethod.DELETE.name,
             )
+            .allowCredentials(true)
     }
 }
