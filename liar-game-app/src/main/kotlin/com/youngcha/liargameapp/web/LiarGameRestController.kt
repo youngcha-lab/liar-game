@@ -40,6 +40,7 @@ class RoomRestController(
         @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
     ): RoomCodeResponse {
+        println( "createRoom form: $form" )
         val room = roomCreateProcessor.createRoom(form.nickname)
         httpServletResponse.addUserCodeCookie(
             userCode = room.leader.userCode,
@@ -53,6 +54,7 @@ class RoomRestController(
         @PathVariable("room_code") roomCode: String,
         @CookieValue(USER_CODE_COOKIE_NAME) userCode: String?
     ): RoomResponse {
+        println( "findRoom roomCode: $roomCode, userCode: $userCode" )
         val room = roomFindProcessor.findRoom(RoomCode(roomCode))
         return RoomResponse(
             room = RoomPresentation(
@@ -78,6 +80,7 @@ class RoomRestController(
         @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
     ): ResponseEntity<*> {
+        println( "join roomCode: $roomCode, form: $form" )
         val user = userJoinProcessor.join(
             roomCode = RoomCode(roomCode),
             nickname = form.nickname
@@ -105,6 +108,7 @@ class RoomRestController(
     fun startGame(
         @PathVariable("room_code") roomCode: String,
     ): CurrentGamePresentation {
+        println( "startGame roomCode: $roomCode" )
         val game = gameStartProcessor.startGame(
             roomCode = RoomCode(roomCode)
         )
@@ -118,6 +122,7 @@ class RoomRestController(
     fun endGame(
         @PathVariable("room_code") roomCode: String,
     ): LastGamePresentation {
+        println( "endGame roomCode: $roomCode" )
         val game = gameEndProcessor.endGame(
             roomCode = RoomCode(roomCode)
         )
@@ -212,5 +217,6 @@ fun HttpServletResponse.addUserCodeCookie(userCode: UserCode, domain: String): U
             .apply {
                 this.domain = domain
                 this.maxAge = 1 * 24 * 60 * 60 // 1일
+                this.path = "/api/v1/room"
             }
     )
