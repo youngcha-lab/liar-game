@@ -217,5 +217,6 @@ fun HttpServletResponse.addUserCodeCookie(userCode: UserCode, domain: String): U
             .apply {
                 this.domain = domain
                 this.maxAge = 1 * 24 * 60 * 60 // 1일
+                this.path = "/api/v1/room"
             }
     )
