@@ -1,25 +1,10 @@
 package com.youngcha.liargameapp.web
 
-import com.youngcha.liargameapp.application.GameStartProcessor
-import com.youngcha.liargameapp.application.RoomCreateProcessor
-import com.youngcha.liargameapp.application.RoomFinder
-import com.youngcha.liargameapp.application.UserJoinProcessor
-import com.youngcha.liargameapp.application.UserLeaveProcessor
-import com.youngcha.liargameapp.application.domain.Game
-import com.youngcha.liargameapp.application.domain.GameEndProcessor
-import com.youngcha.liargameapp.application.domain.Room
-import com.youngcha.liargameapp.application.domain.RoomCode
-import com.youngcha.liargameapp.application.domain.UserCode
+import com.youngcha.liargameapp.application.*
+import com.youngcha.liargameapp.application.domain.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CookieValue
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
@@ -59,6 +44,7 @@ class RoomRestController(
         return RoomResponse(
             room = RoomPresentation(
                 roomCode = room.roomCode,
+                leader = room.leader.nickname,
                 users = room.users.map { it.nickname },
                 currentUser = CurrentUserPresentation.of(
                     room = room,
@@ -154,6 +140,7 @@ data class RoomResponse(val room: RoomPresentation)
 
 data class RoomPresentation(
     val roomCode: RoomCode,
+    val leader: String,
     val users: List<String>,
     val currentUser: CurrentUserPresentation?,
     val currentGame: CurrentGamePresentation?,
