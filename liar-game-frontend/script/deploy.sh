@@ -1,5 +1,7 @@
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
+echo "debug test" >> /work/mydebug.txt
+
 # module install
 /usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm install 
 sleep 10
