@@ -40,7 +40,7 @@ class RoomRestController(
         @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
     ): RoomCodeResponse {
-        println( "createRoom form: $form" )
+        println("createRoom form: $form")
         val room = roomCreateProcessor.createRoom(form.nickname)
         httpServletResponse.addUserCodeCookie(
             userCode = room.leader.userCode,
@@ -54,11 +54,12 @@ class RoomRestController(
         @PathVariable("room_code") roomCode: String,
         @CookieValue(USER_CODE_COOKIE_NAME) userCode: String?
     ): RoomResponse {
-        println( "findRoom roomCode: $roomCode, userCode: $userCode" )
+        println("findRoom roomCode: $roomCode, userCode: $userCode")
         val room = roomFindProcessor.findRoom(RoomCode(roomCode))
         return RoomResponse(
             room = RoomPresentation(
                 roomCode = room.roomCode,
+                leader = room.leader.nickname,
                 users = room.users.map { it.nickname },
                 currentUser = CurrentUserPresentation.of(
                     room = room,
@@ -80,7 +81,7 @@ class RoomRestController(
         @RequestBody form: CreateUserForm,
         httpServletResponse: HttpServletResponse,
     ): ResponseEntity<*> {
-        println( "join roomCode: $roomCode, form: $form" )
+        println("join roomCode: $roomCode, form: $form")
         val user = userJoinProcessor.join(
             roomCode = RoomCode(roomCode),
             nickname = form.nickname
@@ -108,7 +109,7 @@ class RoomRestController(
     fun startGame(
         @PathVariable("room_code") roomCode: String,
     ): CurrentGamePresentation {
-        println( "startGame roomCode: $roomCode" )
+        println("startGame roomCode: $roomCode")
         val game = gameStartProcessor.startGame(
             roomCode = RoomCode(roomCode)
         )
@@ -122,7 +123,7 @@ class RoomRestController(
     fun endGame(
         @PathVariable("room_code") roomCode: String,
     ): LastGamePresentation {
-        println( "endGame roomCode: $roomCode" )
+        println("endGame roomCode: $roomCode")
         val game = gameEndProcessor.endGame(
             roomCode = RoomCode(roomCode)
         )
@@ -154,6 +155,7 @@ data class RoomResponse(val room: RoomPresentation)
 
 data class RoomPresentation(
     val roomCode: RoomCode,
+    val leader: String,
     val users: List<String>,
     val currentUser: CurrentUserPresentation?,
     val currentGame: CurrentGamePresentation?,
