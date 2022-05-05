@@ -23,12 +23,13 @@ function Room() {
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
     console.log(response.data.room.currentUser);
-    setIsLeader(response.data.room.currentUser.isLeader);
-    setIsGamestarted(response.data.room.currentGame);
     const currentUser = response.data.room.currentUser;
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
+    } else {
+      setIsLeader(response.data.room.currentUser.isLeader);
+      setIsGamestarted(response.data.room.currentGame);
     }
   };
 
