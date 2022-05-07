@@ -1,6 +1,6 @@
+#!/bin/bash
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
-
-echo "debug test" >> /work/mydebug.txt
+export PATH=$PATH
 
 # module install
 /usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm install 
