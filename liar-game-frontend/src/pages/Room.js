@@ -7,8 +7,8 @@ import axios from "axios";
 import imgAresene from "../img/Arsene.png";
 
 function Room() {
-  const [word, setWord] = useState("바나나");
-  const [category, setCategory] = useState("과일");
+  const [word, setWord] = useState("");
+  const [category, setCategory] = useState("");
   const [users, setUsers] = useState("");
   const [userCnt, setUserCnt] = useState(1);
   const [isGameStarted, setIsGamestarted] = useState(null);
