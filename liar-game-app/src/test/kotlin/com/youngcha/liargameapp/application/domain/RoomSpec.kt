@@ -144,7 +144,6 @@ class RoomSpec : FunSpec({
         restarted.lastGameRequired() shouldBe ended.lastGameRequired()
     }
 
-
     test("시작된 게임은 키워드와 카테고리가 정해진다.") {
         arrayOf(
             "keyword" to "category",
