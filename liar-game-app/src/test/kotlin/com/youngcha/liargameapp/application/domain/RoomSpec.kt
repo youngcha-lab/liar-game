@@ -86,7 +86,7 @@ class RoomSpec : FunSpec({
             users = listOf(leader, participant),
         )
 
-        val started = room.startGame()
+        val started = room.startGame("keyword", "category")
 
         started.currentGameRequired().category.shouldNotBeEmpty()
         started.currentGameRequired().keyword.shouldNotBeEmpty()
@@ -110,7 +110,7 @@ class RoomSpec : FunSpec({
             leader = leader,
             users = listOf(leader, participant),
         )
-        val started = room.startGame()
+        val started = room.startGame("keyword", "category")
 
         val ended = started.endGame()
 
@@ -132,15 +132,34 @@ class RoomSpec : FunSpec({
             leader = leader,
             users = listOf(leader, participant),
         )
-        val started = room.startGame()
+        val started = room.startGame("keyword", "category")
         val ended = started.endGame()
 
-        val restarted = ended.startGame()
+        val restarted = ended.startGame("keyword", "category")
 
         restarted.currentGameRequired().category.shouldNotBeEmpty()
         restarted.currentGameRequired().keyword.shouldNotBeEmpty()
         restarted.userRequired(nickname = restarted.currentGameRequired().liar.nickname)
         restarted.userRequired(userCode = restarted.currentGameRequired().liar.userCode)
         restarted.lastGameRequired() shouldBe ended.lastGameRequired()
+    }
+
+    test("시작된 게임은 키워드와 카테고리가 정해진다.") {
+        arrayOf(
+            "keyword" to "category",
+            "food" to "banana",
+            "game" to "mario",
+        ).forEach {
+            val leader = User(nickname = "leader")
+            val participant = User(nickname = "participant")
+            val room = Room(
+                leader = leader,
+                users = listOf(leader, participant),
+            )
+            val started = room.startGame(it.first, it.second)
+
+            started.currentGameRequired().keyword shouldBe it.first
+            started.currentGameRequired().category shouldBe it.second
+        }
     }
 })

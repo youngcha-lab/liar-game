@@ -48,11 +48,11 @@ data class Room(
             users = this.users.filter { it.userCode != userCode }
         )
 
-    fun startGame(): Room =
+    fun startGame(keyword: String, category: String): Room =
         this.copy(
             currentGame = Game(
-                keyword = "Food",
-                category = "Banana",
+                keyword = keyword,
+                category = category,
                 liar = this.users.random()
             )
         )
@@ -100,4 +100,6 @@ data class Game(
     val keyword: String,
     val category: String,
     val liar: User,
-)
+) {
+    fun isLiar(userCode: UserCode) = this.liar.userCode == userCode
+}

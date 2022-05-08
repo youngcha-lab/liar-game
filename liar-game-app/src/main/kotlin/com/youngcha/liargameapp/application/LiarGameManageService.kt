@@ -1,11 +1,11 @@
 package com.youngcha.liargameapp.application
 
-import com.youngcha.liargameapp.application.domain.Game
 import com.youngcha.liargameapp.application.domain.GameEndProcessor
 import com.youngcha.liargameapp.application.domain.Room
 import com.youngcha.liargameapp.application.domain.RoomCode
 import com.youngcha.liargameapp.application.domain.User
 import com.youngcha.liargameapp.application.domain.UserCode
+import com.youngcha.liargameapp.data.KeywordCategoryFactory
 import com.youngcha.liargameapp.data.LiarGameRepository
 import org.springframework.stereotype.Service
 
@@ -38,18 +38,21 @@ class LiarGameManageService(
             .userRequired(userCode = userCode)
     }
 
-    override fun startGame(roomCode: RoomCode): Game {
+    override fun startGame(roomCode: RoomCode): Room {
         val room = find(roomCode)
-        val started = room.startGame()
+        val started = KeywordCategoryFactory.random().let {
+            room.startGame(
+                keyword = it.first,
+                category = it.second
+            )
+        }
         return save(started)
-            .currentGameRequired()
     }
 
-    override fun endGame(roomCode: RoomCode): Game {
+    override fun endGame(roomCode: RoomCode): Room {
         val room = find(roomCode)
         val ended = room.endGame()
         return save(ended)
-            .lastGameRequired()
     }
 
     private fun find(roomCode: RoomCode): Room =

@@ -108,14 +108,15 @@ class RoomRestController(
     @PostMapping("/{room_code}/game/start")
     fun startGame(
         @PathVariable("room_code") roomCode: String,
+        @CookieValue(USER_CODE_COOKIE_NAME) userCode: String
     ): CurrentGamePresentation {
         println("startGame roomCode: $roomCode")
-        val game = gameStartProcessor.startGame(
+        val room = gameStartProcessor.startGame(
             roomCode = RoomCode(roomCode)
         )
-        return CurrentGamePresentation(
-            keyword = game.keyword,
-            category = game.category
+        return CurrentGamePresentation.of(
+            currentGame = room.currentGameRequired(),
+            currentUser = UserCode(userCode)
         )
     }
 
@@ -124,13 +125,13 @@ class RoomRestController(
         @PathVariable("room_code") roomCode: String,
     ): LastGamePresentation {
         println("endGame roomCode: $roomCode")
-        val game = gameEndProcessor.endGame(
+        val room = gameEndProcessor.endGame(
             roomCode = RoomCode(roomCode)
         )
         return LastGamePresentation(
-            keyword = game.keyword,
-            category = game.category,
-            liar = game.liar.nickname,
+            keyword = room.lastGameRequired().keyword,
+            category = room.lastGameRequired().category,
+            liar = room.lastGameRequired().liar.nickname,
         )
     }
 
@@ -166,6 +167,7 @@ data class CurrentUserPresentation(
     val nickname: String?,
     val isLeader: Boolean,
     val isMember: Boolean,
+    val isLiar: Boolean?,
 ) {
     companion object {
         fun of(room: Room, userCode: UserCode?): CurrentUserPresentation? =
@@ -175,7 +177,8 @@ data class CurrentUserPresentation(
                         .firstOrNull { it.userCode == userCode }
                         ?.nickname,
                     isLeader = room.leader.userCode == userCode,
-                    isMember = room.users.any { it.userCode == userCode }
+                    isMember = room.users.any { it.userCode == userCode },
+                    isLiar = room.currentGame?.isLiar(userCode),
                 )
             } else null
     }
@@ -193,6 +196,13 @@ data class CurrentGamePresentation(
                     keyword = currentGame.keyword,
                 )
             } else null
+
+        fun of(currentGame: Game, currentUser: UserCode): CurrentGamePresentation =
+            CurrentGamePresentation(
+                category = currentGame.category,
+                keyword = if (currentGame.isLiar(currentUser)) "라이어"
+                else currentGame.keyword
+            )
     }
 }
 
