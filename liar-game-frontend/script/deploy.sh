@@ -4,7 +4,7 @@ export PATH=$PATH
 
 # module install
 #/usr/bin/nohup 
-/root/.nvm/versions/node/v17.9.0/bin/npm install >> /work/0508.txt
+/root/.nvm/versions/node/v17.9.0/bin/npm >> /work/0508.txt
 sleep 10
 
 # build
