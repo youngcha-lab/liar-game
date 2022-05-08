@@ -4,14 +4,15 @@ import Avatar from "@mui/material/Avatar";
 import { Card, CardHeader } from "@mui/material";
 import "../css/Room.css";
 import axios from "axios";
+import imgAresene from "../img/Arsene.png";
 
 function Room() {
-  const [word, setWord] = useState("");
-  const [category, setCategory] = useState("");
+  const [word, setWord] = useState("바나나");
+  const [category, setCategory] = useState("과일");
   const [users, setUsers] = useState("");
   const [userCnt, setUserCnt] = useState(1);
-  const [isGameStarted, setIsGamestarted] = useState(false);
-  const [isLeader, setIsLeader] = useState("");
+  const [isGameStarted, setIsGamestarted] = useState(null);
+  const [isLeader, setIsLeader] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,7 +23,8 @@ function Room() {
 
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-    console.log(response.data.room.currentUser);
+    console.log("방조회");
+    console.log(response);
     const currentUser = response.data.room.currentUser;
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
@@ -59,9 +61,16 @@ function Room() {
 
   const onCircleClick = async () => {
     try {
+      const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
+      console.log("게임 시작");
+      console.log(roomInfo);
+      setIsLeader(roomInfo.data.room.currentUser.isLeader);
+      setIsGamestarted(true);
+
       const response = await axios.post(
         host + `:8080/api/v1/room/${roomCode}/game/start`
       );
+      console.log("게임 정보 조회");
       console.log(response);
       setWord(response.data.keyword);
       setCategory(response.data.category);
@@ -76,8 +85,46 @@ function Room() {
     const response = await axios.delete(
       host + `:8080/api/v1/room/${roomCode}/game/end`
     );
+    console.log("게임 종료");
     console.log(response);
+    setIsGamestarted(false);
   };
+
+  const gameBoard = (
+    <>
+      <p>{category}</p>
+      <div className="word">{word}</div>
+    </>
+  );
+
+  let content = null;
+  if (!isGameStarted) {
+    if (isLeader) {
+      content = (
+        <div className="circleContainer" onClick={onCircleClick}>
+          Start!
+        </div>
+      );
+    } else {
+      content = (
+        <div className="userBeforeGame">
+          <img src={imgAresene} alt="Arsene" />
+          <p>게임시작 대기중...</p>
+        </div>
+      );
+    }
+  } else {
+    if (isLeader) {
+      content = (
+        <div className="gameBoard">
+          {gameBoard}
+          <button onClick={clickEndGame}>게임 종료 후 Liar 확인</button>
+        </div>
+      );
+    } else {
+      content = <div className="gameBoard">{gameBoard}</div>;
+    }
+  }
 
   return (
     <div className="main">
@@ -119,15 +166,7 @@ function Room() {
           <Link to={"/Home"}>나가기</Link>
         </div>
       </div>
-      <div className="contents">
-        {isLeader ? (
-          <div className="circleContainer" onClick={onCircleClick}>
-            Start!
-          </div>
-        ) : (
-          <button onClick={clickEndGame}>게임 종료 후 Liar 확인</button>
-        )}
-      </div>
+      <div className="contents">{content}</div>
     </div>
   );
 }
