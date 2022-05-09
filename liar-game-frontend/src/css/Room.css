@@ -98,7 +98,7 @@
     width: 64px;
     border: 4px solid #FFFFFF;
     border-radius: 50%;
-    background: #7BF98F;
+    background: #7BF98F; 
 }
 
 .leaderThumbnail {
@@ -106,7 +106,11 @@
     width: 64px;
     border: 4px solid #FFFFFF;
     border-radius: 50%;
-    background: url(../img/crown.png);     
+    background: url(../img/crown.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #FFFFFF;     
+    
 }
 
 .exit_button {
@@ -204,11 +208,11 @@
     opacity: 1;
 }
 
-.category {
+/* .category {
     font-size: 30px;
     font-weight: bold;
     margin-top: 5%;
-}
+} */
 
 .inviteButton {
     /* 방 생성하기 */
@@ -225,4 +229,119 @@
     display: flex;
     background-color: #00A3FF;
     border-radius: 4px;
+}
+
+.userBeforeGame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.userBeforeGame img {
+    width: 128px;
+    height: 128px;
+    margin-right: 32px;
+}
+
+.userBeforeGame p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: 54px;
+    margin: 0;
+}
+
+.gameBoard p{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: 38px;
+    margin: 0;
+    margin-bottom: 11px;
+}
+
+.gameBoard .word {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: 48px;
+}
+
+.category {
+    position: absolute;
+    left: 26.87%;
+    right: 66.73%;
+    top: 29.98%;
+    bottom: 65.62%;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 45px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #000000;
+}
+
+.board {
+    box-sizing: border-box;
+
+    position: absolute;
+    left: 26.05%;
+    right: 25.41%;
+    top: 35.45%;
+    bottom: 37.21%;
+
+    border: 10px solid #5C5C5C;
+    border-radius: 16px;
+}
+
+.keyword {
+    position: absolute;
+    left: 44.24%;
+    right: 43.6%;
+    top: 47.27%;
+    bottom: 47.27%;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 56px;
+    text-align: center;
+
+    color: #5C5C5C;
+}
+
+.endGameBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 15px 33px;
+
+    position: absolute;
+    left: 75%;
+    right: 4.11%;
+    top: 89.45%;
+    bottom: 3.61%;
+
+    background: #676767;
+    border-radius: 4px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400px;
+    font-size: 32px;
+    line-height: 38px;
+    text-align: center;
+
+    color: #FFFFFF;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+    margin: 0px 10px;
 }
