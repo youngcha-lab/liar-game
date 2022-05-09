@@ -4,42 +4,46 @@ import Avatar from "@mui/material/Avatar";
 import { Card, CardHeader } from "@mui/material";
 import "../css/Room.css";
 import axios from "axios";
+import imgAresene from "../img/Arsene.png";
 
 function Room() {
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("");
   const [users, setUsers] = useState("");
   const [userCnt, setUserCnt] = useState(1);
+  const [isGameStarted, setIsGamestarted] = useState(null);
+  const [isLeader, setIsLeader] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
   const checkUser = async () => {
     const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
+    console.log("방조회");
     console.log(response);
-
-    setUsers(response.data.room.users);
-    setUserCnt(response.data.room.users.length);    
     const currentUser = response.data.room.currentUser;
     if (!currentUser || !currentUser.isMember) {
-       console.log("current user is not valid");
-       navigate("/enter/" + roomCode);
+      console.log("current user is not valid");
+      navigate("/enter/" + roomCode);
+    } else {
+      setIsLeader(response.data.room.currentUser.isLeader);
+      setIsGamestarted(response.data.room.currentGame);
     }
   };
 
-  // useEffect(() => {
-  //   checkUser();    
-  // }, [location]);
-
   useEffect(() => {
-    const loop = setInterval(()=> {
-      checkUser();      
-    }, 10000);         
+    checkUser();
   }, []);
+
+  // useEffect(() => {
+  //   const loop = setInterval(() => {
+  //     checkUser();
+  //   }, 10000);
+  // }, []);
 
   // const randomColor = () => {
   //   let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
@@ -57,9 +61,16 @@ function Room() {
 
   const onCircleClick = async () => {
     try {
+      const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
+      console.log("게임 시작");
+      console.log(roomInfo);
+      setIsLeader(roomInfo.data.room.currentUser.isLeader);
+      setIsGamestarted(true);
+
       const response = await axios.post(
         host + `:8080/api/v1/room/${roomCode}/game/start`
       );
+      console.log("게임 정보 조회");
       console.log(response);
       setWord(response.data.keyword);
       setCategory(response.data.category);
@@ -69,6 +80,52 @@ function Room() {
     }
     return null;
   };
+
+  const clickEndGame = async () => {
+    const response = await axios.delete(
+      host + `:8080/api/v1/room/${roomCode}/game/end`
+    );
+    console.log("게임 종료");
+    console.log(response);
+    setIsGamestarted(false);
+  };
+
+  const gameBoard = (
+    <>
+      <p>{category}</p>
+      <div className="word">{word}</div>
+    </>
+  );
+
+  let content = null;
+  if (!isGameStarted) {
+    if (isLeader) {
+      content = (
+        <div className="circleContainer" onClick={onCircleClick}>
+          Start!
+        </div>
+      );
+    } else {
+      content = (
+        <div className="userBeforeGame">
+          <img src={imgAresene} alt="Arsene" />
+          <p>게임시작 대기중...</p>
+        </div>
+      );
+    }
+  } else {
+    if (isLeader) {
+      content = (
+        <div className="gameBoard">
+          {gameBoard}
+          <button onClick={clickEndGame}>게임 종료 후 Liar 확인</button>
+        </div>
+      );
+    } else {
+      content = <div className="gameBoard">{gameBoard}</div>;
+    }
+  }
+
   return (
     <div className="main">
       <div className="sidebar">
@@ -106,16 +163,10 @@ function Room() {
           </Card>
         ))}   */}
         <div className="exit_button">
-          <Link to={"/Home"}>
-            나가기
-          </Link>
+          <Link to={"/Home"}>나가기</Link>
         </div>
       </div>
-      <div className="contents">
-        <div className="circleContainer" onClick={onCircleClick}>
-          Start!
-        </div>        
-      </div>
+      <div className="contents">{content}</div>
     </div>
   );
 }
