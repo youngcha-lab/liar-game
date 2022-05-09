@@ -42,8 +42,8 @@ class LiarGameManageService(
         val room = find(roomCode)
         val started = KeywordCategoryFactory.random().let {
             room.startGame(
-                keyword = it.first,
-                category = it.second
+                category = it.first,
+                keyword = it.second,
             )
         }
         return save(started)
