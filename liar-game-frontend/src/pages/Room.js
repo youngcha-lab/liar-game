@@ -21,29 +21,36 @@ function Room() {
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
+  const getRoom = async () => {
+    return await axios.get(host + `:8080/api/v1/room/${roomCode}`);
+  };
+
   const checkUser = async () => {
-    const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
+    const response = await getRoom();
     console.log("방조회");
     console.log(response);
     const currentUser = response.data.room.currentUser;
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
-    } else {
-      setIsLeader(response.data.room.currentUser.isLeader);
-      setIsGamestarted(response.data.room.currentGame);
     }
+  };
+
+  const refreshRoom = async () => {
+    const response = await getRoom();
+    setIsLeader(response.data.room.currentUser.isLeader);
+    setIsGamestarted(response.data.room.currentGame);
   };
 
   useEffect(() => {
     checkUser();
   }, []);
 
-  // useEffect(() => {
-  //   const loop = setInterval(() => {
-  //     checkUser();
-  //   }, 10000);
-  // }, []);
+  useEffect(() => {
+    const loop = setInterval(() => {
+      refreshRoom();
+    }, 10000);
+  }, []);
 
   // const randomColor = () => {
   //   let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
