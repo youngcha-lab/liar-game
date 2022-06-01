@@ -12,8 +12,8 @@ function Room() {
   const [users, setUsers] = useState("");
   const [userCnt, setUserCnt] = useState(1);
   const [isGameStarted, setIsGamestarted] = useState(null);
-  const [isLeader, setIsLeader] = useState(false);
-  const [isLiar, setIsLiar] = useState(false);
+  const [isLeader, setIsLeader] = useState(null);
+  const [isLiar, setIsLiar] = useState(null);
  
   const location = useLocation();
   const navigate = useNavigate();
@@ -67,16 +67,19 @@ function Room() {
   const onCircleClick = async () => {
     try {
       const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-      
-      setIsLeader(roomInfo.data.room.currentUser.isLeader);
-      setIsGamestarted(true);
-
+            
       const response = await axios.post(
         host + `:8080/api/v1/room/${roomCode}/game/start`
-      );
+      ).then((response) => {
+        setIsGamestarted(true);
+        setWord(response.data.keyword);
+        setCategory(response.data.category);
+      }).catch((err) => {
+        console.log(err)
+      });
       
-      setWord(response.data.keyword);
-      setCategory(response.data.category);
+      //setIsLeader(roomInfo.data.room.currentUser.isLeader);
+      
       return response;
     } catch (e) {
       console.log(e);
