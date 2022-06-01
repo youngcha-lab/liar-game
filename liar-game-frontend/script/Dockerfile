@@ -1,3 +1,3 @@
 FROM node:17.9.0
-COPY deploy.sh .
-CMD /bin/bash deploy.sh
+COPY deploy_docker.sh .
+CMD /bin/bash deploy_docker.sh
