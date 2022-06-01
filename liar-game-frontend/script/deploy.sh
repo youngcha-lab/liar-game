@@ -1,16 +1,25 @@
-#!/bin/bash
-cd /home/ec2-user/apps/liar-game/liar-game-frontend
-export PATH=$PATH
+# find pid liar react application 
+APP_PID=`docker ps -a | grep react | grep Up`
 
-# module install
-#/usr/bin/nohup 
-/root/.nvm/versions/node/v17.9.0/bin/npm >> /work/0508.txt
-sleep 10
+# if application process is already runned, kill the process
+if [ -z $APP_PID ]
+then
+        echo "Not process Running" 
+else
+        echo "kill current process" 
+        docker stop react
+        sleep 5
+        docker rm react
+        sleep 5
+fi
 
-mkdir /work/testa
+echo "new liar react application process start"
 
-# build
-/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm run build
-sleep 10
+# docker application container build
+docker image rm frontendimage
+docker build -t frontendimage .
 
-/usr/bin/nohup /root/.nvm/versions/node/v17.9.0/bin/npm start &
+sleep 5
+
+# docker react application container start 
+docker run -p 3000:3000 -v /home/ec2-user/apps/liar-game/liar-game-frontend:/app -d --name react frontendimage

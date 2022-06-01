@@ -14,8 +14,8 @@ function EnterUser() {
 
   const submit = async () => {
     if (isValidName(nickName)) {
-      const etnerStatus = await enterRoom();
-      console.log("enterRoom result = " + etnerStatus);
+      const enterStatus = await enterRoom();
+      console.log("enterRoom result = " + enterStatus);
       navigate("/room/" + roomCode);
     } else {
       alert("please enter user name");
@@ -30,6 +30,7 @@ function EnterUser() {
           nickname: nickName,
         }
       );
+      console.log(response);
       return response.status;
     } catch (e) {
       console.log(e);
