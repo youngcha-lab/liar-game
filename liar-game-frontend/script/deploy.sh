@@ -1,17 +1,15 @@
-#!/bin/bash
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
-export PATH=$PATH
 
 # module install
-#/usr/bin/nohup
-/root/.nvm/versions/node/v17.9.0/bin/npm install >> /work/0508.txt
+nohup npm install 
 
 sleep 10
 
-mkdir /work/testa
+mkdir /work/test0601
 
 # build
-/root/.nvm/versions/node/v17.9.0/bin/npm run build >> /work/0508.txt
+nohup npm run build
+
 sleep 10
 
-/root/.nvm/versions/node/v17.9.0/bin/npm start & >> /work/0508.txt
+nohup npm start
