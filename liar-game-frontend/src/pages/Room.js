@@ -72,6 +72,7 @@ function Room() {
         host + `:8080/api/v1/room/${roomCode}/game/start`
       ).then((response) => {
         setIsGamestarted(true);
+        setIsLiar(response.data.room.currentUser.isLiar);
         setWord(response.data.keyword);
         setCategory(response.data.category);
       }).catch((err) => {
