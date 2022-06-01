@@ -13,6 +13,7 @@ function Room() {
   const [userCnt, setUserCnt] = useState(1);
   const [isGameStarted, setIsGamestarted] = useState(null);
   const [isLeader, setIsLeader] = useState(false);
+  const [isHide, setIsHide] = useState(true);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -100,6 +101,14 @@ function Room() {
     return null;
   };
 
+  const wordBoxMounseDown = () => {
+    setIsHide(false);
+  };
+
+  const wordBoxMounseUp = () => {
+    setIsHide(true);
+  };
+
   const clickEndGame = async () => {
     const response = await axios.delete(
       host + `:8080/api/v1/room/${roomCode}/game/end`
@@ -112,7 +121,23 @@ function Room() {
   const gameBoard = (
     <>
       <p>{category}</p>
-      <div className="word">{word}</div>
+      {isHide ? (
+        <div
+          className="blindWordBox"
+          onMouseDown={wordBoxMounseDown}
+          onMouseUp={wordBoxMounseUp}
+        >
+          Tap!
+        </div>
+      ) : (
+        <div
+          className="openWordBox"
+          onMouseDown={wordBoxMounseDown}
+          onMouseUp={wordBoxMounseUp}
+        >
+          {word}
+        </div>
+      )}
     </>
   );
 
