@@ -1,5 +1,7 @@
 cd /home/ec2-user/apps/liar-game/liar-game-frontend
 
+sleep 300
+
 # module install
 nohup npm install 
 
