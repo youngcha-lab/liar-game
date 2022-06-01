@@ -14,43 +14,58 @@ function Room() {
   const [isGameStarted, setIsGamestarted] = useState(null);
   const [isLeader, setIsLeader] = useState(null);
   const [isLiar, setIsLiar] = useState(null);
- 
+  const [isHide, setIsHide] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
+  const getRoom = async () => {
+    return await axios.get(host + `:8080/api/v1/room/${roomCode}`);
+  };
+
   const checkUser = async () => {
-    const response = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-    setLeader(response.data.room.leader);
-    setUsers(response.data.room.users);
-    setUserCnt(response.data.room.users.length);
-    
-    console.log(response);
+    const response = await getRoom();
     const currentUser = response.data.room.currentUser;
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
     } else {
       setIsLeader(response.data.room.currentUser.isLeader);
-      setIsGamestarted(response.data.room.currentGame);
-      setIsLiar(response.data.room.currentUser.isLiar);
+    }
+  };
+
+  const refreshRoom = async () => {
+    const response = await getRoom();
+    const currentGame = response.data.room.currentGame;
+    setLeader(response.data.room.leader);
+    setUsers(response.data.room.users);
+    setUserCnt(response.data.room.users.length);
+    setIsLiar(response.data.room.currentUser.isLiar);
+    if (!currentGame) {
+      setIsGamestarted(false);
+      setCategory("");
+      setWord("");
+    } else {
+      setIsGamestarted(true);
+      setCategory(currentGame.category);
+      setWord(currentGame.keyword);
     }
   };
 
   useEffect(() => {
     checkUser();
-    
-    const loop = setInterval(()=> {
-      checkUser();      
+    refreshRoom();
+    const loop = setInterval(() => {
+      refreshRoom();
     }, 10000);
-    
-    return () => clearInterval(loop)
+
+    return () => clearInterval(loop);
   }, []);
 
-  const randomColor = () => {    
+  const randomColor = () => {
     let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
     return color;
   };
@@ -67,20 +82,21 @@ function Room() {
   const onCircleClick = async () => {
     try {
       const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-            
-      const response = await axios.post(
-        host + `:8080/api/v1/room/${roomCode}/game/start`
-      ).then((response) => {
-        setIsGamestarted(true);
-        setIsLiar(response.data.room.currentUser.isLiar);
-        setWord(response.data.keyword);
-        setCategory(response.data.category);
-      }).catch((err) => {
-        console.log(err)
-      });
-      
+
+      const response = await axios
+        .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
+        .then((response) => {
+          setIsGamestarted(true);
+          setIsLiar(response.data.room.currentUser.isLiar);
+          setWord(response.data.keyword);
+          setCategory(response.data.category);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       //setIsLeader(roomInfo.data.room.currentUser.isLeader);
-      
+
       return response;
     } catch (e) {
       console.log(e);
@@ -88,15 +104,91 @@ function Room() {
     return null;
   };
 
+  const wordBoxMounseDown = () => {
+    setIsHide(false);
+  };
+
+  const wordBoxMounseUp = () => {
+    setIsHide(true);
+  };
+
   const clickEndGame = async () => {
     const response = await axios.delete(
       host + `:8080/api/v1/room/${roomCode}/game/end`
     );
-    
+
     setIsGamestarted(false);
     setWord("");
     setCategory("");
   };
+
+  const gameBoard = (
+    <>
+      <p>{category}</p>
+      {isHide ? 
+      (
+        <div
+          className="blindWordBox"
+          onMouseDown={wordBoxMounseDown}
+          onMouseUp={wordBoxMounseUp}
+        >
+          Tap!
+        </div>
+      ) : 
+      isLiar ?
+      (        
+        <div
+          className="openWordBox"
+          onMouseDown={wordBoxMounseDown}
+          onMouseUp={wordBoxMounseUp}
+        >
+          <img src={imgAresene} alt="Arsene" /> Liar!
+        </div>
+      ) : 
+      (
+        <div
+          className="openWordBox"
+          onMouseDown={wordBoxMounseDown}
+          onMouseUp={wordBoxMounseUp}
+        >
+          {word}
+        </div>
+      )
+      }
+    </>
+  );
+  
+  let content = null;
+  if (!isGameStarted) {
+    if (isLeader) {
+      content = (
+        <div className="circleContainer" onClick={onCircleClick}>
+          Start!
+        </div>
+      );
+    } else {
+      content = (
+        <div className="userBeforeGame">
+          <img src={imgAresene} alt="Arsene" />
+          <p>게임시작 대기중...</p>
+        </div>
+      );
+    }
+  } else {
+    if (isLeader) {
+      content = (
+        <div className="gameBoard">
+          {gameBoard}
+          <div className="endGameBtn" onClick={clickEndGame}>
+            게임 종료 후 Liar 확인
+          </div>
+        </div>
+      );
+    } else {
+      content = <div className="gameBoard">{gameBoard}</div>;
+    }
+  }
+
   return (
     <div className="main">
       <div className="sidebar">
@@ -113,34 +205,59 @@ function Room() {
         </div>
         <div className="playerNumber">플레이어 {userCnt} / 10</div>
         <div className="playerContainer">
-          {users && users.map((user) => (
-          <div className="playerItem" key={user}>            
-            {
-              (leader === user)  
-              ? <div className="leaderThumbnail"></div> 
-              : <div className="playerThumbnail" style={{ backgroundColor: randomColor()}}></div>   
-            }            
-            {user}
-          </div>
-          ))} 
+          {users &&
+            users.map((user) => (
+              <div className="playerItem" key={user}>
+                {leader === user ? (
+                  <div className="leaderThumbnail"></div>
+                ) : (
+                  <div
+                    className="playerThumbnail"
+                    style={{ backgroundColor: randomColor() }}
+                  ></div>
+                )}
+                {user}
+              </div>
+            ))}
         </div>
         <div className="exit_button">
           <Link to={"/Home"}>나가기</Link>
         </div>
       </div>
-      <div className="contents">{category}
-      {
-        isGameStarted
-        ? (isLiar ? <div className="board"><img src={imgAresene} alt="Arsene" />Liar!</div> : <div className="board">{word}</div>) 
-        : (isLeader ? (<div className="circleContainer" onClick={onCircleClick}>Start!</div>) 
-                    : (<div className="userBeforeGame"><img src={imgAresene} alt="Arsene" /><p>게임시작 대기중...</p></div>))
-      } 
-      </div>           
-      {
-        isGameStarted
-        ? (isLeader ? <div className="endGameBtn" onClick={clickEndGame}>게임 종료 후 Liar 확인</div> : <></>)
-        : <></>
-      }      
+      <div className="contents">{content}</div>
+      {/* <div className="contents">
+        {category}
+        {isGameStarted ? (
+          isLiar ? (
+            <div className="board">
+              <img src={imgAresene} alt="Arsene" />
+              Liar!
+            </div>
+          ) : (
+            <div className="board">{word}</div>
+          )
+        ) : isLeader ? (
+          <div className="circleContainer" onClick={onCircleClick}>
+            Start!
+          </div>
+        ) : (
+          <div className="userBeforeGame">
+            <img src={imgAresene} alt="Arsene" />
+            <p>게임시작 대기중...</p>
+          </div>
+        )}
+      </div>
+      {isGameStarted ? (
+        isLeader ? (
+          <div className="endGameBtn" onClick={clickEndGame}>
+            게임 종료 후 Liar 확인
+          </div>
+        ) : (
+          <></>
+        )
+      ) : (
+        <></>
+      )} */}
     </div>
   );
 }
