@@ -87,6 +87,7 @@ function Room() {
         .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
         .then((response) => {
           setIsGamestarted(true);
+          setIsLiar(response.data.room.currentUser.isLiar);
           setWord(response.data.keyword);
           setCategory(response.data.category);
         })
@@ -124,7 +125,8 @@ function Room() {
   const gameBoard = (
     <>
       <p>{category}</p>
-      {isHide ? (
+      {isHide ? 
+      (
         <div
           className="blindWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -132,7 +134,18 @@ function Room() {
         >
           Tap!
         </div>
-      ) : (
+      ) : 
+      isLiar ?
+      (        
+        <div
+          className="openWordBox"
+          onMouseDown={wordBoxMounseDown}
+          onMouseUp={wordBoxMounseUp}
+        >
+          <img src={imgAresene} alt="Arsene" /> Liar!
+        </div>
+      ) : 
+      (
         <div
           className="openWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -140,10 +153,11 @@ function Room() {
         >
           {word}
         </div>
-      )}
+      )
+      }
     </>
   );
-
+  
   let content = null;
   if (!isGameStarted) {
     if (isLeader) {
