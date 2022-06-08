@@ -34,7 +34,10 @@ function Room() {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
     } else {
+      setUsers(response.data.room.users);
+      setUserCnt(response.data.room.users.length);
       setIsLeader(response.data.room.currentUser.isLeader);
+      setLeader(response.data.room.leader);
     }
   };
 
@@ -42,14 +45,17 @@ function Room() {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
     const lastGame = response.data.room.lastGame;
-
-    setLeader(response.data.room.leader);
+        
     setUsers(response.data.room.users);
     setUserCnt(response.data.room.users.length);
+    setLeader(response.data.room.leader);
     setIsLiar(response.data.room.currentUser.isLiar);
 
     if (!currentGame && lastGame) {
       setIsGamestarted("after");
+      // setTimeout(() => {
+      //   setIsGamestarted("before");
+      // }, 3000);
       setLiar(response.data.room.lastGame.liar);      
     } else if(!currentGame) {
       setIsGamestarted("before");
@@ -64,7 +70,7 @@ function Room() {
 
   useEffect(() => {
     checkUser();
-    refreshRoom();        
+            
     const loop = setInterval(() => {
       refreshRoom();
     }, 500);
@@ -74,7 +80,6 @@ function Room() {
 
   const randomColor = () => {
     let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
-    //#FF0000
     return color;
   };
 
@@ -82,48 +87,29 @@ function Room() {
     const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
-    alert("Copied");
-    //const tooltip = document.getElementById("myTooltip");
-    // tooltip.innerHTML = "Copied!";
+    alert("Copied");   
   };
 
   const onCircleClick = async () => {
     try {
-      const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-
-      const response = await axios
-        .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
-        .then((response) => {
-          setIsGamestarted("ing");
-          setIsLiar(response.data.room.currentUser.isLiar);
-          setWord(response.data.keyword);
-          setCategory(response.data.category);
-        })
-        .catch((err) => {
-          console.log(err);
-        });      
-      return response;
+      await axios.post(host + `:8080/api/v1/room/${roomCode}/game/start`)
+      .catch((err) => {
+        console.log(err);
+      });     
     } catch (e) {
       console.log(e);
-    }
-    return null;
+    }    
   };
 
   const clickEndGame = async () => {
     try{
-      const response = await axios.delete(
-        host + `:8080/api/v1/room/${roomCode}/game/end`
-      ).then((response) => {
-        setIsGamestarted("after");
-        setLiar(response.data.liar);
-      }).catch((err) => {
+      await axios.delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
+      .catch((err) => {
         console.log(err);
-      });
-      return response;      
+      });            
     } catch (e) {
       console.log(e);
-    }
-    return null;        
+    }            
   };
 
   const wordBoxMounseDown = () => {
@@ -207,10 +193,6 @@ function Room() {
     <div className="main">
       <div className="sidebar">
         <div className="tooltip">
-          {/* <br></br>
-          <div className="tooltiptext" id="myTooltip">
-            Copy to clipboard
-          </div> */}
           <div>
             <div className="inviteButton" onClick={onLinkClick}>
               초대하기
@@ -240,38 +222,37 @@ function Room() {
       </div>
       <div className="contents">{content}</div>
       {/* <div className="contents">
-        {category}
-        {isGameStarted ? (
-          isLiar ? (
-            <div className="board">
-              <img src={imgAresene} alt="Arsene" />
-              Liar!
+        {isGameStarted === 'before' ? 
+        (
+          isLeader ? 
+          (
+            <div className="circleContainer" onClick={onCircleClick}>
+              Start!
             </div>
-          ) : (
-            <div className="board">{word}</div>
+          ) : 
+          (
+            <div className="userBeforeGame">
+              <img src={imgAresene} alt="Arsene" /><p>게임시작 대기중...</p>
+            </div>
           )
-        ) : isLeader ? (
-          <div className="circleContainer" onClick={onCircleClick}>
-            Start!
-          </div>
+        ) : isGameStarted === 'ing' ? 
+        (
+          isLeader ? 
+          (
+            <div className="gameBoard">
+              {gameBoard}
+              <div className="endGameBtn" onClick={clickEndGame}>
+                게임 종료 후 Liar 확인
+              </div>
+            </div>
+          ) : 
+          (
+            <div className="gameBoard">{gameBoard}</div> 
+          )         
         ) : (
-          <div className="userBeforeGame">
-            <img src={imgAresene} alt="Arsene" />
-            <p>게임시작 대기중...</p>
-          </div>
+          <div className="userBeforeGame"><img src={imgAresene} alt="Arsene" /><p>{liar}</p></div>
         )}
-      </div>
-      {isGameStarted ? (
-        isLeader ? (
-          <div className="endGameBtn" onClick={clickEndGame}>
-            게임 종료 후 Liar 확인
-          </div>
-        ) : (
-          <></>
-        )
-      ) : (
-        <></>
-      )} */}
+      </div>     */}
     </div>
   );
 }
