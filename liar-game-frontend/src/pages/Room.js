@@ -19,10 +19,10 @@ function Room() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const host = "https://" + window.location.hostname;
+  const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
-
+  
   const getRoom = async () => {
     return await axios.get(host + `:8080/api/v1/room/${roomCode}`);
   };
@@ -41,33 +41,40 @@ function Room() {
   const refreshRoom = async () => {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
+    const lastGame = response.data.room.lastGame;
+
     setLeader(response.data.room.leader);
     setUsers(response.data.room.users);
     setUserCnt(response.data.room.users.length);
     setIsLiar(response.data.room.currentUser.isLiar);
-    if (!currentGame) {
-      setIsGamestarted(isGameStarted);
+
+    if (!currentGame && lastGame) {
+      setIsGamestarted("after");
+      setLiar(response.data.room.lastGame.liar);      
+    } else if(!currentGame) {
+      setIsGamestarted("before");
       setCategory("");
       setWord("");
     } else {
       setIsGamestarted("ing");
       setCategory(currentGame.category);
       setWord(currentGame.keyword);
-    }
+    }   
   };
 
   useEffect(() => {
     checkUser();
-    refreshRoom();
+    refreshRoom();        
     const loop = setInterval(() => {
       refreshRoom();
-    }, 10000);
+    }, 500);
 
     return () => clearInterval(loop);
   }, []);
 
   const randomColor = () => {
     let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
+    //#FF0000
     return color;
   };
 
@@ -102,14 +109,6 @@ function Room() {
     return null;
   };
 
-  const wordBoxMounseDown = () => {
-    setIsHide(false);
-  };
-
-  const wordBoxMounseUp = () => {
-    setIsHide(true);
-  };
-
   const clickEndGame = async () => {
     try{
       const response = await axios.delete(
@@ -126,6 +125,14 @@ function Room() {
     }
     return null;        
   };
+
+  const wordBoxMounseDown = () => {
+    setIsHide(false);
+  };
+
+  const wordBoxMounseUp = () => {
+    setIsHide(true);
+  }; 
 
   const gameBoard = (
     <>
@@ -163,7 +170,7 @@ function Room() {
     </>
   );
   
-  let content = null;
+  let content = null;  
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
@@ -220,7 +227,7 @@ function Room() {
                 ) : (
                   <div
                     className="playerThumbnail"
-                    style={{ backgroundColor: randomColor() }}
+                    //style={{ backgroundColor: randomColor() }}
                   ></div>
                 )}
                 {user}
