@@ -11,14 +11,15 @@ function Room() {
   const [leader, setLeader] = useState("");
   const [users, setUsers] = useState("");
   const [userCnt, setUserCnt] = useState(1);
-  const [isGameStarted, setIsGamestarted] = useState(null);
+  const [isGameStarted, setIsGamestarted] = useState("before");
   const [isLeader, setIsLeader] = useState(null);
   const [isLiar, setIsLiar] = useState(null);
+  const [liar, setLiar] = useState("");
   const [isHide, setIsHide] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const host = "http://" + window.location.hostname;
+  const host = "https://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
@@ -45,11 +46,11 @@ function Room() {
     setUserCnt(response.data.room.users.length);
     setIsLiar(response.data.room.currentUser.isLiar);
     if (!currentGame) {
-      setIsGamestarted(false);
+      setIsGamestarted(isGameStarted);
       setCategory("");
       setWord("");
     } else {
-      setIsGamestarted(true);
+      setIsGamestarted("ing");
       setCategory(currentGame.category);
       setWord(currentGame.keyword);
     }
@@ -86,17 +87,14 @@ function Room() {
       const response = await axios
         .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
         .then((response) => {
-          setIsGamestarted(true);
+          setIsGamestarted("ing");
           setIsLiar(response.data.room.currentUser.isLiar);
           setWord(response.data.keyword);
           setCategory(response.data.category);
         })
         .catch((err) => {
           console.log(err);
-        });
-
-      //setIsLeader(roomInfo.data.room.currentUser.isLeader);
-
+        });      
       return response;
     } catch (e) {
       console.log(e);
@@ -113,13 +111,20 @@ function Room() {
   };
 
   const clickEndGame = async () => {
-    const response = await axios.delete(
-      host + `:8080/api/v1/room/${roomCode}/game/end`
-    );
-
-    setIsGamestarted(false);
-    setWord("");
-    setCategory("");
+    try{
+      const response = await axios.delete(
+        host + `:8080/api/v1/room/${roomCode}/game/end`
+      ).then((response) => {
+        setIsGamestarted("after");
+        setLiar(response.data.liar);
+      }).catch((err) => {
+        console.log(err);
+      });
+      return response;      
+    } catch (e) {
+      console.log(e);
+    }
+    return null;        
   };
 
   const gameBoard = (
@@ -159,7 +164,7 @@ function Room() {
   );
   
   let content = null;
-  if (!isGameStarted) {
+  if (isGameStarted === "before") {
     if (isLeader) {
       content = (
         <div className="circleContainer" onClick={onCircleClick}>
@@ -174,7 +179,7 @@ function Room() {
         </div>
       );
     }
-  } else {
+  } else if(isGameStarted === "ing"){
     if (isLeader) {
       content = (
         <div className="gameBoard">
@@ -187,6 +192,8 @@ function Room() {
     } else {
       content = <div className="gameBoard">{gameBoard}</div>;
     }
+  } else {
+    content = <div className="userBeforeGame"><img src={imgAresene} alt="Arsene" /><p>{liar}</p></div>
   }
 
   return (
