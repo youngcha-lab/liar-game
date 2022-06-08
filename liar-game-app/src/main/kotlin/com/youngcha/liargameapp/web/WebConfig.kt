@@ -1,4 +1,4 @@
-package com.youngcha.liargameapp.application
+package com.youngcha.liargameapp.web
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
