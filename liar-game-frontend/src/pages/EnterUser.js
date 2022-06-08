@@ -8,7 +8,7 @@ function EnterUser() {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const host = "http://" + window.location.hostname + ":8080";
+  const host = "https://" + window.location.hostname + ":8080";
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
