@@ -4,6 +4,8 @@ import "../css/Room.css";
 import axios from "axios";
 import "../img/crown.png";
 import imgAresene from "../img/Arsene.png";
+import toast, { Toaster } from 'react-hot-toast';
+import { style } from "@mui/system";
 
 function Room() {
   const [word, setWord] = useState("");
@@ -82,9 +84,7 @@ function Room() {
     const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
-    alert("Copied");
-    //const tooltip = document.getElementById("myTooltip");
-    // tooltip.innerHTML = "Copied!";
+    toast('초대 링크가 복사 되었습니다.', {style: {'font-size': '28px', 'maxWidth': '80%', 'padding': '16px',}});
   };
 
   const onCircleClick = async () => {
@@ -204,7 +204,9 @@ function Room() {
   }
 
   return (
+    
     <div className="main">
+      <Toaster toastOptions={{ position: "top-center" }} />
       <div className="sidebar">
         <div className="tooltip">
           {/* <br></br>
@@ -212,9 +214,9 @@ function Room() {
             Copy to clipboard
           </div> */}
           <div>
-            <div className="inviteButton" onClick={onLinkClick}>
+            <button className="inviteButton" onClick={onLinkClick}>
               초대하기
-            </div>
+            </button>
           </div>
         </div>
         <div className="playerNumber">플레이어 {userCnt} / 10</div>
@@ -234,9 +236,11 @@ function Room() {
               </div>
             ))}
         </div>
-        <div className="exit_button">
-          <Link to={"/Home"}>나가기</Link>
-        </div>
+        <Link to={"/Home"} style={{ textDecoration: 'none' }}>
+          <div className="exit_button">
+            나가기
+          </div>
+        </Link>
       </div>
       <div className="contents">{content}</div>
       {/* <div className="contents">
