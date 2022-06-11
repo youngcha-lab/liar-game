@@ -12,6 +12,11 @@
     top: 0px;
 }
 
+button {
+    border: none;
+    cursor: pointer;
+}
+
 .contents {
     height: 100%;
     /* Inside auto layout */
@@ -74,15 +79,17 @@
     row-gap: 12px;
     flex-grow: 1;
     overflow-y: scroll;
-    scrollbar-color: none;
     background: none;
-    scrollbar-color: #7BF98F;
 
     /* font desc */
     font-family: 'Roboto';
     font-weight: 400;
     font-size: 32px;
     line-height: 38px;
+}
+
+.playerContainer::-webkit-scrollbar {
+    display: none;
 }
 
 .playerItem {
@@ -215,8 +222,8 @@
 } */
 
 .inviteButton {
-    /* 방 생성하기 */
-    flex: none;
+    /* 초대하기 */
+    width: 100%;
     height: 58px;
     font-family: 'Roboto';
     font-weight: 700;
