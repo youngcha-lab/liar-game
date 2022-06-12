@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/Room.css";
 import axios from "axios";
@@ -18,6 +18,7 @@ function Room() {
   const [isLiar, setIsLiar] = useState(null);
   const [liar, setLiar] = useState("");
   const [isHide, setIsHide] = useState(true);
+  const isGameEnded = useRef();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,11 +33,15 @@ function Room() {
   const checkUser = async () => {
     const response = await getRoom();
     const currentUser = response.data.room.currentUser;
+    
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
     } else {
+      setUsers(response.data.room.users);
+      setUserCnt(response.data.room.users.length);
       setIsLeader(response.data.room.currentUser.isLeader);
+      setLeader(response.data.room.leader);
     }
   };
 
@@ -44,20 +49,26 @@ function Room() {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
     const lastGame = response.data.room.lastGame;
-
-    setLeader(response.data.room.leader);
+       
     setUsers(response.data.room.users);
     setUserCnt(response.data.room.users.length);
+    setLeader(response.data.room.leader);
     setIsLiar(response.data.room.currentUser.isLiar);
-
-    if (!currentGame && lastGame) {
-      setIsGamestarted("after");
-      setLiar(response.data.room.lastGame.liar);      
-    } else if(!currentGame) {
-      setIsGamestarted("before");
-      setCategory("");
-      setWord("");
+    
+    if(!currentGame) {
+      if(lastGame && isGameEnded.current) {
+        setIsGamestarted("after");
+        setLiar(response.data.room.lastGame.liar);
+        setTimeout(() => {
+           isGameEnded.current = false;           
+        },3000);                
+      } else {
+        setIsGamestarted("before");
+        setCategory("");
+        setWord("");
+      }      
     } else {
+      isGameEnded.current = true;
       setIsGamestarted("ing");
       setCategory(currentGame.category);
       setWord(currentGame.keyword);
@@ -66,7 +77,7 @@ function Room() {
 
   useEffect(() => {
     checkUser();
-    refreshRoom();        
+    
     const loop = setInterval(() => {
       refreshRoom();
     }, 500);
@@ -76,7 +87,6 @@ function Room() {
 
   const randomColor = () => {
     let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
-    //#FF0000
     return color;
   };
 
@@ -89,41 +99,37 @@ function Room() {
 
   const onCircleClick = async () => {
     try {
-      const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-
-      const response = await axios
-        .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
-        .then((response) => {
-          setIsGamestarted("ing");
-          setIsLiar(response.data.room.currentUser.isLiar);
-          setWord(response.data.keyword);
-          setCategory(response.data.category);
-        })
-        .catch((err) => {
-          console.log(err);
-        });      
-      return response;
+      await axios.post(host + `:8080/api/v1/room/${roomCode}/game/start`)
+      .catch((err) => {
+        console.log(err);
+      });      
     } catch (e) {
       console.log(e);
-    }
-    return null;
+    }    
   };
 
   const clickEndGame = async () => {
     try{
-      const response = await axios.delete(
-        host + `:8080/api/v1/room/${roomCode}/game/end`
-      ).then((response) => {
-        setIsGamestarted("after");
-        setLiar(response.data.liar);
-      }).catch((err) => {
+      await axios.delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
+      .catch((err) => {
         console.log(err);
-      });
-      return response;      
+      });           
     } catch (e) {
       console.log(e);
+    }            
+  };
+
+  const onExitClick = async () => {
+    try{
+      await axios.delete(host + `:8080/api/v1/room/${roomCode}/user/leave`)
+      .catch((err) => {
+        console.log(err);
+      });
+      
+      navigate("/");
+    } catch(e) {
+      console.log(e);
     }
-    return null;        
   };
 
   const wordBoxMounseDown = () => {
@@ -199,7 +205,7 @@ function Room() {
     } else {
       content = <div className="gameBoard">{gameBoard}</div>;
     }
-  } else {
+  } else if(isGameStarted === "after") {
     content = <div className="userBeforeGame"><img src={imgAresene} alt="Arsene" /><p>{liar}</p></div>
   }
 
@@ -209,10 +215,6 @@ function Room() {
       <Toaster toastOptions={{ position: "top-center" }} />
       <div className="sidebar">
         <div className="tooltip">
-          {/* <br></br>
-          <div className="tooltiptext" id="myTooltip">
-            Copy to clipboard
-          </div> */}
           <div>
             <button className="inviteButton" onClick={onLinkClick}>
               초대하기
@@ -236,46 +238,11 @@ function Room() {
               </div>
             ))}
         </div>
-        <Link to={"/Home"} style={{ textDecoration: 'none' }}>
-          <div className="exit_button">
-            나가기
-          </div>
-        </Link>
+        <div className="exit_button" onClick={onExitClick}>
+          나가기
+        </div>
       </div>
-      <div className="contents">{content}</div>
-      {/* <div className="contents">
-        {category}
-        {isGameStarted ? (
-          isLiar ? (
-            <div className="board">
-              <img src={imgAresene} alt="Arsene" />
-              Liar!
-            </div>
-          ) : (
-            <div className="board">{word}</div>
-          )
-        ) : isLeader ? (
-          <div className="circleContainer" onClick={onCircleClick}>
-            Start!
-          </div>
-        ) : (
-          <div className="userBeforeGame">
-            <img src={imgAresene} alt="Arsene" />
-            <p>게임시작 대기중...</p>
-          </div>
-        )}
-      </div>
-      {isGameStarted ? (
-        isLeader ? (
-          <div className="endGameBtn" onClick={clickEndGame}>
-            게임 종료 후 Liar 확인
-          </div>
-        ) : (
-          <></>
-        )
-      ) : (
-        <></>
-      )} */}
+      <div className="contents">{content}</div>      
     </div>
   );
 }
