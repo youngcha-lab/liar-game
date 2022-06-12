@@ -19,25 +19,37 @@ Web based liar game.
 
 ## How to start project
 
-### 1. Run Server
+### 1. Push Main Branch
 
-1. open terminal where the liar-game-app dir is located
-2. Enter the command below
+### 2. Run Github Action(Auto)
    ```
-   ./gradlew bootJar
-   ./gradlew clean bootRun
+   - ./gradlew clean build
+   - Make zip file
+   - upload zip to aws S3
+   - run code deploy
    ```
-
-### 2. Run front
-
-1. open terminal where the liar-game-frontend dir is located
-2. Enter the command below
-   1. When you first build the project
-      ```
-       npm install
-       npm start
-      ```
-   2. After
-      ```
-      npm start
-      ```
+### 3. Run Aws Code-deployment(Auto)
+   ```
+   - send zip to aws S2 from aws S3
+   - run appspec.yml
+   ```
+      
+### 4. Run appspec.yml(Auto)
+   ```
+   - run server deploy.sh 
+   - run frontend deploy.sh
+   ```  
+### 5. Run Server deploy.sh(Auto)
+   ```
+   - stop and remove server docker process ( if server docker is running)
+   - remove server docker image
+   - rebuild server docker image
+   - run server docker image
+   ```  
+### 6. Run Frontend deploy.sh(Auto)
+   ```
+   - stop and remove frontend docker process ( if frontend docker is running)
+   - remove frontend docker image
+   - rebuild frontend docker image
+   - run frontend docker image
+   ```    
