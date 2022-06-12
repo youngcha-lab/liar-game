@@ -43,13 +43,13 @@ Web based liar game.
    ```
    - stop and remove server docker process ( if server docker is running)
    - remove server docker image
-   - rebuild server docker image
+   - rebuild server docker image (npm install, npm run build, npm start)
    - run server docker image
    ```  
 ### 6. Run Frontend deploy.sh(Auto)
    ```
    - stop and remove frontend docker process ( if frontend docker is running)
    - remove frontend docker image
-   - rebuild frontend docker image
+   - rebuild frontend docker image ( java -jar serverapp.jar)
    - run frontend docker image
    ```    
