@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../css/Room.css";
 import axios from "axios";
 import "../img/crown.png";
 import imgAresene from "../img/Arsene.png";
+import toast, { Toaster } from "react-hot-toast";
 
 function Room() {
   const [word, setWord] = useState("");
@@ -16,6 +17,7 @@ function Room() {
   const [isLiar, setIsLiar] = useState(null);
   const [liar, setLiar] = useState("");
   const [isHide, setIsHide] = useState(true);
+  const isGameEnded = useRef();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -30,26 +32,42 @@ function Room() {
   const checkUser = async () => {
     const response = await getRoom();
     const currentUser = response.data.room.currentUser;
+
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
     } else {
+      setUsers(response.data.room.users);
+      setUserCnt(response.data.room.users.length);
       setIsLeader(response.data.room.currentUser.isLeader);
+      setLeader(response.data.room.leader);
     }
   };
 
   const refreshRoom = async () => {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
-    setLeader(response.data.room.leader);
+    const lastGame = response.data.room.lastGame;
+
     setUsers(response.data.room.users);
     setUserCnt(response.data.room.users.length);
+    setLeader(response.data.room.leader);
     setIsLiar(response.data.room.currentUser.isLiar);
+
     if (!currentGame) {
-      setIsGamestarted(isGameStarted);
-      setCategory("");
-      setWord("");
+      if (lastGame && isGameEnded.current) {
+        setIsGamestarted("after");
+        setLiar(response.data.room.lastGame.liar);
+        setTimeout(() => {
+          isGameEnded.current = false;
+        }, 3000);
+      } else {
+        setIsGamestarted("before");
+        setCategory("");
+        setWord("");
+      }
     } else {
+      isGameEnded.current = true;
       setIsGamestarted("ing");
       setCategory(currentGame.category);
       setWord(currentGame.keyword);
@@ -58,10 +76,10 @@ function Room() {
 
   useEffect(() => {
     checkUser();
-    refreshRoom();
+
     const loop = setInterval(() => {
       refreshRoom();
-    }, 10000);
+    }, 500);
 
     return () => clearInterval(loop);
   }, []);
@@ -75,31 +93,47 @@ function Room() {
     const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
-    alert("Copied");
-    //const tooltip = document.getElementById("myTooltip");
-    // tooltip.innerHTML = "Copied!";
+    toast("초대 링크가 복사 되었습니다.", {
+      style: { "font-size": "28px", maxWidth: "80%", padding: "16px" },
+    });
   };
 
-  const onCircleClick = async () => {
+  const onStartClick = async () => {
     try {
-      const roomInfo = await axios.get(host + `:8080/api/v1/room/${roomCode}`);
-
-      const response = await axios
+      await axios
         .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
-        .then((response) => {
-          setIsGamestarted("ing");
-          setIsLiar(response.data.room.currentUser.isLiar);
-          setWord(response.data.keyword);
-          setCategory(response.data.category);
-        })
         .catch((err) => {
           console.log(err);
         });
-      return response;
     } catch (e) {
       console.log(e);
     }
-    return null;
+  };
+
+  const onEndClick = async () => {
+    try {
+      await axios
+        .delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onExitClick = async () => {
+    try {
+      await axios
+        .delete(host + `:8080/api/v1/room/${roomCode}/user/leave`)
+        .catch((err) => {
+          console.log(err);
+        });
+
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const wordBoxMounseDown = () => {
@@ -108,24 +142,6 @@ function Room() {
 
   const wordBoxMounseUp = () => {
     setIsHide(true);
-  };
-
-  const clickEndGame = async () => {
-    try {
-      const response = await axios
-        .delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
-        .then((response) => {
-          setIsGamestarted("after");
-          setLiar(response.data.liar);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-    return null;
   };
 
   const gameBoard = (
@@ -163,7 +179,7 @@ function Room() {
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
-        <div className="circleContainer" onClick={onCircleClick}>
+        <div className="circleContainer" onClick={onStartClick}>
           Start!
         </div>
       );
@@ -180,7 +196,7 @@ function Room() {
       content = (
         <div className="gameBoard">
           {gameBoard}
-          <div className="endGameBtn" onClick={clickEndGame}>
+          <div className="endGameBtn" onClick={onEndClick}>
             게임 종료 후 Liar 확인
           </div>
         </div>
@@ -188,7 +204,7 @@ function Room() {
     } else {
       content = <div className="gameBoard">{gameBoard}</div>;
     }
-  } else {
+  } else if (isGameStarted === "after") {
     content = (
       <div className="userBeforeGame">
         <img src={imgAresene} alt="Arsene" />
@@ -199,16 +215,13 @@ function Room() {
 
   return (
     <div className="main">
+      <Toaster toastOptions={{ position: "top-center" }} />
       <div className="sidebar">
         <div className="tooltip">
-          {/* <br></br>
-          <div className="tooltiptext" id="myTooltip">
-            Copy to clipboard
-          </div> */}
           <div>
-            <div className="inviteButton" onClick={onLinkClick}>
+            <button className="inviteButton" onClick={onLinkClick}>
               초대하기
-            </div>
+            </button>
           </div>
         </div>
         <div className="playerNumber">플레이어 {userCnt} / 10</div>
@@ -221,51 +234,18 @@ function Room() {
                 ) : (
                   <div
                     className="playerThumbnail"
-                    style={{ backgroundColor: randomColor() }}
+                    // style={{ backgroundColor: randomColor() }}
                   ></div>
                 )}
                 {user}
               </div>
             ))}
         </div>
-        <div className="exit_button">
-          <Link to={"/Home"}>나가기</Link>
+        <div className="exit_button" onClick={onExitClick}>
+          나가기
         </div>
       </div>
       <div className="contents">{content}</div>
-      {/* <div className="contents">
-        {category}
-        {isGameStarted ? (
-          isLiar ? (
-            <div className="board">
-              <img src={imgAresene} alt="Arsene" />
-              Liar!
-            </div>
-          ) : (
-            <div className="board">{word}</div>
-          )
-        ) : isLeader ? (
-          <div className="circleContainer" onClick={onCircleClick}>
-            Start!
-          </div>
-        ) : (
-          <div className="userBeforeGame">
-            <img src={imgAresene} alt="Arsene" />
-            <p>게임시작 대기중...</p>
-          </div>
-        )}
-      </div>
-      {isGameStarted ? (
-        isLeader ? (
-          <div className="endGameBtn" onClick={clickEndGame}>
-            게임 종료 후 Liar 확인
-          </div>
-        ) : (
-          <></>
-        )
-      ) : (
-        <></>
-      )} */}
     </div>
   );
 }

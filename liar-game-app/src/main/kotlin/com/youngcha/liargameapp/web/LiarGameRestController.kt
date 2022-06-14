@@ -168,6 +168,7 @@ data class CurrentUserPresentation(
     val isLeader: Boolean,
     val isMember: Boolean,
     val isLiar: Boolean?,
+    val profileColor: String?,
 ) {
     companion object {
         fun of(room: Room, userCode: UserCode?): CurrentUserPresentation? =
@@ -179,6 +180,9 @@ data class CurrentUserPresentation(
                     isLeader = room.leader.userCode == userCode,
                     isMember = room.users.any { it.userCode == userCode },
                     isLiar = room.currentGame?.isLiar(userCode),
+                    profileColor = room.users
+                        .firstOrNull { it.userCode == userCode }
+                        ?.profileColor
                 )
             } else null
     }
