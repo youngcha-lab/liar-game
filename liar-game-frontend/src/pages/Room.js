@@ -19,7 +19,7 @@ function Room() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const host = "https://" + window.location.hostname;
+  const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
 
@@ -94,7 +94,7 @@ function Room() {
         })
         .catch((err) => {
           console.log(err);
-        });      
+        });
       return response;
     } catch (e) {
       console.log(e);
@@ -111,27 +111,27 @@ function Room() {
   };
 
   const clickEndGame = async () => {
-    try{
-      const response = await axios.delete(
-        host + `:8080/api/v1/room/${roomCode}/game/end`
-      ).then((response) => {
-        setIsGamestarted("after");
-        setLiar(response.data.liar);
-      }).catch((err) => {
-        console.log(err);
-      });
-      return response;      
+    try {
+      const response = await axios
+        .delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
+        .then((response) => {
+          setIsGamestarted("after");
+          setLiar(response.data.liar);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return response;
     } catch (e) {
       console.log(e);
     }
-    return null;        
+    return null;
   };
 
   const gameBoard = (
     <>
       <p>{category}</p>
-      {isHide ? 
-      (
+      {isHide ? (
         <div
           className="blindWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -139,9 +139,7 @@ function Room() {
         >
           Tap!
         </div>
-      ) : 
-      isLiar ?
-      (        
+      ) : isLiar ? (
         <div
           className="openWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -149,8 +147,7 @@ function Room() {
         >
           <img src={imgAresene} alt="Arsene" /> Liar!
         </div>
-      ) : 
-      (
+      ) : (
         <div
           className="openWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -158,11 +155,10 @@ function Room() {
         >
           {word}
         </div>
-      )
-      }
+      )}
     </>
   );
-  
+
   let content = null;
   if (isGameStarted === "before") {
     if (isLeader) {
@@ -179,7 +175,7 @@ function Room() {
         </div>
       );
     }
-  } else if(isGameStarted === "ing"){
+  } else if (isGameStarted === "ing") {
     if (isLeader) {
       content = (
         <div className="gameBoard">
@@ -193,7 +189,12 @@ function Room() {
       content = <div className="gameBoard">{gameBoard}</div>;
     }
   } else {
-    content = <div className="userBeforeGame"><img src={imgAresene} alt="Arsene" /><p>{liar}</p></div>
+    content = (
+      <div className="userBeforeGame">
+        <img src={imgAresene} alt="Arsene" />
+        <p>{liar}</p>
+      </div>
+    );
   }
 
   return (
