@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../css/Room.css";
 import axios from "axios";
 import "../img/crown.png";
 import imgAresene from "../img/Arsene.png";
 import toast, { Toaster } from 'react-hot-toast';
-import { style } from "@mui/system";
 
 function Room() {
   const [word, setWord] = useState("");
@@ -97,7 +96,7 @@ function Room() {
     toast('초대 링크가 복사 되었습니다.', {style: {'font-size': '28px', 'maxWidth': '80%', 'padding': '16px',}});
   };
 
-  const onCircleClick = async () => {
+  const onStartClick = async () => {
     try {
       await axios.post(host + `:8080/api/v1/room/${roomCode}/game/start`)
       .catch((err) => {
@@ -108,7 +107,7 @@ function Room() {
     }    
   };
 
-  const clickEndGame = async () => {
+  const onEndClick = async () => {
     try{
       await axios.delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
       .catch((err) => {
@@ -180,7 +179,7 @@ function Room() {
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
-        <div className="circleContainer" onClick={onCircleClick}>
+        <div className="circleContainer" onClick={onStartClick}>
           Start!
         </div>
       );
@@ -197,7 +196,7 @@ function Room() {
       content = (
         <div className="gameBoard">
           {gameBoard}
-          <div className="endGameBtn" onClick={clickEndGame}>
+          <div className="endGameBtn" onClick={onEndClick}>
             게임 종료 후 Liar 확인
           </div>
         </div>
@@ -231,7 +230,7 @@ function Room() {
                 ) : (
                   <div
                     className="playerThumbnail"
-                    //style={{ backgroundColor: randomColor() }}
+                    // style={{ backgroundColor: randomColor() }}
                   ></div>
                 )}
                 {user}
@@ -240,7 +239,7 @@ function Room() {
         </div>
         <div className="exit_button" onClick={onExitClick}>
           나가기
-        </div>
+        </div>        
       </div>
       <div className="contents">{content}</div>      
     </div>
