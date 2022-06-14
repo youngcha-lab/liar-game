@@ -13,8 +13,8 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
         println("environment : ${environment.activeProfiles.toList()}")
         registry.addMapping("/**")
             .allowedOrigins(
-                "http://localhost:3000",
-                "http://youngcha-liargame.ml:3000",
+                "http://localhost",
+                "http://youngcha-liargame.tk",
             )
             .allowedMethods(
                 HttpMethod.OPTIONS.name,
