@@ -51,6 +51,4 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3"
   },
-  "proxy": "http://youngcha-liargame.tk:3000"
-
 }
