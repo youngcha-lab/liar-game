@@ -16,6 +16,7 @@ fi
 echo "new liar react application process start"
 
 # docker application container build
+# test
 docker image rm frontendimage
 docker build -t frontendimage .
 
