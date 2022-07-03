@@ -14,16 +14,17 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
         registry.addMapping("/**")
             .allowedOrigins(
                 "http://localhost:3000",
-                "http://youngcha-liargame.ml:3000",
+                "http://youngcha-liargame.tk:3000",
             )
             .allowedMethods(
-                HttpMethod.OPTIONS.name,
+                HttpMethod.GET.name,
                 HttpMethod.HEAD.name,
                 HttpMethod.POST.name,
                 HttpMethod.PUT.name,
                 HttpMethod.PATCH.name,
-                HttpMethod.GET.name,
                 HttpMethod.DELETE.name,
+                HttpMethod.OPTIONS.name,
+                HttpMethod.TRACE.name,
             )
             .allowCredentials(true)
     }
