@@ -13,11 +13,10 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         println("environment : ${environment.activeProfiles.toList()}")
         registry.addMapping("/**")
-            .allowedHeaders(
-                HttpHeaders.CONTENT_TYPE.lowercase()
-            ).allowedOrigins(
+            .allowedOrigins(
                 "http://localhost:3000",
                 "http://youngcha-liargame.tk:3000",
+                "http://youngcha-liargame.tk",
             ).allowedMethods(
                 HttpMethod.GET.name,
                 HttpMethod.HEAD.name,
