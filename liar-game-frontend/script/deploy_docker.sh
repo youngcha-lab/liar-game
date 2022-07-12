@@ -1,3 +1,4 @@
+#test
 mkdir /app
 cd /app
 nohup npm install
