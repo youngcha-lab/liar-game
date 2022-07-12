@@ -1,4 +1,4 @@
-#test
+#test2
 mkdir /app
 cd /app
 nohup npm run clean
