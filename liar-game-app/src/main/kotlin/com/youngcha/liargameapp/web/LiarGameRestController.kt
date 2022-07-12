@@ -60,7 +60,12 @@ class RoomRestController(
             room = RoomPresentation(
                 roomCode = room.roomCode,
                 leader = room.leader.nickname,
-                users = room.users.map { it.nickname },
+                users = room.users.map {
+                    UserPresentation(
+                        nickname = it.nickname,
+                        profileColor = it.profileColor,
+                    )
+                },
                 currentUser = CurrentUserPresentation.of(
                     room = room,
                     userCode = UserCode.ofNullable(userCode)
@@ -157,10 +162,15 @@ data class RoomResponse(val room: RoomPresentation)
 data class RoomPresentation(
     val roomCode: RoomCode,
     val leader: String,
-    val users: List<String>,
+    val users: List<UserPresentation>,
     val currentUser: CurrentUserPresentation?,
     val currentGame: CurrentGamePresentation?,
     val lastGame: LastGamePresentation?,
+)
+
+data class UserPresentation(
+    val nickname: String,
+    val profileColor: String,
 )
 
 data class CurrentUserPresentation(

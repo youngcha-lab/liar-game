@@ -1,7 +1,6 @@
 package com.youngcha.liargameapp.application.domain
 
 import com.youngcha.liargameapp.application.UuidGenerator
-import kotlin.math.roundToInt
 
 data class Room(
     val roomCode: RoomCode = RoomCode(UuidGenerator.generate()),
@@ -85,7 +84,48 @@ value class RoomCode(
 data class User(
     val userCode: UserCode = UserCode(UuidGenerator.generate()),
     val nickname: String,
-    val profileColor: String = "#" + (Math.random() * 0xffffff).roundToInt().toString(16)
+    val profileColor: String = listOf(
+        "#71C7E2",
+        "#23AFD6",
+        "#D5B60D",
+        "#E1CE60",
+        "#FFB0B9",
+        "#F19195",
+        "#F59138",
+        "#F6CFB8",
+        "#B4DCE1",
+        "#B8DE9A",
+        "#EEC151",
+        "#F4AD84",
+        "#F1815C",
+        "#F16A40",
+        "#71B578",
+        "#BFE2D6",
+        "#8AD1BA",
+        "#CFA0BE",
+        "#AD5B8F",
+        "#999FC1",
+        "#C4C8DB",
+        "#D4DFE3",
+        "#717FB6",
+        "#3D4A81",
+        "#AC90BB",
+        "#815799",
+        "#95D4A3",
+        "#96D2CF",
+        "#63B8B3",
+        "#F9A2BF",
+        "#FADE7D",
+        "#EF553C",
+        "#589651",
+        "#A4BF43",
+        "#3E9399",
+        "#DF5970",
+        "#508AB2",
+        "#ECDCC5",
+        "#DCDFC8",
+        "#B19C89",
+    ).random()
 )
 
 @JvmInline
