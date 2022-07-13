@@ -21,7 +21,7 @@ function Room() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const host = "https://" + window.location.hostname;
+  const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
   
@@ -44,11 +44,28 @@ function Room() {
     }
   };
 
+  const checkLeaderGoOut = async() => {
+    const response = await getRoom();
+    const users = response.data.room.users;
+    const leader = response.data.room.leader;
+    let isLeaderGoOut = true;
+
+    users.forEach(user => {
+      if(leader === user.nickname) {
+        isLeaderGoOut = false;
+      }
+    });
+
+    if(isLeaderGoOut) {
+      navigate("/home");
+    }
+  };
+
   const refreshRoom = async () => {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
     const lastGame = response.data.room.lastGame;
-    
+           
     setUsers(response.data.room.users);
     setUserCnt(response.data.room.users.length);
     setLeader(response.data.room.leader);
@@ -78,6 +95,7 @@ function Room() {
     checkUser();
     
     const loop = setInterval(() => {
+      checkLeaderGoOut();
       refreshRoom();
     }, 500);
 
