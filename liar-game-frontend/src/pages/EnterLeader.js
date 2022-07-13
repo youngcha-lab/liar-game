@@ -7,7 +7,7 @@ import imgAresene from "../img/Arsene.png";
 function EnterLeader() {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
-  const host = "https://" + window.location.hostname + ":8080";
+  const host = "http://" + window.location.hostname + ":8080";
 
   const submit = async () => {
     if (isValidName(nickName)) {
