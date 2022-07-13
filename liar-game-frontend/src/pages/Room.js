@@ -21,7 +21,7 @@ function Room() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const host = "http://" + window.location.hostname;
+  const host = "https://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
   
