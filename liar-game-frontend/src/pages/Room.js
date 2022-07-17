@@ -102,19 +102,26 @@ function Room() {
     return () => clearInterval(loop);
   }, []);
 
-  const onLinkClick = (event) => {
-    event.stopPropagation();
+  const onLinkClick = () => {
     const copyText = host + ":3000" + location.pathname;
 
-    let textArea = document.createElement("textarea");
-    textArea.value = copyText;
-    textArea.style.display = "fixed";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(copyText);
+    } else {
+      let textArea = document.createElement("textarea");
+      textArea.value = copyText;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      new Promise((res, rej) => {
+        document.execCommand("copy") ? res() : rej();
+        textArea.remove();
+      });
+    }
 
-    navigator.clipboard.writeText(copyText);
-    textArea.remove();
     toast("초대 링크가 복사 되었습니다.", {
       style: { fontSize: "28px", maxWidth: "80%", padding: "16px" },
     });
