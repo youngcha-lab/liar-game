@@ -108,7 +108,7 @@ function Room() {
 
     navigator.clipboard.writeText(copyText);
     toast("초대 링크가 복사 되었습니다.", {
-      style: { "font-size": "28px", maxWidth: "80%", padding: "16px" },
+      style: { fontSize: "28px", maxWidth: "80%", padding: "16px" },
     });
   };
 
