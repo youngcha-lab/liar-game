@@ -106,7 +106,15 @@ function Room() {
     event.stopPropagation();
     const copyText = host + ":3000" + location.pathname;
 
+    let textArea = document.createElement("textarea");
+    textArea.value = copyText;
+    textArea.style.display = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
     navigator.clipboard.writeText(copyText);
+    textArea.remove();
     toast("초대 링크가 복사 되었습니다.", {
       style: { fontSize: "28px", maxWidth: "80%", padding: "16px" },
     });
