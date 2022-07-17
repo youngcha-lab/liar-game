@@ -1,4 +1,4 @@
-#app 배포 테스트
+#app 배포
 cd /home/ec2-user/apps/liar-game/liar-game-app/script
 chmod 755 deploy.sh
 ./deploy.sh &  >> /work/docker_error.txt

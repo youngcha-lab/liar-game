@@ -16,6 +16,7 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
                 "http://localhost:3000",
                 "http://youngcha-liargame.tk:3000",
                 "http://youngcha-liargame.tk",
+                "https://youngcha-liargame.tk",
             ).allowedMethods(
                 HttpMethod.GET.name,
                 HttpMethod.HEAD.name,

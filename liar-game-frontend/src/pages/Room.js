@@ -44,6 +44,23 @@ function Room() {
     }
   };
 
+  const checkLeaderGoOut = async () => {
+    const response = await getRoom();
+    const users = response.data.room.users;
+    const leader = response.data.room.leader;
+    let isLeaderGoOut = true;
+
+    users.forEach((user) => {
+      if (leader === user.nickname) {
+        isLeaderGoOut = false;
+      }
+    });
+
+    if (isLeaderGoOut) {
+      navigate("/home");
+    }
+  };
+
   const refreshRoom = async () => {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
@@ -78,16 +95,12 @@ function Room() {
     checkUser();
 
     const loop = setInterval(() => {
+      checkLeaderGoOut();
       refreshRoom();
     }, 500);
 
     return () => clearInterval(loop);
   }, []);
-
-  const randomColor = () => {
-    let color = "#" + Math.round(Math.random() * 0xffffff).toString(16);
-    return color;
-  };
 
   const onLinkClick = () => {
     const copyText = host + ":3000" + location.pathname;
@@ -228,16 +241,16 @@ function Room() {
         <div className="playerContainer">
           {users &&
             users.map((user) => (
-              <div className="playerItem" key={user}>
-                {leader === user ? (
+              <div className="playerItem" key={user.nickname}>
+                {leader === user.nickname ? (
                   <div className="leaderThumbnail"></div>
                 ) : (
                   <div
                     className="playerThumbnail"
-                    // style={{ backgroundColor: randomColor() }}
+                    style={{ backgroundColor: user.profileColor }}
                   ></div>
                 )}
-                {user}
+                {user.nickname}
               </div>
             ))}
         </div>
