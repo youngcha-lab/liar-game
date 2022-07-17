@@ -4,7 +4,7 @@ import "../css/Room.css";
 import axios from "axios";
 import "../img/crown.png";
 import imgAresene from "../img/Arsene.png";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 function Room() {
   const [word, setWord] = useState("");
@@ -24,7 +24,7 @@ function Room() {
   const host = "http://" + window.location.hostname;
   const url = location.pathname.split("/");
   const roomCode = url[url.length - 1];
-  
+
   const getRoom = async () => {
     return await axios.get(host + `:8080/api/v1/room/${roomCode}`);
   };
@@ -32,7 +32,7 @@ function Room() {
   const checkUser = async () => {
     const response = await getRoom();
     const currentUser = response.data.room.currentUser;
-            
+
     if (!currentUser || !currentUser.isMember) {
       console.log("current user is not valid");
       navigate("/enter/" + roomCode);
@@ -44,19 +44,19 @@ function Room() {
     }
   };
 
-  const checkLeaderGoOut = async() => {
+  const checkLeaderGoOut = async () => {
     const response = await getRoom();
     const users = response.data.room.users;
     const leader = response.data.room.leader;
     let isLeaderGoOut = true;
 
-    users.forEach(user => {
-      if(leader === user.nickname) {
+    users.forEach((user) => {
+      if (leader === user.nickname) {
         isLeaderGoOut = false;
       }
     });
 
-    if(isLeaderGoOut) {
+    if (isLeaderGoOut) {
       navigate("/home");
     }
   };
@@ -65,35 +65,35 @@ function Room() {
     const response = await getRoom();
     const currentGame = response.data.room.currentGame;
     const lastGame = response.data.room.lastGame;
-           
+
     setUsers(response.data.room.users);
     setUserCnt(response.data.room.users.length);
     setLeader(response.data.room.leader);
     setIsLiar(response.data.room.currentUser.isLiar);
-    
-    if(!currentGame) {
-      if(lastGame && isGameEnded.current) {
+
+    if (!currentGame) {
+      if (lastGame && isGameEnded.current) {
         setIsGamestarted("after");
         setLiar(response.data.room.lastGame.liar);
         setTimeout(() => {
-           isGameEnded.current = false;           
-        },3000);                
+          isGameEnded.current = false;
+        }, 3000);
       } else {
         setIsGamestarted("before");
         setCategory("");
         setWord("");
-      }      
+      }
     } else {
       isGameEnded.current = true;
       setIsGamestarted("ing");
       setCategory(currentGame.category);
       setWord(currentGame.keyword);
-    }   
+    }
   };
 
   useEffect(() => {
     checkUser();
-    
+
     const loop = setInterval(() => {
       checkLeaderGoOut();
       refreshRoom();
@@ -102,44 +102,50 @@ function Room() {
     return () => clearInterval(loop);
   }, []);
 
-  const onLinkClick = () => {
+  const onLinkClick = (event) => {
+    event.stopPropagation();
     const copyText = host + ":3000" + location.pathname;
 
     navigator.clipboard.writeText(copyText);
-    toast('초대 링크가 복사 되었습니다.', {style: {'font-size': '28px', 'maxWidth': '80%', 'padding': '16px',}});
+    toast("초대 링크가 복사 되었습니다.", {
+      style: { "font-size": "28px", maxWidth: "80%", padding: "16px" },
+    });
   };
 
   const onStartClick = async () => {
     try {
-      await axios.post(host + `:8080/api/v1/room/${roomCode}/game/start`)
-      .catch((err) => {
-        console.log(err);
-      });      
+      await axios
+        .post(host + `:8080/api/v1/room/${roomCode}/game/start`)
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (e) {
       console.log(e);
-    }    
+    }
   };
 
   const onEndClick = async () => {
-    try{
-      await axios.delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
-      .catch((err) => {
-        console.log(err);
-      });           
+    try {
+      await axios
+        .delete(host + `:8080/api/v1/room/${roomCode}/game/end`)
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (e) {
       console.log(e);
-    }            
+    }
   };
 
   const onExitClick = async () => {
-    try{
-      await axios.delete(host + `:8080/api/v1/room/${roomCode}/user/leave`)
-      .catch((err) => {
-        console.log(err);
-      });
-      
+    try {
+      await axios
+        .delete(host + `:8080/api/v1/room/${roomCode}/user/leave`)
+        .catch((err) => {
+          console.log(err);
+        });
+
       navigate("/");
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
@@ -150,13 +156,12 @@ function Room() {
 
   const wordBoxMounseUp = () => {
     setIsHide(true);
-  }; 
+  };
 
   const gameBoard = (
     <>
       <p>{category}</p>
-      {isHide ? 
-      (
+      {isHide ? (
         <div
           className="blindWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -164,9 +169,7 @@ function Room() {
         >
           Tap!
         </div>
-      ) : 
-      isLiar ?
-      (        
+      ) : isLiar ? (
         <div
           className="openWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -174,8 +177,7 @@ function Room() {
         >
           <img src={imgAresene} alt="Arsene" /> Liar!
         </div>
-      ) : 
-      (
+      ) : (
         <div
           className="openWordBox"
           onMouseDown={wordBoxMounseDown}
@@ -183,12 +185,11 @@ function Room() {
         >
           {word}
         </div>
-      )
-      }
+      )}
     </>
   );
-  
-  let content = null;  
+
+  let content = null;
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
@@ -204,7 +205,7 @@ function Room() {
         </div>
       );
     }
-  } else if(isGameStarted === "ing"){
+  } else if (isGameStarted === "ing") {
     if (isLeader) {
       content = (
         <div className="gameBoard">
@@ -217,12 +218,16 @@ function Room() {
     } else {
       content = <div className="gameBoard">{gameBoard}</div>;
     }
-  } else if(isGameStarted === "after") {
-    content = <div className="userBeforeGame"><img src={imgAresene} alt="Arsene" /><p>{liar}</p></div>
+  } else if (isGameStarted === "after") {
+    content = (
+      <div className="userBeforeGame">
+        <img src={imgAresene} alt="Arsene" />
+        <p>{liar}</p>
+      </div>
+    );
   }
 
   return (
-    
     <div className="main">
       <Toaster toastOptions={{ position: "top-center" }} />
       <div className="sidebar">
@@ -236,7 +241,7 @@ function Room() {
         <div className="playerNumber">플레이어 {userCnt} / 10</div>
         <div className="playerContainer">
           {users &&
-            users.map( user => (
+            users.map((user) => (
               <div className="playerItem" key={user.nickname}>
                 {leader === user.nickname ? (
                   <div className="leaderThumbnail"></div>
@@ -252,9 +257,9 @@ function Room() {
         </div>
         <div className="exit_button" onClick={onExitClick}>
           나가기
-        </div>        
+        </div>
       </div>
-      <div className="contents">{content}</div>      
+      <div className="contents">{content}</div>
     </div>
   );
 }
