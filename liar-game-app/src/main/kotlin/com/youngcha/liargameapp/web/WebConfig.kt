@@ -18,6 +18,9 @@ class WebConfig(val environment: Environment) : WebMvcConfigurer {
                 "http://youngcha-liargame.tk:3000",
                 "http://youngcha-liargame.tk",
                 "https://youngcha-liargame.tk",
+                "http://liargame.duckdns.org:3000",
+                "http://liargame.duckdns.org",
+                "https://liargame.duckdns.org",
             ).allowedMethods(
                 HttpMethod.GET.name,
                 HttpMethod.HEAD.name,
