@@ -103,7 +103,7 @@ function Room() {
   }, []);
 
   const onLinkClick = () => {
-    const copyText = host + ":3000" + location.pathname;
+    const copyText = host + location.pathname;
 
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(copyText);
@@ -208,9 +208,9 @@ function Room() {
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
-        <div className="circleContainer" onClick={onStartClick}>
+        <button className="circleContainer" onClick={onStartClick}>
           Start!
-        </div>
+        </button>
       );
     } else {
       content = (
@@ -225,9 +225,9 @@ function Room() {
       content = (
         <div className="gameBoard">
           {gameBoard}
-          <div className="endGameBtn" onClick={onEndClick}>
+          <button className="endGameBtn" onClick={onEndClick}>
             게임 종료 후 Liar 확인
-          </div>
+          </button>
         </div>
       );
     } else {
@@ -270,9 +270,9 @@ function Room() {
               </div>
             ))}
         </div>
-        <div className="exit_button" onClick={onExitClick}>
+        <button className="exit_button" onClick={onExitClick}>
           나가기
-        </div>
+        </button>
       </div>
       <div className="contents">{content}</div>
     </div>
