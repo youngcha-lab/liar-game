@@ -105,9 +105,25 @@ function Room() {
   const onLinkClick = () => {
     const copyText = host + ":3000" + location.pathname;
 
-    navigator.clipboard.writeText(copyText);
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(copyText);
+    } else {
+      let textArea = document.createElement("textarea");
+      textArea.value = copyText;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      new Promise((res, rej) => {
+        document.execCommand("copy") ? res() : rej();
+        textArea.remove();
+      });
+    }
+
     toast("초대 링크가 복사 되었습니다.", {
-      style: { "font-size": "28px", maxWidth: "80%", padding: "16px" },
+      style: { fontSize: "28px", maxWidth: "80%", padding: "16px" },
     });
   };
 
