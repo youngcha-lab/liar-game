@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/Enter.css";
+import "../css/mobile/Enter_mobile.css";
 import imgAresene from "../img/Arsene.png";
 
-function EnterLeader() {
+function EnterLeader({isMobile}) {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const host = "http://" + window.location.hostname + ":8080";
@@ -42,14 +43,14 @@ function EnterLeader() {
 
   return (
     <div className="Enter_container">
-      <div className="Enter_main">
-        <div className="Enter_header">
+      <div className={isMobile ? "Enter_main_mobile" : "Enter_main"}>
+        <div className={isMobile ? "Enter_header_mobile" : "Enter_header"}>
           <img src={imgAresene} alt="Arsene" />
           <h1>LIAR GAME</h1>
         </div>
-        <div className="Enter_body">
+        <div className={isMobile ? "Enter_body_mobile" : "Enter_body"}>
           <label htmlFor="userName">닉네임</label>
-          <div className="Enter_input">
+          <div className={isMobile ? "Enter_input_mobile" : "Enter_input"}>
             <input
               id="userName"
               type="text"
@@ -57,7 +58,7 @@ function EnterLeader() {
               onChange={onChange}
             />
           </div>
-          <div className="Enter_button">
+          <div className={isMobile ? "Enter_button_mobile" : "Enter_button"}>
             <button onClick={submit}>방생성</button>
           </div>
         </div>

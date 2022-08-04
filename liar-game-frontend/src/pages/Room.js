@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../css/Room.css";
+import "../css/mobile/Room_mobile.css";
 import axios from "axios";
 import "../img/crown.png";
 import imgAresene from "../img/Arsene.png";
 import toast, { Toaster } from "react-hot-toast";
 
-function Room() {
+function Room({isMobile}) {
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("");
   const [leader, setLeader] = useState("");
@@ -178,25 +179,31 @@ function Room() {
       <p>{category}</p>
       {isHide ? (
         <div
-          className="blindWordBox"
+          className={isMobile ? "blindWordBox_mobile" : "blindWordBox"}
           onMouseDown={wordBoxMounseDown}
+          onTouchStart={wordBoxMounseDown}
           onMouseUp={wordBoxMounseUp}
+          onTouchEnd={wordBoxMounseUp}
         >
           Tap!
         </div>
       ) : isLiar ? (
         <div
-          className="openWordBox"
+          className={isMobile ? "openWordBox_mobile" : "openWordBox"}
           onMouseDown={wordBoxMounseDown}
+          onTouchStart={wordBoxMounseDown}
           onMouseUp={wordBoxMounseUp}
+          onTouchEnd={wordBoxMounseUp}
         >
           <img src={imgAresene} alt="Arsene" /> Liar!
         </div>
       ) : (
         <div
-          className="openWordBox"
+          className={isMobile ? "openWordBox_mobile" : "openWordBox"}
           onMouseDown={wordBoxMounseDown}
+          onTouchStart={wordBoxMounseDown}
           onMouseUp={wordBoxMounseUp}
+          onTouchEnd={wordBoxMounseUp}
         >
           {word}
         </div>
@@ -208,13 +215,13 @@ function Room() {
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
-        <button className="circleContainer" onClick={onStartClick}>
+        <button className={isMobile ? "circleContainer_mobile" : "circleContainer"} onClick={onStartClick}>
           Start!
         </button>
       );
     } else {
       content = (
-        <div className="userBeforeGame">
+        <div className={isMobile ? "userBeforeGame_mobile" : "userBeforeGame"}>
           <img src={imgAresene} alt="Arsene" />
           <p>게임시작 대기중...</p>
         </div>
@@ -223,9 +230,9 @@ function Room() {
   } else if (isGameStarted === "ing") {
     if (isLeader) {
       content = (
-        <div className="gameBoard">
+        <div className={isMobile ? "gameBoard_mobile" : "gameBoard"}>
           {gameBoard}
-          <button className="endGameBtn" onClick={onEndClick}>
+          <button className={isMobile ? "endGameBtn_mobile" : "endGameBtn"} onClick={onEndClick}>
             게임 종료 후 Liar 확인
           </button>
         </div>
@@ -235,7 +242,7 @@ function Room() {
     }
   } else if (isGameStarted === "after") {
     content = (
-      <div className="userBeforeGame">
+      <div className={isMobile ? "userBeforeGame_mobile" : "userBeforeGame"}>
         <img src={imgAresene} alt="Arsene" />
         <p>{liar}</p>
       </div>
@@ -245,7 +252,8 @@ function Room() {
   return (
     <div className="main">
       <Toaster toastOptions={{ position: "top-center" }} />
-      <div className="sidebar">
+      {isMobile ? <></> :
+        <div className="sidebar">
         <div className="tooltip">
           <div>
             <button className="inviteButton" onClick={onLinkClick}>
@@ -273,7 +281,7 @@ function Room() {
         <button className="exit_button" onClick={onExitClick}>
           나가기
         </button>
-      </div>
+      </div>} 
       <div className="contents">{content}</div>
     </div>
   );
