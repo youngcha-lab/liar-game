@@ -5,7 +5,7 @@ import "../css/Enter.css";
 import "../css/mobile/Enter_mobile.css";
 import imgAresene from "../img/Arsene.png";
 
-function EnterUser({isMobile}) {
+function EnterUser({ isMobile }) {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,7 +52,7 @@ function EnterUser({isMobile}) {
   return (
     <div className="Enter_container">
       <div className={isMobile ? "Enter_main_mobile" : "Enter_main"}>
-      <div className={isMobile ? "Enter_header_mobile" : "Enter_header"}>
+        <div className={isMobile ? "Enter_header_mobile" : "Enter_header"}>
           <img src={imgAresene} alt="Arsene" />
           <h1>LIAR GAME</h1>
         </div>

@@ -5,7 +5,7 @@ import "../css/Enter.css";
 import "../css/mobile/Enter_mobile.css";
 import imgAresene from "../img/Arsene.png";
 
-function EnterLeader({isMobile}) {
+function EnterLeader({ isMobile }) {
   const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const host = "http://" + window.location.hostname + ":8080";
