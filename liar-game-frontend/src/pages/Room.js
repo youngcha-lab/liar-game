@@ -288,7 +288,7 @@ function Room({ isMobile }) {
                 style={{ backgroundColor: curUser.profileColor }}
               ></div>
             )}
-            {curUser.nickname} +{userCnt - 1}
+            {curUser.nickname} +{userCnt - 1}명
           </div>
         </div>
       ) : (
