@@ -126,9 +126,15 @@ function Room({ isMobile }) {
       });
     }
 
-    toast("초대 링크가 복사 되었습니다.", {
-      style: { fontSize: "28px", maxWidth: "80%", padding: "16px" },
-    });
+    if (isMobile) {
+      toast("초대 링크가 복사 되었습니다.", {
+        style: { fontSize: "18px", maxWidth: "80%", padding: "16px" },
+      });
+    } else {
+      toast("초대 링크가 복사 되었습니다.", {
+        style: { fontSize: "28px", maxWidth: "80%", padding: "16px" },
+      });
+    }
   };
 
   const onStartClick = async () => {
