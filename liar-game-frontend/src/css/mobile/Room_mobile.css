@@ -100,6 +100,13 @@ button {
     font-weight: 700;
     line-height: 38px;
     letter-spacing: 0em;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .openWordBox_mobile img {
