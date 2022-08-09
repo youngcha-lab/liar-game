@@ -190,10 +190,11 @@ button {
 
 .menu_mobile {
     position: absolute;
-    width: 120px;
+    width: 350px;
     height: 35px;
     left: 24px;
     top: 30px;
+    display: flex;
 }
 
 .hamburgerBtn {
@@ -330,6 +331,35 @@ button {
     background-repeat: no-repeat;
     background-position: center;
     background-color: #FFFFFF;
+}
+
+.curUserInfo {
+    width: 200px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    align-items: center;
+    margin-left: 9px;
+}
+
+.curUserInfo .playerThumbnail_mobile {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.curUserInfo .leaderThumbnail_mobile {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: url(../../img/crown.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #FFFFFF;
+    margin-right: 8px;
 }
 
 .exitBtn_mobile {
