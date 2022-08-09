@@ -29,7 +29,7 @@ button {
 .sidebar {
    /* SideBar */
     width: 300px;
-    height: calc(100% - 85px);;
+    height: calc(100% - 75px);
     display: flex;
     flex-direction: column;
     padding: 53px 25px 22px 25px;
@@ -105,7 +105,7 @@ button {
     width: 64px;
     border: 4px solid #FFFFFF;
     border-radius: 50%;
-    background: #7BF98F; 
+    background: #7BF98F;
 }
 
 .leaderThumbnail {
@@ -120,7 +120,7 @@ button {
     
 }
 
-.exit_button {
+.exitBtn {
     flex: none;
     height: 58px;
     font-family: 'Roboto';
@@ -136,7 +136,7 @@ button {
     border-radius: 4px;
 }
   
-.exit_button button {
+.exitBtn button {
     font-size: x-large;
     padding: 8px;
     border: 0;

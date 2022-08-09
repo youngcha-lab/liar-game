@@ -7,7 +7,7 @@ import "../img/crown.png";
 import imgAresene from "../img/Arsene.png";
 import toast, { Toaster } from "react-hot-toast";
 
-function Room({isMobile}) {
+function Room({ isMobile }) {
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("");
   const [leader, setLeader] = useState("");
@@ -18,6 +18,7 @@ function Room({isMobile}) {
   const [isLiar, setIsLiar] = useState(null);
   const [liar, setLiar] = useState("");
   const [isHide, setIsHide] = useState(true);
+  const [isOpen, setMenu] = useState(false);
   const isGameEnded = useRef();
   const location = useLocation();
   const navigate = useNavigate();
@@ -166,6 +167,14 @@ function Room({isMobile}) {
     }
   };
 
+  const toggleMenu = () => {
+    setMenu(!isOpen);
+  };
+
+  const toggleHide = () => {
+    setMenu(false);
+  };
+
   const wordBoxMounseDown = () => {
     setIsHide(false);
   };
@@ -215,7 +224,10 @@ function Room({isMobile}) {
   if (isGameStarted === "before") {
     if (isLeader) {
       content = (
-        <button className={isMobile ? "circleContainer_mobile" : "circleContainer"} onClick={onStartClick}>
+        <button
+          className={isMobile ? "circleContainer_mobile" : "circleContainer"}
+          onClick={onStartClick}
+        >
           Start!
         </button>
       );
@@ -232,7 +244,10 @@ function Room({isMobile}) {
       content = (
         <div className={isMobile ? "gameBoard_mobile" : "gameBoard"}>
           {gameBoard}
-          <button className={isMobile ? "endGameBtn_mobile" : "endGameBtn"} onClick={onEndClick}>
+          <button
+            className={isMobile ? "endGameBtn_mobile" : "endGameBtn"}
+            onClick={onEndClick}
+          >
             게임 종료 후 Liar 확인
           </button>
         </div>
@@ -252,37 +267,74 @@ function Room({isMobile}) {
   return (
     <div className="main">
       <Toaster toastOptions={{ position: "top-center" }} />
-      {isMobile ? <></> :
+      {isMobile ? (
+        <>
+          <div className="menu_mobile">
+            <button className="hamburgerBtn" onClick={toggleMenu}>
+              참가자 보기
+            </button>
+            <div></div>
+          </div>
+          <div className={isOpen ? "show_sidebar" : "hide_sidebar"}>
+            <div className="tooltip_mobile">
+              <button className="inviteButton_mobile" onClick={onLinkClick}>
+                초대하기
+              </button>
+            </div>
+            <div className="playerNumber_mobile">플레이어 {userCnt} / 10</div>
+            <div className="playerContainer_mobile">
+              {users &&
+                users.map((user) => (
+                  <div className="playerItem_mobile" key={user.nickname}>
+                    {leader === user.nickname ? (
+                      <div className="leaderThumbnail_mobile"></div>
+                    ) : (
+                      <div
+                        className="playerThumbnail_mobile"
+                        style={{ backgroundColor: user.profileColor }}
+                      ></div>
+                    )}
+                    {user.nickname}
+                  </div>
+                ))}
+            </div>
+            <button className="exitBtn_mobile" onClick={onExitClick}>
+              나가기
+            </button>
+          </div>
+        </>
+      ) : (
         <div className="sidebar">
-        <div className="tooltip">
-          <div>
+          <div className="tooltip">
             <button className="inviteButton" onClick={onLinkClick}>
               초대하기
             </button>
           </div>
+          <div className="playerNumber">플레이어 {userCnt} / 10</div>
+          <div className="playerContainer">
+            {users &&
+              users.map((user) => (
+                <div className="playerItem" key={user.nickname}>
+                  {leader === user.nickname ? (
+                    <div className="leaderThumbnail"></div>
+                  ) : (
+                    <div
+                      className="playerThumbnail"
+                      style={{ backgroundColor: user.profileColor }}
+                    ></div>
+                  )}
+                  {user.nickname}
+                </div>
+              ))}
+          </div>
+          <button className="exitBtn" onClick={onExitClick}>
+            나가기
+          </button>
         </div>
-        <div className="playerNumber">플레이어 {userCnt} / 10</div>
-        <div className="playerContainer">
-          {users &&
-            users.map((user) => (
-              <div className="playerItem" key={user.nickname}>
-                {leader === user.nickname ? (
-                  <div className="leaderThumbnail"></div>
-                ) : (
-                  <div
-                    className="playerThumbnail"
-                    style={{ backgroundColor: user.profileColor }}
-                  ></div>
-                )}
-                {user.nickname}
-              </div>
-            ))}
-        </div>
-        <button className="exit_button" onClick={onExitClick}>
-          나가기
-        </button>
-      </div>} 
-      <div className="contents">{content}</div>
+      )}
+      <div className="contents" onClick={toggleHide}>
+        {content}
+      </div>
     </div>
   );
 }
